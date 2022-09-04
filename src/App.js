@@ -1,25 +1,122 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import UserContext from "src/contexts/userContext";
+import LocationContext from "src/contexts/locationContext";
+import OrganizationContext from "src/contexts/organizationContext";
+import ConditionContext from "src/contexts/conditionContext";
+import SignatureTypeContext from "src/contexts/signatureTypeContext";
+import ParameterTypeContext from "src/contexts/parameterTypeContext";
+import ParameterContext from "src/contexts/parameterContext";
+import SampleContext from "src/contexts/sampleContext";
+
+import "src/assets/css/tailwind.css";
+import "antd/dist/antd.min.css";
+import { ConfigProvider } from "antd";
+import mn from "antd/lib/locale/mn_MN";
+import "moment/locale/mn";
+
+import SSO from "src/pages/sso";
+import Layout from "src/components/layout";
+import Home from "src/pages/home";
+import Location from "src/pages/location";
+import LocationID from "src/pages/location/id";
+import Organization from "src/pages/organization";
+import Condition from "src/pages/condition";
+import SignatureType from "src/pages/signatureType";
+import ParameterType from "src/pages/parameterType";
+import Parameter from "src/pages/parameter";
+import Sample from "src/pages/sample";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      {window.location.pathname === "/callback" ? (
+        <SSO />
+      ) : (
+        <UserContext>
+          <ConfigProvider locale={mn}>
+            <Layout>
+              <Routes>
+                <Route exact path="/" element={<Home />} />
+                <Route
+                  exact
+                  path="/location"
+                  element={
+                    <LocationContext>
+                      <Location />
+                    </LocationContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="/location/:id"
+                  element={
+                    <LocationContext>
+                      <LocationID />
+                    </LocationContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="/organization"
+                  element={
+                    <OrganizationContext>
+                      <Organization />
+                    </OrganizationContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="/condition"
+                  element={
+                    <ConditionContext>
+                      <Condition />
+                    </ConditionContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="/signaturetype"
+                  element={
+                    <SignatureTypeContext>
+                      <SignatureType />
+                    </SignatureTypeContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="/parametertype"
+                  element={
+                    <ParameterTypeContext>
+                      <ParameterType />
+                    </ParameterTypeContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="/parameter"
+                  element={
+                    <ParameterContext>
+                      <Parameter />
+                    </ParameterContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="/sample"
+                  element={
+                    <SampleContext>
+                      <Sample />
+                    </SampleContext>
+                  }
+                />
+              </Routes>
+            </Layout>
+          </ConfigProvider>
+        </UserContext>
+      )}
+    </BrowserRouter>
   );
 }
 
-export default App;
+export default React.memo(App);
