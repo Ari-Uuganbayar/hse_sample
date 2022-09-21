@@ -8,7 +8,7 @@ import PermissionContext from "src/contexts/admin/permissionContext";
 import LocationContext from "src/contexts/locationContext";
 import OrganizationContext from "src/contexts/organizationContext";
 import ConditionContext from "src/contexts/conditionContext";
-import SignatureTypeContext from "src/contexts/signatureTypeContext";
+import SignatureContext from "src/contexts/signatureContext";
 import ParameterTypeContext from "src/contexts/parameterTypeContext";
 import ParameterContext from "src/contexts/parameterContext";
 import SampleContext from "src/contexts/sampleContext";
@@ -29,7 +29,7 @@ import Permission from "src/pages/admin/permission";
 import Location from "src/pages/location";
 import Organization from "src/pages/organization";
 import Condition from "src/pages/condition";
-import SignatureType from "src/pages/signatureType";
+import Signature from "src/pages/signature";
 import ParameterType from "src/pages/parameterType";
 import Parameter from "src/pages/parameter";
 import Sample from "src/pages/sample";
@@ -104,11 +104,11 @@ function App() {
                 />
                 <Route
                   exact
-                  path="/signaturetype"
+                  path="/signature"
                   element={
-                    <SignatureTypeContext>
-                      <SignatureType />
-                    </SignatureTypeContext>
+                    <SignatureContext>
+                      <Signature />
+                    </SignatureContext>
                   }
                 />
                 <Route

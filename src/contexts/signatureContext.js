@@ -1,5 +1,5 @@
 import React, { useContext, useReducer } from "react";
-import { reducer } from "src/reducers/parameterReducer";
+import { reducer } from "src/reducers/signatureReducer";
 import { notification } from "antd";
 
 const _state = {
@@ -8,27 +8,20 @@ const _state = {
 
   modal: false,
   id: null,
-  listParameterType: [],
-  parameterType: null,
-  parameterName: null,
-  parameterChar: null,
-  standart: null,
-  unit: null,
-  maxValue8: null,
-  maxValue12: null,
+  name: null,
 };
 
 const context = React.createContext();
 
-export const useParameterContext = () => {
+export const useSignatureContext = () => {
   const ctx = useContext(context);
   if (ctx === undefined) {
-    throw new Error("useParameterTypeContext error");
+    throw new Error("Context error");
   }
   return ctx;
 };
 
-const ParameterContext = ({ children }) => {
+const SignatureContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, _state);
   const [api, contextHolder] = notification.useNotification();
 
@@ -86,4 +79,4 @@ const ParameterContext = ({ children }) => {
   );
 };
 
-export default React.memo(ParameterContext);
+export default React.memo(SignatureContext);

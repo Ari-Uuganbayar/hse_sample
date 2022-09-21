@@ -1,5 +1,4 @@
 import axios from "axios";
-import _ from "lodash";
 import Swal from "sweetalert2";
 
 export function API() {
@@ -208,46 +207,48 @@ export async function getConditionList() {
   const response = await API().get("/condition");
   return response.data;
 }
-
+export async function getCondition(id) {
+  const response = await API().get("/condition/" + id);
+  return response.data;
+}
 export async function postCondition(params) {
   const response = await API().post("/condition", {
-    conditionname: params.conditionname,
+    ...params,
   });
   return response.data;
 }
-
 export async function putCondition(id, params) {
   const response = await API().post("/condition/" + id, {
-    conditionname: params.conditionname,
+    ...params,
   });
   return response.data;
 }
-
 export async function deleteCondition(id) {
   const response = await API().delete("/condition/" + id);
   return response.data;
 }
 
-export async function getSignatureTypeList() {
+export async function getSignatureList() {
   const response = await API().get("/signaturetype");
   return response.data;
 }
-
-export async function postSignatureType(params) {
+export async function getSignature(id) {
+  const response = await API().get("/signaturetype/" + id);
+  return response.data;
+}
+export async function postSignature(params) {
   const response = await API().post("/signaturetype", {
-    typename: params.typename,
+    ...params,
   });
   return response.data;
 }
-
-export async function putSignatureType(id, params) {
+export async function putSignature(id, params) {
   const response = await API().post("/signaturetype/" + id, {
-    typename: params.typename,
+    ...params,
   });
   return response.data;
 }
-
-export async function deleteSignatureType(id) {
+export async function deleteSignature(id) {
   const response = await API().delete("/signaturetype/" + id);
   return response.data;
 }
@@ -256,21 +257,22 @@ export async function getParameterTypeList() {
   const response = await API().get("/rparametertype");
   return response.data;
 }
-
+export async function getParameterType(id) {
+  const response = await API().get("/rparametertype/" + id);
+  return response.data;
+}
 export async function postParameterType(params) {
   const response = await API().post("/rparametertype", {
-    typename: params.typename,
+    ...params,
   });
   return response.data;
 }
-
 export async function putParameterType(id, params) {
   const response = await API().post("/rparametertype/" + id, {
-    typename: params.typename,
+    ...params,
   });
   return response.data;
 }
-
 export async function deleteParameterType(id) {
   const response = await API().delete("/rparametertype/" + id);
   return response.data;
@@ -280,33 +282,22 @@ export async function getParameterList() {
   const response = await API().get("/parameter");
   return response.data;
 }
-
+export async function getParameter(id) {
+  const response = await API().get("/parameter/" + id);
+  return response.data;
+}
 export async function postParameter(params) {
   const response = await API().post("/parameter", {
-    rparametertypeid: _.toString(params.rparametertypeid),
-    parametername: params.parametername,
-    parameterchar: params.parameterchar,
-    standart: params.standart,
-    unitname: params.unitname,
-    maxvalue8: params.maxvalue8,
-    maxvalue12: params.maxvalue12,
+    ...params,
   });
   return response.data;
 }
-
 export async function putParameter(id, params) {
   const response = await API().post("/parameter/" + id, {
-    rparametertypeid: _.toString(params.rparametertypeid),
-    parametername: params.parametername,
-    parameterchar: params.parameterchar,
-    standart: params.standart,
-    unitname: params.unitname,
-    maxvalue8: params.maxvalue8,
-    maxvalue12: params.maxvalue12,
+    ...params,
   });
   return response.data;
 }
-
 export async function deleteParameter(id) {
   const response = await API().delete("/parameter/" + id);
   return response.data;
