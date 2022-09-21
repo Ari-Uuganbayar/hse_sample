@@ -27,6 +27,7 @@ export function tree_menu(list) {
 
   for (i = 0; i < list.length; i += 1) {
     map[list[i].id] = i;
+    list[i].key = list[i].id;
     list[i].children = [];
   }
 

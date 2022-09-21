@@ -8,6 +8,7 @@ const _state = {
   refresh: 0,
   modal: false,
   id: null,
+  type: null,
   name: null,
 };
 

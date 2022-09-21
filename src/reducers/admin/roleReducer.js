@@ -29,7 +29,7 @@ export const reducer = (state, action) => {
     case "SET":
       return {
         ...state,
-        id: action.data.id,
+        id: action.data.roleid,
         name: action.data.roletitle,
       };
     default:

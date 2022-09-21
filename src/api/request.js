@@ -149,8 +149,7 @@ export async function postOrganization(params) {
 
 export async function putOrganization(id, params) {
   const response = await API().post("/organization/" + id, {
-    organizationname: params.organizationname,
-    description: params.description,
+    ...params,
   });
   return response.data;
 }

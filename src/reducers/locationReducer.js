@@ -1,163 +1,68 @@
-export const type = {
-  CHANGE_SELECTED_ORG_TYPE: "CHANGE_SELECTED_ORG_TYPE",
-  CHANGE_LIST_LOCATION: "CHANGE_LIST_LOCATION",
-  CHANGE_REFRESH: "CHANGE_REFRESH",
-
-  CLEAR_DETAIL: "CLEAR_DETAIL",
-  CHANGE_DETAL: "CHANGE_DETAL",
-  CHANGE_DETAIL_SELECTED_ORG_TYPE: "CHANGE_DETAIL_SELECTED_ORG_TYPE",
-  CHANGE_DETAIL_LIST_ORGANIZATION: "CHANGE_DETAIL_LIST_ORGANIZATION",
-  CHANGE_DETAIL_SELECTED_ORGANIZATION: "CHANGE_DETAIL_SELECTED_ORGANIZATION",
-  CHANGE_DETAIL_LIST_TSEH: "CHANGE_DETAIL_LIST_TSEH",
-  CHANGE_DETAIL_SELECTED_TSEH: "CHANGE_DETAIL_SELECTED_TSEH",
-  CHANGE_DETAIL_LIST_NEGJ: "CHANGE_DETAIL_LIST_NEGJ",
-  CHANGE_DETAIL_SELECTED_NEGJ: "CHANGE_DETAIL_SELECTED_NEGJ",
-  CHANGE_DETAIL_LOCATION_CODE: "CHANGE_DETAIL_LOCATION_CODE",
-  CHANGE_DETAIL_LOCATION_NAME: "CHANGE_DETAIL_LOCATION_NAME",
-  CHANGE_DETAIL_DESCRIPTION: "CHANGE_DETAIL_DESCRIPTION",
-};
-
 export const reducer = (state, action) => {
   switch (action.type) {
-    case type.CHANGE_SELECTED_ORG_TYPE:
+    case "ORGTYPE":
       return {
         ...state,
-        selectedOrgType: action.data,
+        orgtype: action.data,
       };
-
-    case type.CHANGE_LIST_LOCATION:
+    case "LIST":
       return {
         ...state,
-        listLocation: action.data,
+        list: action.data,
       };
-
-    case type.CHANGE_REFRESH:
+    case "REFRESH":
       return {
         ...state,
         refresh: state.refresh + 1,
       };
-
-    case type.CHANGE_DETAIL_SELECTED_ORG_TYPE:
+    case "MODAL":
       return {
         ...state,
-        detail: {
-          ...state.detail,
-          selectedOrgType: action.data,
-        },
+        modal: action.data,
       };
-
-    case type.CHANGE_DETAIL_LIST_ORGANIZATION:
+    case "LIST_ORGANIZATION":
       return {
         ...state,
-        detail: {
-          ...state.detail,
-          listOrganization: action.data,
-        },
+        list_organization: action.data,
       };
-
-    case type.CHANGE_DETAIL_SELECTED_ORGANIZATION:
+    case "ORGANIZATION":
       return {
         ...state,
-        detail: {
-          ...state.detail,
-          selectedOrganization: action.data,
-        },
+        organization: action.data,
       };
-
-    case type.CHANGE_DETAIL_LIST_TSEH:
+    case "CODE":
       return {
         ...state,
-        detail: {
-          ...state.detail,
-          listTseh: action.data,
-        },
+        code: action.data,
       };
-
-    case type.CHANGE_DETAIL_SELECTED_TSEH:
+    case "NAME":
       return {
         ...state,
-        detail: {
-          ...state.detail,
-          selectedTseh: action.data,
-        },
+        name: action.data,
       };
-
-    case type.CHANGE_DETAIL_LIST_NEGJ:
+    case "DESCRIPTION":
       return {
         ...state,
-        detail: {
-          ...state.detail,
-          listNegj: action.data,
-        },
+        description: action.data,
       };
-
-    case type.CHANGE_DETAIL_SELECTED_NEGJ:
+    case "CLEAR":
       return {
         ...state,
-        detail: {
-          ...state.detail,
-          selectedNegj: action.data,
-        },
+        id: null,
+        type: 1,
+        organization: null,
+        code: null,
+        name: null,
+        description: null,
       };
-
-    case type.CHANGE_DETAIL_LOCATION_CODE:
+    case "SET":
       return {
         ...state,
-        detail: {
-          ...state.detail,
-          locationCode: action.data,
-        },
-      };
-
-    case type.CHANGE_DETAIL_LOCATION_NAME:
-      return {
-        ...state,
-        detail: {
-          ...state.detail,
-          locationName: action.data,
-        },
-      };
-
-    case type.CHANGE_DETAIL_DESCRIPTION:
-      return {
-        ...state,
-        detail: {
-          ...state.detail,
-          description: action.data,
-        },
-      };
-
-    case type.CLEAR_DETAIL:
-      return {
-        ...state,
-        detail: {
-          ...state.detail,
-          selectedOrgType: 1,
-          listOrganization: [],
-          selectedOrganization: null,
-          listTseh: [],
-          selectedTseh: null,
-          listNegj: [],
-          selectedNegj: null,
-          locationCode: null,
-          locationName: null,
-          description: null,
-        },
-      };
-
-    case type.CHANGE_DETAL:
-      return {
-        ...state,
-        detail: {
-          ...state.detail,
-          selectedOrgType: action.data.rorganizationtypeid,
-          selectedOrganization: action.data.organizationid,
-          selectedTseh: action.data.tsehcode,
-          selectedNegj: action.data.negjcode,
-          locationCode: action.data.locationcode,
-          locationName: action.data.locationname,
-          description: action.data.description,
-        },
+        id: action.data.id,
+        organization: action.data.organizationid,
+        code: action.data.locationcode,
+        name: action.data.locationname,
+        description: action.data.description,
       };
 
     default:

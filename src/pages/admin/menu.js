@@ -258,7 +258,7 @@ const Menu = () => {
               </button>
             </div>
 
-            <div className="w-full mt-5 border">
+            <div className="w-full mt-5">
               <Tree
                 selectable={true}
                 showLine={{ showLeafIcon: false }}
@@ -266,7 +266,7 @@ const Menu = () => {
                 treeData={utils.tree_menu(state.list)}
                 titleRender={(data) => {
                   return (
-                    <div className="w-full px-3 flex items-center justify-between border">
+                    <div className="w-full px-3 flex items-center justify-between border rounded-md">
                       <div>{data.menuname}</div>
                       <div>{data.route}</div>
                       <div className="flex items-center justify-center gap-2">

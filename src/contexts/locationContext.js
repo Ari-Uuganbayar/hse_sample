@@ -1,27 +1,23 @@
 import React, { useContext, useReducer } from "react";
-import { reducer, type } from "src/reducers/locationReducer";
+import { reducer } from "src/reducers/locationReducer";
+import { notification } from "antd";
 
 const _state = {
-  listOrgType: [
+  list_orgtype: [
     { id: 1, text: "Эрдэнэт үйлдвэр" },
     { id: 2, text: "Гадны байгууллага" },
   ],
-  selectedOrgType: 1,
-  listLocation: [],
+  orgtype: 1,
+  list: [],
   refresh: 0,
 
-  detail: {
-    selectedOrgType: 1,
-    listOrganization: [],
-    selectedOrganization: null,
-    listTseh: [],
-    selectedTseh: null,
-    listNegj: [],
-    selectedNegj: null,
-    locationCode: null,
-    locationName: null,
-    description: null,
-  },
+  modal: false,
+  id: null,
+  list_organization: [],
+  organization: null,
+  code: null,
+  name: null,
+  description: null,
 };
 
 const context = React.createContext();
@@ -36,15 +32,57 @@ export const useLocationContext = () => {
 
 const LocationContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, _state);
+  const [api, contextHolder] = notification.useNotification();
+
+  const message = ({ type, error = null, title, description = null }) => {
+    if (type === "error") {
+      api.error({
+        message: title,
+        description:
+          error.toJSON().status +
+          " - " +
+          (error?.response?.data?.message
+            ? error?.response?.data?.message
+            : error.toJSON().message),
+        placement: "topRight",
+        duration: 5,
+      });
+    }
+    if (type === "info") {
+      api.info({
+        message: title,
+        description: description,
+        placement: "topRight",
+        duration: 5,
+      });
+    }
+    if (type === "success") {
+      api.success({
+        message: title,
+        description: description,
+        placement: "topRight",
+        duration: 5,
+      });
+    }
+    if (type === "warning") {
+      api.warning({
+        message: title,
+        description: description,
+        placement: "topRight",
+        duration: 5,
+      });
+    }
+  };
 
   return (
     <context.Provider
       value={{
         state,
         dispatch,
-        type,
+        message,
       }}
     >
+      {contextHolder}
       {children}
     </context.Provider>
   );

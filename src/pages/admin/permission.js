@@ -28,7 +28,7 @@ const Permission = () => {
   }, [state.refresh]);
 
   const updateItem = (item) => {
-    API.getPermission(item.id)
+    API.getPermission(item.permissionid)
       .then((res) => {
         dispatch({ type: "SET", data: res });
         dispatch({ type: "MODAL", data: true });
@@ -55,7 +55,7 @@ const Permission = () => {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        API.deletePermission(item.id)
+        API.deletePermission(item.permissionid)
           .then(() => {
             message({
               type: "success",
@@ -76,6 +76,7 @@ const Permission = () => {
 
   const save = () => {
     var error = [];
+    state.type || error.push("Төрөл");
     state.name || error.push("Нэр");
 
     if (error.length > 0) {
@@ -98,7 +99,8 @@ const Permission = () => {
       });
     } else {
       var data = {
-        name: state.name,
+        permissionconstantname: state.type,
+        permissiontitle: state.name,
       };
 
       if (state.id === null) {
@@ -147,6 +149,23 @@ const Permission = () => {
         footer={null}
       >
         <div className="flex flex-col gap-5 text-xs">
+          <div className="">
+            <span className="font-semibold">
+              Төрөл:<b className="ml-1 text-red-500">*</b>
+            </span>
+            <div className="mt-1">
+              <Input
+                value={state.type}
+                onChange={(e) =>
+                  dispatch({
+                    type: "TYPE",
+                    data: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
+
           <div className="">
             <span className="font-semibold">
               Нэр:<b className="ml-1 text-red-500">*</b>
@@ -201,6 +220,7 @@ const Permission = () => {
                 <thead className="font-semibold">
                   <tr>
                     <th className="w-10 p-1 text-center border">№</th>
+                    <th className="p-1 text-center border">Төрөл</th>
                     <th className="p-1 text-center border">Нэр</th>
                     <th className="w-20 p-1 text-center border"></th>
                   </tr>
@@ -209,7 +229,7 @@ const Permission = () => {
                   {state.list.length === 0 && (
                     <tr>
                       <td
-                        colSpan={3}
+                        colSpan={4}
                         className="px-3 py-1 text-orange-500 italic font-semibold border"
                       >
                         Мэдээлэл олдсонгүй
@@ -217,28 +237,33 @@ const Permission = () => {
                     </tr>
                   )}
                   {_.map(state.list, (item, index) => {
-                    <tr key={index}>
-                      <td className="w-10 text-center border">{index + 1}</td>
-                      <td className="w-10 text-center border">
-                        {item.rolename}
-                      </td>
-                      <td>
-                        <div className="flex items-center justify-center gap-2">
-                          <div
-                            className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
-                            onClick={() => updateItem(item)}
-                          >
-                            <ion-icon name="create-outline" />
+                    return (
+                      <tr key={index}>
+                        <td className="w-10 text-center border">{index + 1}</td>
+                        <td className="px-3 py-1 border">
+                          {item.permissionconstantname}
+                        </td>
+                        <td className="px-3 py-1 border">
+                          {item.permissiontitle}
+                        </td>
+                        <td className="w-20 text-center border">
+                          <div className="flex items-center justify-center gap-2">
+                            <div
+                              className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
+                              onClick={() => updateItem(item)}
+                            >
+                              <ion-icon name="create-outline" />
+                            </div>
+                            <div
+                              className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
+                              onClick={() => deleteItem(item)}
+                            >
+                              <ion-icon name="trash-outline" />
+                            </div>
                           </div>
-                          <div
-                            className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
-                            onClick={() => deleteItem(item)}
-                          >
-                            <ion-icon name="trash-outline" />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>;
+                        </td>
+                      </tr>
+                    );
                   })}
                 </tbody>
               </table>

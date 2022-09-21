@@ -5,6 +5,8 @@ import * as API from "src/api/request";
 import { Spin, Modal, Tree, Select, TreeSelect, Input } from "antd";
 import _ from "lodash";
 import Swal from "sweetalert2";
+import * as utils from "src/lib/utils";
+
 const { Option } = Select;
 const { TextArea } = Input;
 
@@ -15,7 +17,9 @@ const Index = () => {
   useEffect(() => {
     setLoading(true);
     API.getOrganizationList()
-      .then((res) => dispatch({ type: "LIST", data: res }))
+      .then((res) => {
+        dispatch({ type: "LIST", data: res });
+      })
       .catch((error) => {
         message({
           type: "error",
@@ -26,6 +30,22 @@ const Index = () => {
       .finally(() => setLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.refresh]);
+
+  useEffect(() => {
+    var result = [];
+    _.map(state.list, (item) => {
+      result.push({
+        ...item,
+        title: item.organizationname,
+        key: item.id,
+        value: item.id,
+        id: item.id,
+        pId: item.parentid,
+      });
+    });
+    dispatch({ type: "LIST_PARENT", data: result });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.list]);
 
   const save = () => {
     var error = [];
@@ -98,7 +118,7 @@ const Index = () => {
       });
   };
 
-  const deleteItem = (id) => {
+  const deleteItem = (item) => {
     Swal.fire({
       title: "",
       text: "Устгахдаа итгэлтэй байна уу?",
@@ -111,10 +131,9 @@ const Index = () => {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        API.deleteOrganization(id)
+        API.deleteOrganization(item.id)
           .then(() => {
             dispatch({ type: "REFRESH" });
-            dispatch({ type: "MODAL", data: false });
             message({ type: "success", title: "Амжилттай устгагдлаа" });
           })
           .catch((error) => {
@@ -168,7 +187,7 @@ const Index = () => {
                   className="w-full"
                   placeholder="Сонгоно уу"
                   treeDataSimpleMode={true}
-                  treeData={state.list}
+                  treeData={utils.tree_menu(state.list_parent)}
                   treeLine={(true, { showLeafIcon: false })}
                   value={state.parentid}
                   onChange={(value) =>
@@ -255,17 +274,16 @@ const Index = () => {
               </button>
             </div>
 
-            <div className="w-full mt-5 border">
+            <div className="w-full mt-5">
               <Tree
                 selectable={true}
                 showLine={{ showLeafIcon: false }}
                 showIcon={false}
-                treeData={state.list}
+                treeData={utils.tree_menu(state.list)}
                 titleRender={(data) => {
                   return (
-                    <div className="w-full px-3 flex items-center justify-between border">
-                      <div>{data.menuname}</div>
-                      <div>{data.route}</div>
+                    <div className="w-full px-3 flex items-center justify-between rounded-md border-b">
+                      <div>{data.organizationname}</div>
                       <div className="flex items-center justify-center gap-2">
                         <div
                           className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"

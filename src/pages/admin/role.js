@@ -20,7 +20,7 @@ const Role = () => {
         message({
           type: "error",
           error,
-          title: "Эрхийн жагсаалт татаж чадсангүй",
+          title: "Жагсаалт татаж чадсангүй",
         });
       })
       .finally(() => setLoading(false));
@@ -28,7 +28,7 @@ const Role = () => {
   }, [state.refresh]);
 
   const updateItem = (item) => {
-    API.getRole(item.id)
+    API.getRole(item.roleid)
       .then((res) => {
         dispatch({ type: "SET", data: res });
         dispatch({ type: "MODAL", data: true });
@@ -55,7 +55,7 @@ const Role = () => {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        API.deleteRole(item.id)
+        API.deleteRole(item.roleid)
           .then(() => {
             message({
               type: "success",
@@ -217,28 +217,28 @@ const Role = () => {
                     </tr>
                   )}
                   {_.map(state.list, (item, index) => {
-                    <tr key={index}>
-                      <td className="w-10 text-center border">{index + 1}</td>
-                      <td className="w-10 text-center border">
-                        {item.rolename}
-                      </td>
-                      <td>
-                        <div className="flex items-center justify-center gap-2">
-                          <div
-                            className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
-                            onClick={() => updateItem(item)}
-                          >
-                            <ion-icon name="create-outline" />
+                    return (
+                      <tr key={index}>
+                        <td className="w-10 text-center border">{index + 1}</td>
+                        <td className="px-3 py-1 border">{item.roletitle}</td>
+                        <td className="w-20 p-1 text-center border">
+                          <div className="flex items-center justify-center gap-2">
+                            <div
+                              className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
+                              onClick={() => updateItem(item)}
+                            >
+                              <ion-icon name="create-outline" />
+                            </div>
+                            <div
+                              className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
+                              onClick={() => deleteItem(item)}
+                            >
+                              <ion-icon name="trash-outline" />
+                            </div>
                           </div>
-                          <div
-                            className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
-                            onClick={() => deleteItem(item)}
-                          >
-                            <ion-icon name="trash-outline" />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>;
+                        </td>
+                      </tr>
+                    );
                   })}
                 </tbody>
               </table>

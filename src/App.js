@@ -27,7 +27,6 @@ import Role from "src/pages/admin/role";
 import Permission from "src/pages/admin/permission";
 
 import Location from "src/pages/location";
-import LocationID from "src/pages/location/id";
 import Organization from "src/pages/organization";
 import Condition from "src/pages/condition";
 import SignatureType from "src/pages/signatureType";
@@ -82,15 +81,6 @@ function App() {
                   element={
                     <LocationContext>
                       <Location />
-                    </LocationContext>
-                  }
-                />
-                <Route
-                  exact
-                  path="/location/:id"
-                  element={
-                    <LocationContext>
-                      <LocationID />
                     </LocationContext>
                   }
                 />

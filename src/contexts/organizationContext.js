@@ -8,6 +8,7 @@ const _state = {
 
   modal: false,
   id: null,
+  list_parent: [],
   parentid: null,
   type: 1,
   name: null,
