@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useLocationContext } from "src/contexts/locationContext";
 import * as API from "src/api/request";
 
@@ -10,7 +10,6 @@ const { TextArea } = Input;
 
 const Location = () => {
   const { state, dispatch, message } = useLocationContext();
-  const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
 
@@ -57,19 +56,82 @@ const Location = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    var result = state.list;
+  const tbody = useMemo(() => {
+    var list = state.list;
+    var count = 0;
+    var result = [];
 
     if (search !== "")
       result = _.filter(
         result,
         (a) =>
+          _.toLower(a.parentname).includes(_.toLower(search)) ||
           _.toLower(a.organizationname).includes(_.toLower(search)) ||
           _.toLower(a.locationcode).includes(_.toLower(search)) ||
           _.toLower(a.locationname).includes(_.toLower(search)) ||
           _.toLower(a.description).includes(_.toLower(search))
       );
-    return setList(result);
+
+    list.length === 0 &&
+      result.push(
+        <tr key="empty">
+          <td className="p-1 text-orange-500 border italic" colSpan={7}>
+            Мэдээлэл олдсонгүй ...
+          </td>
+        </tr>
+      );
+
+    _.map(Object.entries(_.groupBy(list, "parentname")), (group1, g1_index) => {
+      var list1 = group1[1];
+
+      _.map(
+        Object.entries(_.groupBy(list1, "organizationname")),
+        (group2, g2_index) => {
+          var list2 = group2[1];
+
+          _.map(list2, (item, index) => {
+            console.log("item: ", g1_index, g2_index, index, item);
+            count++;
+
+            result.push(
+              <tr key={item.id}>
+                <td className="p-1 text-center border">{count}</td>
+                {g2_index === 0 && index === 0 && (
+                  <td className="p-1 text-center border" rowSpan={list1.length}>
+                    {group1[0]}
+                  </td>
+                )}
+                {index === 0 && (
+                  <td className="p-1 text-center border" rowSpan={list2.length}>
+                    {group2[0]}
+                  </td>
+                )}
+                <td className="p-1 text-center border">{item.locationcode}</td>
+                <td className="px-3 py-1 border">{item.locationname}</td>
+                <td className="px-3 py-1 border">{item.description}</td>
+                <td className="border">
+                  <div className="flex items-center justify-center gap-2">
+                    <div
+                      className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
+                      onClick={() => updateItem(item)}
+                    >
+                      <ion-icon name="create-outline" />
+                    </div>
+                    <div
+                      className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
+                      onClick={() => deleteItem(item)}
+                    >
+                      <ion-icon name="trash-outline" />
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            );
+          });
+        }
+      );
+    });
+    return result;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, state.list]);
 
@@ -342,58 +404,16 @@ const Location = () => {
                 <thead className="font-semibold">
                   <tr>
                     <th className="w-10 text-center p-1 border">№</th>
-                    <th className="text-center p-1 border">Байгууллага</th>
+                    <th colSpan={2} className="text-center p-1 border">
+                      Байгууллага
+                    </th>
                     <th className="text-center p-1 border">Байршлын код</th>
                     <th className="text-center p-1 border">Байршлын нэр</th>
                     <th className="text-center p-1 border">Тайлбар</th>
                     <th className="w-20 text-center p-1 border"></th>
                   </tr>
                 </thead>
-                <tbody>
-                  {state.list.length === 0 && (
-                    <tr>
-                      <td
-                        colSpan={6}
-                        className="px-3 py-1 font-semibold text-orange-500 border"
-                      >
-                        Мэдээлэл олдсонгүй
-                      </td>
-                    </tr>
-                  )}
-                  {_.map(list, (item, index) => {
-                    return (
-                      <tr key={item.id}>
-                        <td className="p-1 text-center border">{index + 1}</td>
-                        <td className="px-3 py-1 border">
-                          {item.organizationname}
-                        </td>
-                        <td className="p-1 text-center border">
-                          {item.locationcode}
-                        </td>
-                        <td className="px-3 py-1 border">
-                          {item.locationname}
-                        </td>
-                        <td className="px-3 py-1 border">{item.description}</td>
-                        <td className="border">
-                          <div className="flex items-center justify-center gap-2">
-                            <div
-                              className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
-                              onClick={() => updateItem(item)}
-                            >
-                              <ion-icon name="create-outline" />
-                            </div>
-                            <div
-                              className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
-                              onClick={() => deleteItem(item)}
-                            >
-                              <ion-icon name="trash-outline" />
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
+                <tbody>{tbody}</tbody>
               </table>
             </div>
           </div>

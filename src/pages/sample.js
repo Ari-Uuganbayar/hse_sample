@@ -78,17 +78,16 @@ const Sample = () => {
       <div className="max-h-[calc(100vh-145px)] p-3 text-xs overflow-auto">
         <div className="flex items-center justify-between mb-2">
           <button
-            className="flex items-center justify-center gap-2 px-5 py-1 bg-cyan-500 hover:bg-opacity-80 text-white font-semibold duration-300 border rounded-md shadow"
+            className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
             onClick={() => {
-              dispatch({ type: type.CHANGE_DETAIL_ID, data: null });
-              dispatch({ type: type.CLEAR_DETAIL });
-              dispatch({ type: type.CHANGE_DETAIL_MODAL, data: true });
+              dispatch({ type: "CLEAR" });
+              dispatch({ type: "MODAL", data: true });
             }}
           >
             <div className="flex items-center font-semibold text-xl">
               <ion-icon name="add-circle-outline" />
             </div>
-            <span className="">Бүртгэх</span>
+            <span className="ml-2">Нэмэх</span>
           </button>
           <input
             type="text"
