@@ -25,7 +25,7 @@ var bg_value = [
   "bg-violet-200",
 ];
 
-const Index = () => {
+const Sample = () => {
   const { state, dispatch, type } = useSampleContext();
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
@@ -251,4 +251,4 @@ const Index = () => {
   );
 };
 
-export default React.memo(Index);
+export default React.memo(Sample);
