@@ -1,6 +1,10 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserContext from "src/contexts/userContext";
+import MenuContext from "src/contexts/admin/menuContext";
+import RoleContext from "src/contexts/admin/roleContext";
+import PermissionContext from "src/contexts/admin/permissionContext";
+
 import LocationContext from "src/contexts/locationContext";
 import OrganizationContext from "src/contexts/organizationContext";
 import ConditionContext from "src/contexts/conditionContext";
@@ -15,9 +19,13 @@ import { ConfigProvider } from "antd";
 import mn from "antd/lib/locale/mn_MN";
 import "moment/locale/mn";
 
-import SSO from "src/pages/sso";
+import Login from "src/pages/login";
 import Layout from "src/components/layout";
 import Home from "src/pages/home";
+import Menu from "src/pages/admin/menu";
+import Role from "src/pages/admin/role";
+import Permission from "src/pages/admin/permission";
+
 import Location from "src/pages/location";
 import LocationID from "src/pages/location/id";
 import Organization from "src/pages/organization";
@@ -29,15 +37,45 @@ import Sample from "src/pages/sample";
 
 function App() {
   return (
-    <BrowserRouter>
-      {window.location.pathname === "/callback" ? (
-        <SSO />
-      ) : (
-        <UserContext>
-          <ConfigProvider locale={mn}>
+    <ConfigProvider locale={mn}>
+      <BrowserRouter>
+        {window.location.pathname === "/login" ? (
+          <Login />
+        ) : (
+          <UserContext>
             <Layout>
               <Routes>
                 <Route exact path="/" element={<Home />} />
+                <Route path="admin">
+                  <Route
+                    exact
+                    path="menu"
+                    element={
+                      <MenuContext>
+                        <Menu />
+                      </MenuContext>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="role"
+                    element={
+                      <RoleContext>
+                        <Role />
+                      </RoleContext>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="permission"
+                    element={
+                      <PermissionContext>
+                        <Permission />
+                      </PermissionContext>
+                    }
+                  />
+                </Route>
+
                 <Route
                   exact
                   path="/location"
@@ -112,10 +150,10 @@ function App() {
                 />
               </Routes>
             </Layout>
-          </ConfigProvider>
-        </UserContext>
-      )}
-    </BrowserRouter>
+          </UserContext>
+        )}
+      </BrowserRouter>
+    </ConfigProvider>
   );
 }
 

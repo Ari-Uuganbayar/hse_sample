@@ -1,30 +1,27 @@
 import React, { useContext, useReducer } from "react";
-import { reducer } from "src/reducers/organizationReducer";
+import { reducer } from "src/reducers/admin/roleReducer";
 import { notification } from "antd";
+import _ from "lodash";
 
 const _state = {
   list: [],
   refresh: 0,
-
   modal: false,
   id: null,
-  parentid: null,
-  type: 1,
   name: null,
-  description: null,
 };
 
 const context = React.createContext();
 
-export const useOrganizationContext = () => {
+export const useRoleContext = () => {
   const ctx = useContext(context);
   if (ctx === undefined) {
-    throw new Error("Context error");
+    throw new Error("context wrong");
   }
   return ctx;
 };
 
-const OrganizationContext = ({ children }) => {
+const RoleContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, _state);
   const [api, contextHolder] = notification.useNotification();
 
@@ -33,7 +30,7 @@ const OrganizationContext = ({ children }) => {
       api.error({
         message: title,
         description:
-          error.toJSON().status +
+          _.toString(error.toJSON().status) +
           " - " +
           (error?.response?.data?.message
             ? error?.response?.data?.message
@@ -82,4 +79,4 @@ const OrganizationContext = ({ children }) => {
   );
 };
 
-export default React.memo(OrganizationContext);
+export default React.memo(RoleContext);

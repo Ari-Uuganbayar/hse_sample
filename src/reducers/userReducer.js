@@ -1,31 +1,20 @@
-export const type = {
-  LOG_IN: "LOG_IN",
-  LOG_OUT: "LOG_OUT",
-  CHANGE_TEMPLATE_SIDEBAR: "CHANGE_TEMPLATE_SIDEBAR",
-  CHANGE_TEMPLATE_MENU1: "CHANGE_TEMPLATE_MENU1",
-  CHANGE_TEMPLATE_MENU2: "CHANGE_TEMPLATE_MENU2",
-};
-
-const _ = require("lodash");
-
 export const reducer = (state, action) => {
   switch (action.type) {
-    case type.LOG_IN:
-      var userGroupList = _.split(action.data.usergroup, ",").map((a) => +a);
+    case "LOG_IN":
       return {
         ...state,
         ...action.data,
-        userGroupList,
         loggedIn: true,
       };
 
-    case type.LOG_OUT:
-      localStorage.removeItem("token");
-      localStorage.removeItem("menu1");
-      localStorage.removeItem("menu2");
+    case "LOG_OUT":
+      window.localStorage.clear();
       return { ...state, loggedIn: false };
 
-    case type.CHANGE_TEMPLATE_SIDEBAR:
+    case "LIST_MENU":
+      return { ...state, list_menu: action.data };
+
+    case "SIDEBAR":
       return {
         ...state,
         template: {
@@ -34,7 +23,7 @@ export const reducer = (state, action) => {
         },
       };
 
-    case type.CHANGE_TEMPLATE_MENU1:
+    case "MENU1":
       localStorage.setItem("menu1", action.data);
       return {
         ...state,
@@ -44,7 +33,7 @@ export const reducer = (state, action) => {
         },
       };
 
-    case type.CHANGE_TEMPLATE_MENU2:
+    case "MENU2":
       localStorage.setItem("menu2", action.data);
       return {
         ...state,

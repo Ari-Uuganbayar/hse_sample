@@ -10,11 +10,11 @@ export function API() {
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
   if (token != null) {
     Object.assign(headers, {
-      Authorization: "SSO " + token,
+      Authorization: "Bearer " + token,
     });
   }
   const api = axios.create({
-    baseURL: "https://safetyjob.erdenetmc.mn/api",
+    baseURL: "http://16.163.55.103/api/safetyjob",
     timeout: 200000,
     headers,
   });
@@ -31,7 +31,7 @@ export function API() {
       } else {
         if (error.response.status === 401) {
           localStorage.removeItem("token");
-          window.location.replace("/");
+          // window.location.replace("/");
         }
       }
       throw error;
@@ -40,14 +40,86 @@ export function API() {
   return api;
 }
 
+export async function logIn(params) {
+  const response = await API().post("/user/login", { ...params });
+  return response;
+}
+
+export async function logOut() {
+  const response = await API().delete("/user/logout");
+  return response;
+}
+
 export async function getUserInfo() {
   const response = await API().get("/user/info");
   return response.data;
 }
+export async function getUserMenu() {
+  const response = await API().get("/user/menu");
+  return response.data;
+}
 
-export async function logOut() {
-  const response = await API().get("/logout");
-  return response;
+export async function getMenuList() {
+  const response = await API().get("/admin/menu");
+  return response.data;
+}
+export async function getMenu(id) {
+  const response = await API().get("/admin/menu/" + id);
+  return response.data;
+}
+export async function postMenu(params) {
+  const response = await API().post("/admin/menu", { ...params });
+  return response.data;
+}
+export async function putMenu(id, params) {
+  const response = await API().post("/admin/menu/" + id, { ...params });
+  return response.data;
+}
+export async function deleteMenu(id) {
+  const response = await API().delete("/admin/menu/" + id);
+  return response.data;
+}
+
+export async function getRoleList() {
+  const response = await API().get("/admin/role");
+  return response.data;
+}
+export async function getRole(id) {
+  const response = await API().get("/admin/role/" + id);
+  return response.data;
+}
+export async function postRole(params) {
+  const response = await API().post("/admin/role", { ...params });
+  return response.data;
+}
+export async function putRole(id, params) {
+  const response = await API().post("/admin/role/" + id, { ...params });
+  return response.data;
+}
+export async function deleteRole(id) {
+  const response = await API().delete("/admin/role/" + id);
+  return response.data;
+}
+
+export async function getPermissionList() {
+  const response = await API().get("/admin/perm");
+  return response.data;
+}
+export async function getPermission(id) {
+  const response = await API().get("/admin/perm/" + id);
+  return response.data;
+}
+export async function postPermission(params) {
+  const response = await API().post("/admin/perm", { ...params });
+  return response.data;
+}
+export async function putPermission(id, params) {
+  const response = await API().post("/admin/perm/" + id, { ...params });
+  return response.data;
+}
+export async function deletePermission(id) {
+  const response = await API().delete("/admin/perm/" + id);
+  return response.data;
 }
 
 export async function getDepartmentsCustom(parentdept) {
@@ -63,7 +135,6 @@ export async function getOrganizationList() {
   const response = await API().get("/organization");
   return response.data;
 }
-
 export async function getOrganization(id) {
   const response = await API().get("/organization/" + id);
   return response.data;
@@ -71,8 +142,7 @@ export async function getOrganization(id) {
 
 export async function postOrganization(params) {
   const response = await API().post("/organization", {
-    organizationname: params.organizationname,
-    description: params.description,
+    ...params,
   });
   return response.data;
 }

@@ -4,16 +4,14 @@ import Sidebar from "src/components/sidebar";
 import Header from "src/components/header";
 
 const Layout = ({ children }) => {
-  const { user, userDispatch, userType } = useUserContext();
+  const { user, userDispatch } = useUserContext();
 
   return (
     <div className="relative w-screen h-screen flex bg-gray-200 font-poppins">
       {user.template.sidebar && (
         <div
           className="absolute z-10 lg:hidden w-screen h-screen bg-gray-800 opacity-60"
-          onClick={() =>
-            userDispatch({ type: userType.CHANGE_TEMPLATE_SIDEBAR })
-          }
+          onClick={() => userDispatch({ type: "SIDEBAR" })}
         ></div>
       )}
       <Sidebar />

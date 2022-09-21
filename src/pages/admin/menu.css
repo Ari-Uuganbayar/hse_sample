@@ -1,0 +1,14 @@
+.ant-tree-list {
+  width: -webkit-fill-available !important;
+}
+.ant-tree-treenode {
+  width: -webkit-fill-available !important;
+}
+
+.ant-tree-node-content-wrapper {
+  width: -webkit-fill-available !important;
+}
+
+.ant-tree-node-content-wrapper.ant-tree-node-content-wrapper-normal {
+  width: -webkit-fill-available !important;
+}

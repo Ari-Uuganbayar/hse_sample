@@ -1,17 +1,13 @@
 import React, { useEffect, useContext, useReducer } from "react";
-import { reducer, type } from "src/reducers/userReducer";
-import * as api from "src/api/request";
+import { reducer } from "src/reducers/userReducer";
+import * as API from "src/api/request";
+import { notification } from "antd";
 import Swal from "sweetalert2";
 
 const _state = {
-  tn: 0,
-  info: {},
-  userdeps: [],
-  usergroup: "",
-  userGroupList: [],
   usermenu: [],
-  userzone: [],
   loggedIn: false,
+  list_menu: [],
 
   template: {
     mode: "light",
@@ -33,6 +29,47 @@ export const useUserContext = () => {
 
 const UserContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, _state);
+  const [api, contextHolder] = notification.useNotification();
+
+  const message = ({ type, error = null, title, description = null }) => {
+    if (type === "error") {
+      api.error({
+        message: title,
+        description:
+          error.toJSON().status +
+          " - " +
+          (error?.response?.data?.message
+            ? error?.response?.data?.message
+            : error.toJSON().message),
+        placement: "topRight",
+        duration: 5,
+      });
+    }
+    if (type === "info") {
+      api.info({
+        message: title,
+        description: description,
+        placement: "topRight",
+        duration: 5,
+      });
+    }
+    if (type === "success") {
+      api.success({
+        message: title,
+        description: description,
+        placement: "topRight",
+        duration: 5,
+      });
+    }
+    if (type === "warning") {
+      api.warning({
+        message: title,
+        description: description,
+        placement: "topRight",
+        duration: 5,
+      });
+    }
+  };
 
   useEffect(() => {
     if (navigator.onLine) {
@@ -40,28 +77,34 @@ const UserContext = ({ children }) => {
         typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
       if (token === null) {
-        api
-          .API()
-          .get(`/auth`)
-          .then((res) => {
-            const result = res.data;
-            let url = result.url;
-            if (window.location.hostname === "localhost") {
-              url = url.replace(
-                "https://safetyjob.erdenetmc.mn/callback",
-                "http://localhost:3000/callback"
-              );
-            }
-            window.location.replace(url);
-          });
+        window.location.replace("/login");
       } else {
-        if (state.tn === 0) {
-          api.getUserInfo().then((res) => {
-            dispatch({
-              type: type.LOG_IN,
-              data: res,
+        if (!state.loggedIn) {
+          API.getUserInfo()
+            .then((res) => {
+              dispatch({
+                type: "LOG_IN",
+                data: res,
+              });
+            })
+            .catch((error) => {
+              message({
+                type: "error",
+                error,
+                title: "Хэрэглэгчийн мэдээлэл татаж чадсангүй",
+              });
             });
-          });
+          API.getUserMenu()
+            .then((menu) => {
+              dispatch({ type: "LIST_MENU", data: menu });
+            })
+            .catch((error) => {
+              message({
+                type: "error",
+                error,
+                title: "Хэрэглэгчийн цэс татаж чадсангүй",
+              });
+            });
         }
       }
     } else {
@@ -71,19 +114,20 @@ const UserContext = ({ children }) => {
         html: "",
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.tn]);
 
   useEffect(() => {
     var menu1 = localStorage.getItem("menu1");
     if (menu1 === null || menu1 === undefined || menu1 === "") menu1 = null;
     dispatch({
-      type: type.CHANGE_TEMPLATE_MENU1,
+      type: "MENU1",
       data: menu1 === null ? _state.template.menu1 : parseInt(menu1),
     });
     var menu2 = localStorage.getItem("menu2");
     if (menu2 === null || menu2 === undefined || menu2 === "") menu2 = null;
     dispatch({
-      type: type.CHANGE_TEMPLATE_MENU2,
+      type: "MENU2",
       data: menu2 === null ? _state.template.menu2 : parseInt(menu2),
     });
   }, []);
@@ -93,9 +137,9 @@ const UserContext = ({ children }) => {
       value={{
         user: state,
         userDispatch: dispatch,
-        userType: type,
       }}
     >
+      {contextHolder}
       {children}
     </context.Provider>
   );

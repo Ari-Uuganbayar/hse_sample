@@ -3,50 +3,60 @@ import { useOrganizationContext } from "src/contexts/organizationContext";
 import * as API from "src/api/request";
 
 import { Input } from "antd";
-import Swal from "sweetalert2";
+import _ from "lodash";
 const { TextArea } = Input;
 
 const Detail = () => {
-  const { state, dispatch, type } = useOrganizationContext();
+  const { state, dispatch, message } = useOrganizationContext();
 
   const save = () => {
-    var error = "";
-    if (state.detail.organizationName === null)
-      error += "Байгууллагын нэр <br/>";
+    var error = [];
+    state.organizationName || error.push("Байгууллагын нэр");
 
-    if (error !== "") {
-      Swal.fire({
-        icon: "warning",
-        title: "<b class='text-red-400'>*</b> талбарыг бөглөнө үү.",
-        html: error,
+    if (error.length > 0) {
+      message({
+        type: "warning",
+        title: (
+          <div className="text-orange-500 font-semibold">
+            Дараах мэдээлэл дутуу байна
+          </div>
+        ),
+        description: (
+          <div className="flex flex-col gap-1">
+            {_.map(error, (item, index) => (
+              <div key={index}>
+                - <span className="ml-1">{item}</span>
+              </div>
+            ))}
+          </div>
+        ),
       });
     } else {
       var data = {
-        organizationname: state.detail.organizationName,
-        description:
-          state.detail.description === null ? "" : state.detail.description,
+        organizationname: state.organizationName,
+        description: state.description === null ? "" : state.description,
       };
 
-      if (state.detail.id === null) {
-        API.postOrganization(data).then(() => {
-          dispatch({ type: type.CHANGE_REFRESH });
-          dispatch({ type: type.CHANGE_DETAIL_MODAL, data: false });
-          Swal.fire({
-            icon: "success",
-            title: "Амжилттай хадгалагдлаа.",
-            timer: 1000,
+      if (state.id === null) {
+        API.postOrganization(data)
+          .then(() => {
+            dispatch({ type: "REFRESH" });
+            dispatch({ type: "MODAL", data: false });
+            message({ type: "success", title: "Амжилттай хадгалагдлаа" });
+          })
+          .catch((error) => {
+            message({ type: "error", error, title: "Бүртгэж чадсангүй" });
           });
-        });
       } else {
-        API.putOrganization(state.detail.id, data).then(() => {
-          dispatch({ type: type.CHANGE_REFRESH });
-          dispatch({ type: type.CHANGE_DETAIL_MODAL, data: false });
-          Swal.fire({
-            icon: "success",
-            title: "Амжилттай хадгалагдлаа.",
-            timer: 1000,
+        API.putOrganization(state.id, data)
+          .then(() => {
+            dispatch({ type: "REFRESH" });
+            dispatch({ type: "MODAL", data: false });
+            message({ type: "success", title: "Амжилттай хадгалагдлаа" });
+          })
+          .catch((error) => {
+            message({ type: "error", error, title: "Засварлаж чадсангүй" });
           });
-        });
       }
     }
   };
@@ -60,10 +70,10 @@ const Detail = () => {
         <div className="lg:w-3/4 flex items-center">
           <Input
             placeholder="Байршлын нэр"
-            value={state.detail.organizationName}
+            value={state.organizationName}
             onChange={(e) =>
               dispatch({
-                type: type.CHANGE_DETAIL_ORGANIZATION_NAME,
+                type: "ORGANIZATION_NAME",
                 data: e.target.value,
               })
             }
@@ -77,10 +87,10 @@ const Detail = () => {
           <TextArea
             rows={4}
             placeholder="Тайлбар"
-            value={state.detail.description}
+            value={state.description}
             onChange={(e) =>
               dispatch({
-                type: type.CHANGE_DETAIL_DESCRIPTION,
+                type: "DESCRIPTION",
                 data: e.target.value,
               })
             }
@@ -89,10 +99,11 @@ const Detail = () => {
       </div>
 
       <button
-        className="w-full py-2 bg-primary_blue hover:bg-opacity-80 text-white font-semibold text-xs border rounded-md shadow duration-300"
+        className="w-full py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
         onClick={() => save()}
       >
-        Хадгалах
+        <i className="fas fa-save" />
+        <span className="ml-2">Хадгалах</span>
       </button>
     </div>
   );

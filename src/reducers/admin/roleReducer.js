@@ -15,40 +15,23 @@ export const reducer = (state, action) => {
         ...state,
         modal: action.data,
       };
-    case "TYPE":
-      return {
-        ...state,
-        type: action.data,
-      };
     case "NAME":
       return {
         ...state,
         name: action.data,
       };
-    case "DESCRIPTION":
-      return {
-        ...state,
-        description: action.data,
-      };
     case "CLEAR":
       return {
         ...state,
         id: null,
-        parentid: null,
-        type: 1,
         name: null,
-        description: null,
       };
     case "SET":
       return {
         ...state,
         id: action.data.id,
-        parentid: action.data.parentid,
-        type: action.data.rorganizationtypeid,
-        name: action.data.organizationname,
-        description: action.data.description,
+        name: action.data.roletitle,
       };
-
     default:
       return state;
   }
