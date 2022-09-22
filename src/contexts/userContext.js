@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useReducer } from "react";
+import { useNavigate } from "react-router-dom";
 import { reducer } from "src/reducers/userReducer";
 import * as API from "src/api/request";
 import { notification } from "antd";
@@ -28,6 +29,7 @@ export const useUserContext = () => {
 };
 
 const UserContext = ({ children }) => {
+  const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, _state);
   const [api, contextHolder] = notification.useNotification();
 
@@ -76,8 +78,8 @@ const UserContext = ({ children }) => {
       var token =
         typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-      if (token === null) {
-        window.location.replace("/login");
+      if (!token) {
+        navigate("/login");
       } else {
         if (!state.loggedIn) {
           API.getUserInfo()

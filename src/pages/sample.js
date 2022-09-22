@@ -60,9 +60,12 @@ const Sample = () => {
           _.toLower(a.negjname).includes(_.toLower(search))
       );
     }
-
     setList(result);
   }, [state.list, search]);
+
+  const change_value = (e) => {
+    console.log("e: ", e);
+  };
 
   const save = (item) => {
     API.postSampleResult().then((res) => {
@@ -105,11 +108,12 @@ const Sample = () => {
                   <th rowSpan={2} className="w-10 p-1 text-center border">
                     №
                   </th>
-                  <th rowSpan={2} className="p-1 text-center border">
-                    Цех
-                  </th>
-                  <th rowSpan={2} className="p-1 text-center border">
-                    Хэсэг
+                  <th
+                    colSpan={2}
+                    rowSpan={2}
+                    className="p-1 text-center border"
+                  >
+                    Байгууллага
                   </th>
                   <th rowSpan={2} className="p-1 text-center border">
                     Ажлын байр
@@ -119,7 +123,14 @@ const Sample = () => {
                   </th>
                   {_.map(
                     Object.entries(
-                      _.groupBy(state.listParameter, "rparametertypeid")
+                      _.groupBy(
+                        _.orderBy(
+                          state.listParameter,
+                          ["rparametertypeid"],
+                          ["asc"]
+                        ),
+                        "rparametertypeid"
+                      )
                     ),
                     (item, index) => {
                       var rparametertypeid = _.parseInt(item[0]);
@@ -143,7 +154,13 @@ const Sample = () => {
                 <tr>
                   {_.map(
                     Object.entries(
-                      _.groupBy(state.listParameter, "parametertypename")
+                      _.groupBy(
+                        _.orderBy(state.listParameter, [
+                          "rparametertypeid",
+                          ["asc"],
+                        ]),
+                        "rparametertypeid"
+                      )
                     ),
                     (group, index) => {
                       var result = [];
@@ -172,40 +189,24 @@ const Sample = () => {
                   return (
                     <tr key={item.id} className="hover:bg-gray-200">
                       <td className="p-1 text-center border">{index + 1}</td>
+                      <td className="px-3 py-1 border">{item.parentname}</td>
                       <td className="px-3 py-1 border">
-                        <div className="flex items-center gap-1">
-                          <span className="text-cyan-500">{item.tsehcode}</span>
-                          <span className="">{item.tsehname}</span>
-                        </div>
+                        {item.organizationname}
                       </td>
-                      <td className="px-3 py-1 border">
-                        <div className="flex items-center gap-1">
-                          <span className="text-cyan-500">{item.negjcode}</span>
-                          <span>{item.negjname}</span>
-                        </div>
-                      </td>
-                      <td className="px-3 py-1 border">
-                        <div className="flex items-center gap-2">
-                          <div className="flex items-center justify-center text-cyan-500">
-                            {item?.tsehcode !== null && (
-                              <div>{item?.tsehcode}.</div>
-                            )}
-                            {item?.negjcode !== null && (
-                              <div>{item?.negjcode}.</div>
-                            )}
-                            {item?.locationcode !== null && (
-                              <div>{item?.locationcode}</div>
-                            )}
-                          </div>
-                          <span>{item.locationname}</span>
-                        </div>
-                      </td>
+                      <td className="px-3 py-1 border">{item.locationname}</td>
                       <td className="p-1 text-center border">
                         {moment(item.begindate).format("YYYY.MM.DD")}
                       </td>
                       {_.map(
                         Object.entries(
-                          _.groupBy(state.listParameter, "rparametertypeid")
+                          _.groupBy(
+                            _.orderBy(
+                              state.listParameter,
+                              ["rparametertypeid"],
+                              ["asc"]
+                            ),
+                            "rparametertypeid"
+                          )
                         ),
                         (group) => {
                           var result = [];
@@ -216,16 +217,16 @@ const Sample = () => {
                               (b) => b.id === a.id
                             );
                             result.push(
-                              <td key={a.id} className="text-center border">
+                              <td key={a.id} className="p-1 text-center border">
                                 <input
                                   type="text"
-                                  className="w-8 text-center focus:outline-none"
+                                  className="w-8 text-center border"
                                   value={
                                     itemParameter?.result === null
                                       ? ""
                                       : itemParameter?.result
                                   }
-                                  onChange={(e) => console.log(e.target.value)}
+                                  onChange={(e) => change_value(e)}
                                   onKeyDown={(e) => {
                                     if (e.key === "Enter") {
                                       save(item.id);

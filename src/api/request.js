@@ -166,12 +166,10 @@ export async function getLocationList(organizationType) {
   });
   return response.data;
 }
-
 export async function getLocation(id) {
   const response = await API().get("/location/" + id);
   return response.data;
 }
-
 export async function postLocation(params) {
   const response = await API().post("/location", {
     rorganizationtypeid: params.organizationtype,
@@ -184,7 +182,6 @@ export async function postLocation(params) {
   });
   return response.data;
 }
-
 export async function putLocation(id, params) {
   const response = await API().post("/location/" + id, {
     rorganizationtypeid: params.organizationtype,
@@ -197,9 +194,12 @@ export async function putLocation(id, params) {
   });
   return response.data;
 }
-
 export async function deleteLocation(id) {
   const response = await API().delete("/location/" + id);
+  return response.data;
+}
+export async function getLocationQR(id) {
+  const response = await API().get("/location/qr/" + id);
   return response.data;
 }
 

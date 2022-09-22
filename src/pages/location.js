@@ -2,6 +2,8 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useLocationContext } from "src/contexts/locationContext";
 import * as API from "src/api/request";
 
+import QRCode from "react-qr-code";
+
 import { Spin, Modal, TreeSelect, Input } from "antd";
 import _ from "lodash";
 import * as utils from "src/lib/utils";
@@ -90,7 +92,6 @@ const Location = () => {
           var list2 = group2[1];
 
           _.map(list2, (item, index) => {
-            console.log("item: ", g1_index, g2_index, index, item);
             count++;
 
             result.push(
@@ -111,6 +112,12 @@ const Location = () => {
                 <td className="px-3 py-1 border">{item.description}</td>
                 <td className="border">
                   <div className="flex items-center justify-center gap-2">
+                    <div
+                      className="flex items-center justify-center text-[14px] cursor-pointer"
+                      onClick={() => qrItem(item)}
+                    >
+                      <ion-icon name="qr-code-outline" />
+                    </div>
                     <div
                       className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
                       onClick={() => updateItem(item)}
@@ -233,6 +240,35 @@ const Location = () => {
     }
   };
 
+  const qrItem = (item) => {
+    console.log("item: ", item);
+    API.getLocationQR(item.id)
+      .then((res) => {
+        dispatch({ type: "QR_MODAL", data: true });
+        dispatch({ type: "QR_PARENT", data: item.parentname });
+        dispatch({ type: "QR_ORGANIZATION", data: item.organizationname });
+        dispatch({ type: "QR_LOCATION", data: item.locationname });
+        dispatch({
+          type: "QR_VALUE",
+          data: "http://16.163.55.103/api/safetyjob/" + res,
+        });
+      })
+      .catch((error) => {
+        dispatch({ type: "QR_PARENT", data: null });
+        dispatch({ type: "QR_ORGANIZATION", data: null });
+        dispatch({ type: "QR_LOCATION", data: null });
+        dispatch({
+          type: "QR_VALUE",
+          data: null,
+        });
+        message({
+          type: "error",
+          error,
+          title: "QR татаж чадсангүй",
+        });
+      });
+  };
+
   return (
     <>
       <Modal
@@ -339,6 +375,35 @@ const Location = () => {
         >
           <i className="fas fa-save" />
           <span className="ml-2">Хадгалах</span>
+        </button>
+      </Modal>
+
+      <Modal
+        closable={false}
+        centered
+        width={500}
+        title={<div className="text-center">QR Код</div>}
+        visible={state.qr_modal}
+        onCancel={() => dispatch({ type: "QR_MODAL", data: false })}
+        footer={null}
+      >
+        <div className="flex flex-col items-center justify-center">
+          <div className="flex items-center justify-center gap-2 font-semibold mb-5">
+            <span>{state.qr_parent}</span>
+            <span> - {state.qr_organization}</span>
+            <span>- {state.qr_location}</span>
+          </div>
+          <QRCode size={400} value={state.qr_value} />
+        </div>
+
+        <div className="my-3 border" />
+
+        <button
+          className="w-full py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+          onClick={() => console.log("qr")}
+        >
+          <i className="fas fa-save" />
+          <span className="ml-2">Хэвлэх</span>
         </button>
       </Modal>
 

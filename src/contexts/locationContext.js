@@ -18,6 +18,12 @@ const _state = {
   code: null,
   name: null,
   description: null,
+
+  qr_modal: false,
+  qr_parent: null,
+  qr_organization: null,
+  qr_location: null,
+  qr_value: null,
 };
 
 const context = React.createContext();

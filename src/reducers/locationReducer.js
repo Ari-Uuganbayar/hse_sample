@@ -65,6 +65,32 @@ export const reducer = (state, action) => {
         description: action.data.description,
       };
 
+    case "QR_MODAL":
+      return {
+        ...state,
+        qr_modal: action.data,
+      };
+    case "QR_PARENT":
+      return {
+        ...state,
+        qr_parent: action.data,
+      };
+    case "QR_ORGANIZATION":
+      return {
+        ...state,
+        qr_organization: action.data,
+      };
+    case "QR_LOCATION":
+      return {
+        ...state,
+        qr_location: action.data,
+      };
+    case "QR_VALUE":
+      return {
+        ...state,
+        qr_value: action.data,
+      };
+
     default:
       return state;
   }
