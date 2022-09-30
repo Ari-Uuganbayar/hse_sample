@@ -1,12 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useUserContext } from "src/contexts/userContext";
+import { useAppContext } from "src/contexts/appContext";
 import * as utils from "src/lib/utils";
 import _ from "lodash";
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  const { user, userDispatch } = useUserContext();
+  const { user, appDispatch } = useAppContext();
 
   return (
     <aside
@@ -35,13 +35,13 @@ const Sidebar = () => {
                     : "hover:bg-gray-200")
                 }
                 onClick={() => {
-                  userDispatch({
+                  appDispatch({
                     type: "MENU1",
                     data:
                       user.template.menu1 !== menu1.menuid ? menu1.menuid : 0,
                   });
                   if (hasChild) {
-                    userDispatch({
+                    appDispatch({
                       type: "MENU2",
                       data: 0,
                     });
@@ -91,7 +91,7 @@ const Sidebar = () => {
                             : "hover:bg-gray-300")
                         }
                         onClick={() => {
-                          userDispatch({
+                          appDispatch({
                             type: "MENU2",
                             data: menu2.menuid,
                           });

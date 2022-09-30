@@ -146,7 +146,6 @@ const Index = () => {
   return (
     <>
       <Modal
-        closable={false}
         centered
         width={700}
         title={<div className="text-center">Бүртгэл</div>}

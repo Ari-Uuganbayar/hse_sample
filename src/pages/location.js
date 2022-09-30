@@ -272,7 +272,6 @@ const Location = () => {
   return (
     <>
       <Modal
-        closable={false}
         centered
         width={700}
         title={<div className="text-center">Бүртгэл</div>}
@@ -379,7 +378,6 @@ const Location = () => {
       </Modal>
 
       <Modal
-        closable={false}
         centered
         width={500}
         title={<div className="text-center">QR Код</div>}

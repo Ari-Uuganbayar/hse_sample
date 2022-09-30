@@ -5,6 +5,11 @@ export const reducer = (state, action) => {
         ...state,
         list: action.data,
       };
+    case "LIST_PARENT":
+      return {
+        ...state,
+        list_parent: action.data,
+      };
     case "REFRESH":
       return {
         ...state,

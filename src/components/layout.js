@@ -1,17 +1,17 @@
 import React from "react";
-import { useUserContext } from "src/contexts/userContext";
+import { useAppContext } from "src/contexts/appContext";
 import Sidebar from "src/components/sidebar";
 import Header from "src/components/header";
 
 const Layout = ({ children }) => {
-  const { user, userDispatch } = useUserContext();
+  const { user, appDispatch } = useAppContext();
 
   return (
     <div className="relative w-screen h-screen flex bg-gray-200 font-poppins">
       {user.template.sidebar && (
         <div
           className="absolute z-10 lg:hidden w-screen h-screen bg-gray-800 opacity-60"
-          onClick={() => userDispatch({ type: "SIDEBAR" })}
+          onClick={() => appDispatch({ type: "SIDEBAR" })}
         ></div>
       )}
       <Sidebar />

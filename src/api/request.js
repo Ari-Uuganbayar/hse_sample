@@ -58,6 +58,7 @@ export async function getUserMenu() {
   return response.data;
 }
 
+// Menu
 export async function getMenuList() {
   const response = await API().get("/admin/menu");
   return response.data;
@@ -79,27 +80,7 @@ export async function deleteMenu(id) {
   return response.data;
 }
 
-export async function getRoleList() {
-  const response = await API().get("/admin/role");
-  return response.data;
-}
-export async function getRole(id) {
-  const response = await API().get("/admin/role/" + id);
-  return response.data;
-}
-export async function postRole(params) {
-  const response = await API().post("/admin/role", { ...params });
-  return response.data;
-}
-export async function putRole(id, params) {
-  const response = await API().post("/admin/role/" + id, { ...params });
-  return response.data;
-}
-export async function deleteRole(id) {
-  const response = await API().delete("/admin/role/" + id);
-  return response.data;
-}
-
+// Permission
 export async function getPermissionList() {
   const response = await API().get("/admin/perm");
   return response.data;
@@ -121,15 +102,121 @@ export async function deletePermission(id) {
   return response.data;
 }
 
-export async function getDepartmentsCustom(parentdept) {
-  const response = await API().get("/general/departments/custom", {
-    params: {
-      parentdept: parentdept,
-    },
-  });
+// Role
+export async function getRoleList() {
+  const response = await API().get("/admin/role");
+  return response.data;
+}
+export async function getRole(id) {
+  const response = await API().get("/admin/role/" + id);
+  return response.data;
+}
+export async function postRole(params) {
+  const response = await API().post("/admin/role", { ...params });
+  return response.data;
+}
+export async function putRole(id, params) {
+  const response = await API().post("/admin/role/" + id, { ...params });
+  return response.data;
+}
+export async function deleteRole(id) {
+  const response = await API().delete("/admin/role/" + id);
   return response.data;
 }
 
+// RolePermission
+export async function getRolePermissionList() {
+  const response = await API().get("/admin/roleperm");
+  return response.data;
+}
+export async function getRolePermission(id) {
+  const response = await API().get("/admin/roleperm/" + id);
+  return response.data;
+}
+export async function postRolePermission(params) {
+  const response = await API().post("/admin/roleperm", { ...params });
+  return response.data;
+}
+export async function putRolePermission(id, params) {
+  const response = await API().post("/admin/roleperm/" + id, {
+    ...params,
+  });
+  return response.data;
+}
+export async function deleteRolePermission(id) {
+  const response = await API().delete("/admin/roleperm/" + id);
+  return response.data;
+}
+
+// RoleMenu
+export async function getRoleMenuList() {
+  const response = await API().get("/admin/role/menu");
+  return response.data;
+}
+export async function getRoleMenu(id) {
+  const response = await API().get("/admin/role/menu/" + id);
+  return response.data;
+}
+export async function postRoleMenu(params) {
+  const response = await API().post("/admin/role/menu", { ...params });
+  return response.data;
+}
+export async function putRoleMenu(id, params) {
+  const response = await API().post("/admin/role/menu/" + id, {
+    ...params,
+  });
+  return response.data;
+}
+export async function deleteRoleMenu(id) {
+  const response = await API().delete("/admin/role/menu/" + id);
+  return response.data;
+}
+
+// User
+export async function getUserList() {
+  const response = await API().get("/admin/user");
+  return response.data;
+}
+export async function getUser(id) {
+  const response = await API().get("/admin/user/" + id);
+  return response.data;
+}
+export async function postUser(params) {
+  const response = await API().post("/admin/user", { ...params });
+  return response.data;
+}
+export async function putUser(id, params) {
+  const response = await API().post("/admin/user/" + id, { ...params });
+  return response.data;
+}
+export async function deleteUser(id) {
+  const response = await API().delete("/admin/user/" + id);
+  return response.data;
+}
+
+// UserRole
+export async function getUserRoleList() {
+  const response = await API().get("/admin/userroles");
+  return response.data;
+}
+export async function getUserRole(id) {
+  const response = await API().get("/admin/userroles/" + id);
+  return response.data;
+}
+export async function postUserRole(params) {
+  const response = await API().post("/admin/userroles", { ...params });
+  return response.data;
+}
+export async function putUserRole(id, params) {
+  const response = await API().post("/admin/userroles/" + id, { ...params });
+  return response.data;
+}
+export async function deleteUserRole(id) {
+  const response = await API().delete("/admin/userroles/" + id);
+  return response.data;
+}
+
+// Organization
 export async function getOrganizationList() {
   const response = await API().get("/organization");
   return response.data;
@@ -145,19 +232,18 @@ export async function postOrganization(params) {
   });
   return response.data;
 }
-
 export async function putOrganization(id, params) {
   const response = await API().post("/organization/" + id, {
     ...params,
   });
   return response.data;
 }
-
 export async function deleteOrganization(id) {
   const response = await API().delete("/organization/" + id);
   return response.data;
 }
 
+// Location
 export async function getLocationList(organizationType) {
   const response = await API().get("/location", {
     params: {
@@ -203,6 +289,7 @@ export async function getLocationQR(id) {
   return response.data;
 }
 
+// Condition
 export async function getConditionList() {
   const response = await API().get("/condition");
   return response.data;
@@ -228,6 +315,7 @@ export async function deleteCondition(id) {
   return response.data;
 }
 
+// Signature
 export async function getSignatureList() {
   const response = await API().get("/signaturetype");
   return response.data;
@@ -253,6 +341,7 @@ export async function deleteSignature(id) {
   return response.data;
 }
 
+// ParameterType
 export async function getParameterTypeList() {
   const response = await API().get("/rparametertype");
   return response.data;
@@ -278,6 +367,7 @@ export async function deleteParameterType(id) {
   return response.data;
 }
 
+// Parameter
 export async function getParameterList() {
   const response = await API().get("/parameter");
   return response.data;
@@ -303,6 +393,7 @@ export async function deleteParameter(id) {
   return response.data;
 }
 
+// Sample
 export async function getSampleList(params) {
   const response = await API().get("/samplework", {
     params: {
@@ -312,7 +403,6 @@ export async function getSampleList(params) {
   });
   return response.data;
 }
-
 export async function postSampleResult(params) {
   const response = await API().post("/sampleworkresult", {
     ...params,

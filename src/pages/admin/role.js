@@ -138,7 +138,6 @@ const Role = () => {
   return (
     <div className="">
       <Modal
-        closable={false}
         centered
         width={700}
         title={<div className="text-center">Бүртгэл</div>}
@@ -186,6 +185,7 @@ const Role = () => {
               <button
                 className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
                 onClick={() => {
+                  dispatch({ type: "CLEAR" });
                   dispatch({ type: "MODAL", data: true });
                 }}
               >

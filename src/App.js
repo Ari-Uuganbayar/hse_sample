@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UserContext from "src/contexts/userContext";
+import AppContext from "src/contexts/appContext";
 
 import Login from "src/pages/login";
 import Router from "src/router";
@@ -18,9 +18,9 @@ function App() {
         <Routes>
           <Route exact path="/login" element={<Login />} />
         </Routes>
-        <UserContext>
+        <AppContext>
           <Router />
-        </UserContext>
+        </AppContext>
       </BrowserRouter>
     </ConfigProvider>
   );

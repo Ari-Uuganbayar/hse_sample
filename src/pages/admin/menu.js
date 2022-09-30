@@ -40,6 +40,22 @@ const Menu = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.refresh]);
 
+  useEffect(() => {
+    var result = [];
+    _.map(state.list, (item) => {
+      result.push({
+        ...item,
+        key: item.id,
+        id: item.id,
+        pId: item.parentid,
+        value: item.id,
+        title: item.menuname,
+      });
+    });
+    dispatch({ type: "LIST_PARENT", data: result });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.list]);
+
   const updateItem = (item) => {
     API.getMenu(item.id)
       .then((res) => {
@@ -154,7 +170,6 @@ const Menu = () => {
   return (
     <div className="">
       <Modal
-        closable={false}
         centered
         width={700}
         title={<div className="text-center">Бүртгэл</div>}
@@ -172,7 +187,7 @@ const Menu = () => {
                 className="w-full"
                 placeholder="Сонгоно уу"
                 treeDataSimpleMode={true}
-                treeData={state.list}
+                treeData={state.list_parent}
                 treeLine={(true, { showLeafIcon: false })}
                 value={state.parentid}
                 onChange={(value) =>

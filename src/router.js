@@ -1,9 +1,13 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { useUserContext } from "src/contexts/userContext";
+import { useAppContext } from "src/contexts/appContext";
 import MenuContext from "src/contexts/admin/menuContext";
-import RoleContext from "src/contexts/admin/roleContext";
 import PermissionContext from "src/contexts/admin/permissionContext";
+import RoleContext from "src/contexts/admin/roleContext";
+import RolePermissionContext from "src/contexts/admin/rolePermissionContext";
+import RoleMenuContext from "src/contexts/admin/roleMenuContext";
+import UserContext from "src/contexts/admin/userContext";
+import UserRoleContext from "src/contexts/admin/userRoleContext";
 
 import LocationContext from "src/contexts/locationContext";
 import OrganizationContext from "src/contexts/organizationContext";
@@ -21,8 +25,12 @@ import "moment/locale/mn";
 import Layout from "src/components/layout";
 import Home from "src/pages/home";
 import Menu from "src/pages/admin/menu";
-import Role from "src/pages/admin/role";
 import Permission from "src/pages/admin/permission";
+import Role from "src/pages/admin/role";
+import RolePermission from "src/pages/admin/rolePermission";
+import RoleMenu from "src/pages/admin/roleMenu";
+import User from "src/pages/admin/user";
+import UserRole from "src/pages/admin/userRole";
 
 import Location from "src/pages/location";
 import Organization from "src/pages/organization";
@@ -34,10 +42,11 @@ import Sample from "src/pages/sample";
 import Result from "src/pages/result";
 
 const Router = () => {
-  const { user } = useUserContext();
+  const { user } = useAppContext();
   var url = window.location.pathname.split("/");
-
-  if (url[1] === "location" && !url[2] !== undefined) return <Result />;
+  if (url.length >= 3) {
+    if (url[1] === "location" && url[2] !== undefined) return <Result />;
+  }
 
   return (
     <>
@@ -45,7 +54,7 @@ const Router = () => {
         <Layout>
           <Routes>
             <Route exact path="/" element={<Home />} />
-            <Route path="admin">
+            <Route path="/admin">
               <Route
                 exact
                 path="menu"
@@ -53,6 +62,15 @@ const Router = () => {
                   <MenuContext>
                     <Menu />
                   </MenuContext>
+                }
+              />
+              <Route
+                exact
+                path="permission"
+                element={
+                  <PermissionContext>
+                    <Permission />
+                  </PermissionContext>
                 }
               />
               <Route
@@ -66,11 +84,38 @@ const Router = () => {
               />
               <Route
                 exact
-                path="permission"
+                path="rolepermission"
                 element={
-                  <PermissionContext>
-                    <Permission />
-                  </PermissionContext>
+                  <RolePermissionContext>
+                    <RolePermission />
+                  </RolePermissionContext>
+                }
+              />
+              <Route
+                exact
+                path="rolemenu"
+                element={
+                  <RoleMenuContext>
+                    <RoleMenu />
+                  </RoleMenuContext>
+                }
+              />
+              <Route
+                exact
+                path="user"
+                element={
+                  <UserContext>
+                    <User />
+                  </UserContext>
+                }
+              />
+              <Route
+                exact
+                path="userrole"
+                element={
+                  <UserRoleContext>
+                    <UserRole />
+                  </UserRoleContext>
                 }
               />
             </Route>
