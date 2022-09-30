@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useLocationContext } from "src/contexts/reference/locationContext";
 import * as API from "src/api/request";
 
 import QRCode from "react-qr-code";
+import { useReactToPrint } from "react-to-print";
 
 import { Spin, Modal, TreeSelect, Input } from "antd";
 import _ from "lodash";
@@ -11,9 +12,12 @@ import Swal from "sweetalert2";
 const { TextArea } = Input;
 
 const Location = () => {
+  const ref_print = useRef();
   const { state, dispatch, message } = useLocationContext();
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
+
+  const handle_print = useReactToPrint({ content: () => ref_print.current });
 
   useEffect(() => {
     setLoading(true);
@@ -241,7 +245,6 @@ const Location = () => {
   };
 
   const qrItem = (item) => {
-    console.log("item: ", item);
     API.getLocationQR(item.id)
       .then((res) => {
         dispatch({ type: "QR_MODAL", data: true });
@@ -385,7 +388,10 @@ const Location = () => {
         onCancel={() => dispatch({ type: "QR_MODAL", data: false })}
         footer={null}
       >
-        <div className="flex flex-col items-center justify-center">
+        <div
+          ref={ref_print}
+          className="flex flex-col items-center justify-center"
+        >
           <div className="flex items-center justify-center gap-2 font-semibold mb-5">
             <span>{state.qr_parent}</span>
             <span> - {state.qr_organization}</span>
@@ -398,7 +404,7 @@ const Location = () => {
 
         <button
           className="w-full py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
-          onClick={() => console.log("qr")}
+          onClick={handle_print}
         >
           <i className="fas fa-save" />
           <span className="ml-2">Хэвлэх</span>
