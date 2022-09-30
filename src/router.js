@@ -124,61 +124,64 @@ const Router = () => {
               />
             </Route>
 
-            <Route
-              exact
-              path="/location"
-              element={
-                <LocationContext>
-                  <Location />
-                </LocationContext>
-              }
-            />
+            <Route path="reference">
+              <Route
+                exact
+                path="location"
+                element={
+                  <LocationContext>
+                    <Location />
+                  </LocationContext>
+                }
+              />
 
-            <Route
-              exact
-              path="/organization"
-              element={
-                <OrganizationContext>
-                  <Organization />
-                </OrganizationContext>
-              }
-            />
-            <Route
-              exact
-              path="/condition"
-              element={
-                <ConditionContext>
-                  <Condition />
-                </ConditionContext>
-              }
-            />
-            <Route
-              exact
-              path="/signature"
-              element={
-                <SignatureContext>
-                  <Signature />
-                </SignatureContext>
-              }
-            />
-            <Route
-              exact
-              path="/parametertype"
-              element={
-                <ParameterTypeContext>
-                  <ParameterType />
-                </ParameterTypeContext>
-              }
-            />
-            <Route
-              exact
-              path="/parameter"
-              element={
-                <ParameterContext>
-                  <Parameter />
-                </ParameterContext>
-              }
-            />
+              <Route
+                exact
+                path="organization"
+                element={
+                  <OrganizationContext>
+                    <Organization />
+                  </OrganizationContext>
+                }
+              />
+              <Route
+                exact
+                path="condition"
+                element={
+                  <ConditionContext>
+                    <Condition />
+                  </ConditionContext>
+                }
+              />
+              <Route
+                exact
+                path="signature"
+                element={
+                  <SignatureContext>
+                    <Signature />
+                  </SignatureContext>
+                }
+              />
+              <Route
+                exact
+                path="parametertype"
+                element={
+                  <ParameterTypeContext>
+                    <ParameterType />
+                  </ParameterTypeContext>
+                }
+              />
+              <Route
+                exact
+                path="parameter"
+                element={
+                  <ParameterContext>
+                    <Parameter />
+                  </ParameterContext>
+                }
+              />
+            </Route>
+
             <Route
               exact
               path="/sample"
