@@ -1,5 +1,5 @@
 import React, { useContext, useReducer } from "react";
-import { reducer } from "src/reducers/parameterReducer";
+import { reducer } from "src/reducers/reference/parameterReducer";
 import { notification } from "antd";
 
 const _state = {

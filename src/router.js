@@ -9,12 +9,12 @@ import RoleMenuContext from "src/contexts/admin/roleMenuContext";
 import UserContext from "src/contexts/admin/userContext";
 import UserRoleContext from "src/contexts/admin/userRoleContext";
 
-import LocationContext from "src/contexts/locationContext";
-import OrganizationContext from "src/contexts/organizationContext";
-import ConditionContext from "src/contexts/conditionContext";
-import SignatureContext from "src/contexts/signatureContext";
-import ParameterTypeContext from "src/contexts/parameterTypeContext";
-import ParameterContext from "src/contexts/parameterContext";
+import LocationContext from "src/contexts/reference/locationContext";
+import OrganizationContext from "src/contexts/reference/organizationContext";
+import ConditionContext from "src/contexts/reference/conditionContext";
+import SignatureContext from "src/contexts/reference/signatureContext";
+import ParameterTypeContext from "src/contexts/reference/parameterTypeContext";
+import ParameterContext from "src/contexts/reference/parameterContext";
 import SampleContext from "src/contexts/sampleContext";
 
 import "src/assets/css/tailwind.css";
@@ -24,6 +24,8 @@ import "moment/locale/mn";
 // import Login from "src/pages/login";
 import Layout from "src/components/layout";
 import Home from "src/pages/home";
+
+// Admin
 import Menu from "src/pages/admin/menu";
 import Permission from "src/pages/admin/permission";
 import Role from "src/pages/admin/role";
@@ -32,12 +34,14 @@ import RoleMenu from "src/pages/admin/roleMenu";
 import User from "src/pages/admin/user";
 import UserRole from "src/pages/admin/userRole";
 
-import Location from "src/pages/location";
-import Organization from "src/pages/organization";
-import Condition from "src/pages/condition";
-import Signature from "src/pages/signature";
-import ParameterType from "src/pages/parameterType";
-import Parameter from "src/pages/parameter";
+// Reference
+import Location from "src/pages/reference/location";
+import Organization from "src/pages/reference/organization";
+import Condition from "src/pages/reference/condition";
+import Signature from "src/pages/reference/signature";
+import ParameterType from "src/pages/reference/parameterType";
+import Parameter from "src/pages/reference/parameter";
+
 import Sample from "src/pages/sample";
 import Result from "src/pages/result";
 

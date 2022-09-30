@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useConditionContext } from "src/contexts/conditionContext";
+import { useSignatureContext } from "src/contexts/reference/signatureContext";
 import * as API from "src/api/request";
 
 import { Spin, Modal, Input } from "antd";
@@ -7,15 +7,15 @@ import _ from "lodash";
 import moment from "moment";
 import Swal from "sweetalert2";
 
-const Condition = () => {
-  const { state, dispatch, message } = useConditionContext();
+const Signature = () => {
+  const { state, dispatch, message } = useSignatureContext();
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [list, setList] = useState([]);
 
   useEffect(() => {
     setLoading(true);
-    API.getConditionList()
+    API.getSignatureList()
       .then((res) => dispatch({ type: "LIST", data: res }))
       .catch((error) => {
         message({
@@ -35,7 +35,7 @@ const Condition = () => {
       result = _.filter(
         result,
         (a) =>
-          _.toLower(a.conditionname).includes(_.toLower(search)) ||
+          _.toLower(a.typename).includes(_.toLower(search)) ||
           _.toLower(a.description).includes(_.toLower(search))
       );
     }
@@ -44,7 +44,7 @@ const Condition = () => {
   }, [state.list, search]);
 
   const updateItem = (item) => {
-    API.getCondition(item.id)
+    API.getSignature(item.id)
       .then((res) => {
         dispatch({ type: "SET", data: res });
         dispatch({ type: "MODAL", data: true });
@@ -71,7 +71,7 @@ const Condition = () => {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        API.deleteCondition(item.id)
+        API.deleteSignature(item.id)
           .then(() => {
             dispatch({ type: "REFRESH" });
             message({ type: "success", title: "Амжилттай устгагдлаа" });
@@ -107,10 +107,10 @@ const Condition = () => {
       });
     } else {
       var data = {
-        conditionname: state.name,
+        typename: state.name,
       };
       if (state.id === null) {
-        API.postCondition(data)
+        API.postSignature(data)
           .then(() => {
             dispatch({ type: "REFRESH" });
             dispatch({ type: "CLEAR" });
@@ -121,7 +121,7 @@ const Condition = () => {
             message({ type: "error", error, title: "Бүртгэж чадсангүй" });
           });
       } else {
-        API.putCondition(state.id, data)
+        API.putSignature(state.id, data)
           .then(() => {
             dispatch({ type: "REFRESH" });
             dispatch({ type: "CLEAR" });
@@ -177,7 +177,7 @@ const Condition = () => {
 
       <div className="min-h-[calc(100vh-64px)] bg-white text-xs border rounded-lg shadow">
         <div className="border-b p-3">
-          <span className="font-semibold">"Ижил өртөлтийн бүлэг" цонх</span>
+          <span className="font-semibold">"Гарын үсэг" цонх</span>
         </div>
         <div className="max-h-[calc(100vh-145px)] p-3 text-xs overflow-auto">
           <div className="flex items-center justify-between mb-2">
@@ -207,9 +207,7 @@ const Condition = () => {
               <thead className="font-semibold">
                 <tr>
                   <th className="w-10 text-center p-1 border">№</th>
-                  <th className="text-center p-1 border">
-                    Ижил өртөлтийн бүлэг
-                  </th>
+                  <th className="text-center p-1 border">Нэр</th>
                   <th className="w-56 text-center p-1 border">Бүртгэсэн</th>
                   <th className="w-20 text-center p-1 border"></th>
                 </tr>
@@ -231,7 +229,7 @@ const Condition = () => {
                       <td className="max-w-16 p-1 text-center border">
                         {index + 1}
                       </td>
-                      <td className="px-3 py-1 border">{item.conditionname}</td>
+                      <td className="px-3 py-1 border">{item.typename}</td>
                       <td className="p-1 text-center border">
                         <span className="mr-2 italic">
                           {moment(item.insertdate).format("YYYY.MM.DD")}
@@ -268,4 +266,4 @@ const Condition = () => {
   );
 };
 
-export default React.memo(Condition);
+export default React.memo(Signature);

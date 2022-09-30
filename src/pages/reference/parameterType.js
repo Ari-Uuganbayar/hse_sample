@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParameterTypeContext } from "src/contexts/parameterTypeContext";
+import { useParameterTypeContext } from "src/contexts/reference/parameterTypeContext";
 import * as API from "src/api/request";
 
 import { Spin, Modal, Input } from "antd";

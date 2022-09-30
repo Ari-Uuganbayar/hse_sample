@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { useLocationContext } from "src/contexts/locationContext";
+import { useLocationContext } from "src/contexts/reference/locationContext";
 import * as API from "src/api/request";
 
 import QRCode from "react-qr-code";

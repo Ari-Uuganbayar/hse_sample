@@ -1,34 +1,19 @@
 import React, { useContext, useReducer } from "react";
-import { reducer } from "src/reducers/locationReducer";
+import { reducer } from "src/reducers/reference/conditionReducer";
 import { notification } from "antd";
 
 const _state = {
-  list_orgtype: [
-    { id: 1, text: "Эрдэнэт үйлдвэр" },
-    { id: 2, text: "Гадны байгууллага" },
-  ],
-  orgtype: 1,
   list: [],
   refresh: 0,
 
   modal: false,
   id: null,
-  list_organization: [],
-  organization: null,
-  code: null,
   name: null,
-  description: null,
-
-  qr_modal: false,
-  qr_parent: null,
-  qr_organization: null,
-  qr_location: null,
-  qr_value: null,
 };
 
 const context = React.createContext();
 
-export const useLocationContext = () => {
+export const useConditionContext = () => {
   const ctx = useContext(context);
   if (ctx === undefined) {
     throw new Error("Context error");
@@ -36,7 +21,7 @@ export const useLocationContext = () => {
   return ctx;
 };
 
-const LocationContext = ({ children }) => {
+const ConditionContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, _state);
   const [api, contextHolder] = notification.useNotification();
 
@@ -94,4 +79,4 @@ const LocationContext = ({ children }) => {
   );
 };
 
-export default React.memo(LocationContext);
+export default React.memo(ConditionContext);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useOrganizationContext } from "src/contexts/organizationContext";
+import { useOrganizationContext } from "src/contexts/reference/organizationContext";
 import * as API from "src/api/request";
 
 import { Spin, Modal, Tree, Select, TreeSelect, Input } from "antd";

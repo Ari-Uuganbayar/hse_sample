@@ -1,5 +1,5 @@
 import React, { useContext, useReducer } from "react";
-import { reducer } from "src/reducers/parameterTypeReducer";
+import { reducer } from "src/reducers/reference/organizationReducer";
 import { notification } from "antd";
 
 const _state = {
@@ -8,12 +8,16 @@ const _state = {
 
   modal: false,
   id: null,
+  list_parent: [],
+  parentid: null,
+  type: 1,
   name: null,
+  description: null,
 };
 
 const context = React.createContext();
 
-export const useParameterTypeContext = () => {
+export const useOrganizationContext = () => {
   const ctx = useContext(context);
   if (ctx === undefined) {
     throw new Error("Context error");
@@ -21,7 +25,7 @@ export const useParameterTypeContext = () => {
   return ctx;
 };
 
-const ParameterTypeContext = ({ children }) => {
+const OrganizationContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, _state);
   const [api, contextHolder] = notification.useNotification();
 
@@ -79,4 +83,4 @@ const ParameterTypeContext = ({ children }) => {
   );
 };
 
-export default React.memo(ParameterTypeContext);
+export default React.memo(OrganizationContext);

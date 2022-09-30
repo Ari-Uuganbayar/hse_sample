@@ -1,5 +1,5 @@
 import React, { useContext, useReducer } from "react";
-import { reducer } from "src/reducers/conditionReducer";
+import { reducer } from "src/reducers/reference/signatureReducer";
 import { notification } from "antd";
 
 const _state = {
@@ -13,7 +13,7 @@ const _state = {
 
 const context = React.createContext();
 
-export const useConditionContext = () => {
+export const useSignatureContext = () => {
   const ctx = useContext(context);
   if (ctx === undefined) {
     throw new Error("Context error");
@@ -21,7 +21,7 @@ export const useConditionContext = () => {
   return ctx;
 };
 
-const ConditionContext = ({ children }) => {
+const SignatureContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, _state);
   const [api, contextHolder] = notification.useNotification();
 
@@ -79,4 +79,4 @@ const ConditionContext = ({ children }) => {
   );
 };
 
-export default React.memo(ConditionContext);
+export default React.memo(SignatureContext);
