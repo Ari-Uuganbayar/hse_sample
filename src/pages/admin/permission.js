@@ -197,7 +197,7 @@ const Permission = () => {
       <Spin spinning={loading} tip="Боловсруулж байна...">
         <div className="text-xs min-h-[calc(100vh-64px)] bg-white border rounded-lg shadow">
           <div className="border-b p-3">
-            <span className="font-semibold">Үүрэг</span>
+            <span className="font-semibold">Эрх</span>
           </div>
           <div className="flex flex-col p-3">
             <div className="w-full">

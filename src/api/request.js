@@ -125,50 +125,26 @@ export async function deleteRole(id) {
 }
 
 // RolePermission
-export async function getRolePermissionList() {
-  const response = await API().get("/admin/roleperm");
-  return response.data;
-}
-export async function getRolePermission(id) {
-  const response = await API().get("/admin/roleperm/" + id);
+export async function getRolePermissionList(params) {
+  const response = await API().get("/admin/roleperm", {
+    params: { ...params },
+  });
   return response.data;
 }
 export async function postRolePermission(params) {
   const response = await API().post("/admin/roleperm", { ...params });
   return response.data;
 }
-export async function putRolePermission(id, params) {
-  const response = await API().post("/admin/roleperm/" + id, {
-    ...params,
-  });
-  return response.data;
-}
-export async function deleteRolePermission(id) {
-  const response = await API().delete("/admin/roleperm/" + id);
-  return response.data;
-}
 
 // RoleMenu
-export async function getRoleMenuList() {
-  const response = await API().get("/admin/role/menu");
-  return response.data;
-}
-export async function getRoleMenu(id) {
-  const response = await API().get("/admin/role/menu/" + id);
+export async function getRoleMenuList(params) {
+  const response = await API().get("/admin/role/menu", {
+    params: { ...params },
+  });
   return response.data;
 }
 export async function postRoleMenu(params) {
   const response = await API().post("/admin/role/menu", { ...params });
-  return response.data;
-}
-export async function putRoleMenu(id, params) {
-  const response = await API().post("/admin/role/menu/" + id, {
-    ...params,
-  });
-  return response.data;
-}
-export async function deleteRoleMenu(id) {
-  const response = await API().delete("/admin/role/menu/" + id);
   return response.data;
 }
 
@@ -195,24 +171,14 @@ export async function deleteUser(id) {
 }
 
 // UserRole
-export async function getUserRoleList() {
-  const response = await API().get("/admin/userroles");
-  return response.data;
-}
-export async function getUserRole(id) {
-  const response = await API().get("/admin/userroles/" + id);
+export async function getUserRoleList(params) {
+  const response = await API().get("/admin/userroles", {
+    params: { ...params },
+  });
   return response.data;
 }
 export async function postUserRole(params) {
   const response = await API().post("/admin/userroles", { ...params });
-  return response.data;
-}
-export async function putUserRole(id, params) {
-  const response = await API().post("/admin/userroles/" + id, { ...params });
-  return response.data;
-}
-export async function deleteUserRole(id) {
-  const response = await API().delete("/admin/userroles/" + id);
   return response.data;
 }
 

@@ -1,199 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useRoleMenuContext } from "src/contexts/admin/roleMenuContext";
 import * as API from "src/api/request";
+import * as utils from "src/lib/utils";
 
-import { Spin, Modal, Input } from "antd";
+import { Spin, Tree, Checkbox } from "antd";
 import _ from "lodash";
-import Swal from "sweetalert2";
 
-const RoleMenu = () => {
+const Role = () => {
   const { state, dispatch, message } = useRoleMenuContext();
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    API.getRoleMenuList()
+    dispatch({ type: "ROLE_LOADING", data: true });
+    API.getRoleList()
       .then((res) => {
-        dispatch({ type: "LIST", data: res });
+        dispatch({ type: "ROLE_LIST", data: res });
       })
       .catch((error) => {
         message({
           type: "error",
           error,
-          title: "Жагсаалт татаж чадсангүй",
+          title: "Бүлгийн жагсаалт татаж чадсангүй",
         });
       })
-      .finally(() => setLoading(false));
+      .finally(() => dispatch({ type: "ROLE_LOADING", data: false }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.refresh]);
+  }, []);
 
-  const updateItem = (item) => {
-    API.getRoleMenu(item.roleid)
-      .then((res) => {
-        dispatch({ type: "SET", data: res });
-        dispatch({ type: "MODAL", data: true });
-      })
-      .catch((error) => {
-        message({
-          type: "error",
-          error,
-          title: "Цэсний жасгаалтын мэдээлэл татаж чадсангүй",
-        });
-      });
-  };
-
-  const deleteItem = (item) => {
-    Swal.fire({
-      title: "",
-      text: "Устгахдаа итгэлтэй байна уу?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#1890ff",
-      cancelButtonColor: "rgb(244, 106, 106)",
-      confirmButtonText: "Тийм",
-      cancelButtonText: "Үгүй",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        API.deleteRole(item.roleid)
-          .then(() => {
-            message({
-              type: "success",
-              title: "Амжилттай устгагдлаа.",
-            });
-            dispatch({ type: "REFRESH" });
-          })
-          .catch((error) => {
-            message({
-              type: "error",
-              error,
-              title: "Устгахад алдаа гарлаа",
-            });
+  useEffect(() => {
+    if (state.role_id) {
+      dispatch({ type: "MENU_LOADING", data: true });
+      API.getRoleMenuList({ roleid: state.role_id })
+        .then((res) => {
+          dispatch({ type: "MENU_LIST", data: res });
+        })
+        .catch((error) => {
+          message({
+            type: "error",
+            error,
+            title: "Эрхийн жагсаалт татаж чадсангүй",
           });
-      }
-    });
-  };
-
-  const save = () => {
-    var error = [];
-    state.name || error.push("Нэр");
-
-    if (error.length > 0) {
-      message({
-        type: "warning",
-        title: (
-          <div className="text-orange-500 font-semibold">
-            Дараах мэдээлэл дутуу байна
-          </div>
-        ),
-        description: (
-          <div className="flex flex-col gap-1">
-            {_.map(error, (item, index) => (
-              <div key={index}>
-                - <span className="ml-1">{item}</span>
-              </div>
-            ))}
-          </div>
-        ),
-      });
-    } else {
-      var data = {
-        roletitle: state.name,
-      };
-
-      if (state.id === null) {
-        API.postRoleMenu(data)
-          .then(() => {
-            message({ type: "success", title: "Амжилттай хадгалагдлаа" });
-            dispatch({ type: "REFRESH" });
-            dispatch({ type: "MODAL", data: false });
-            dispatch({ type: "CLEAR" });
-          })
-          .catch((error) => {
-            message({
-              type: "error",
-              error,
-              title: "Эрх бүртгэж чадсангүй",
-            });
-          });
-      } else {
-        API.putRoleMenu(state.id, data)
-          .then(() => {
-            message({ type: "success", title: "Амжилттай хадгалагдлаа" });
-            dispatch({ type: "REFRESH" });
-            dispatch({ type: "MODAL", data: false });
-            dispatch({ type: "CLEAR" });
-          })
-          .catch((error) => {
-            message({
-              type: "error",
-              error,
-              title: "Эрх засварлаж чадсангүй",
-            });
-          });
-      }
+        })
+        .finally(() => dispatch({ type: "MENU_LOADING", data: false }));
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.role_id, state.refresh]);
 
   return (
-    <div className="">
-      <Modal
-        centered
-        width={700}
-        title={<div className="text-center">Бүртгэл</div>}
-        visible={state.modal}
-        onCancel={() => dispatch({ type: "MODAL", data: false })}
-        footer={null}
-      >
-        <div className="flex flex-col gap-5 text-xs">
-          <div className="">
-            <span className="font-semibold">
-              Нэр:<b className="ml-1 text-red-500">*</b>
-            </span>
-            <div className="mt-1">
-              <Input
-                value={state.name}
-                onChange={(e) =>
-                  dispatch({
-                    type: "NAME",
-                    data: e.target.value,
-                  })
-                }
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="my-3 border" />
-
-        <button
-          className="w-full py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
-          onClick={() => save()}
-        >
-          <i className="fas fa-save" />
-          <span className="ml-2">Хадгалах</span>
-        </button>
-      </Modal>
-
-      <Spin spinning={loading} tip="Боловсруулж байна...">
-        <div className="text-xs min-h-[calc(100vh-64px)] bg-white border rounded-lg shadow">
-          <div className="border-b p-3">
-            <span className="font-semibold">Бүлгийн цэс</span>
-          </div>
-          <div className="flex flex-col p-3">
-            <div className="w-full">
-              <button
-                className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
-                onClick={() => {
-                  dispatch({ type: "CLEAR" });
-                  dispatch({ type: "MODAL", data: true });
-                }}
-              >
-                <div className="flex items-center font-semibold text-xl">
-                  <ion-icon name="add-circle-outline" />
-                </div>
-                <span className="ml-2">Нэмэх</span>
-              </button>
+    <div className="w-full bg-white text-xs border rounded-lg shadow p-4">
+      <div className="w-full flex flex-col lg:flex-row gap-2">
+        <div className="w-full lg:w-1/2">
+          <Spin spinning={state.role_loading} tip="Боловсруулж байна...">
+            <div className="border-b p-3">
+              <span className="font-semibold">Бүлэг</span>
             </div>
 
             <div className="mt-3 overflow-auto">
@@ -202,52 +60,100 @@ const RoleMenu = () => {
                   <tr>
                     <th className="w-10 p-1 text-center border">№</th>
                     <th className="p-1 text-center border">Нэр</th>
-                    <th className="w-20 p-1 text-center border"></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {state.list.length === 0 && (
+                  {state.role_list.length === 0 && (
                     <tr>
                       <td
-                        colSpan={3}
+                        colSpan={2}
                         className="px-3 py-1 text-orange-500 italic font-semibold border"
                       >
                         Мэдээлэл олдсонгүй
                       </td>
                     </tr>
                   )}
-                  {_.map(state.list, (item, index) => {
+                  {_.map(state.role_list, (item, index) => {
                     return (
-                      <tr key={index}>
+                      <tr
+                        key={index}
+                        className={
+                          "cursor-pointer" +
+                          (state.role_id === item.roleid
+                            ? " bg-primary_blue text-white font-semibold"
+                            : "")
+                        }
+                        onClick={() =>
+                          dispatch({
+                            type: "ROLE_ID",
+                            data:
+                              state.role_id === item.roleid
+                                ? null
+                                : item.roleid,
+                          })
+                        }
+                      >
                         <td className="w-10 text-center border">{index + 1}</td>
                         <td className="px-3 py-1 border">{item.roletitle}</td>
-                        <td className="w-20 p-1 text-center border">
-                          <div className="flex items-center justify-center gap-2">
-                            <div
-                              className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
-                              onClick={() => updateItem(item)}
-                            >
-                              <ion-icon name="create-outline" />
-                            </div>
-                            <div
-                              className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
-                              onClick={() => deleteItem(item)}
-                            >
-                              <ion-icon name="trash-outline" />
-                            </div>
-                          </div>
-                        </td>
                       </tr>
                     );
                   })}
                 </tbody>
               </table>
             </div>
-          </div>
+          </Spin>
         </div>
-      </Spin>
+
+        <div className="lg:w-1/2">
+          <Spin spinning={state.menu_loading} tip="Боловсруулж байна...">
+            <div className="border-b p-3">
+              <span className="font-semibold">Цэс</span>
+            </div>
+
+            <Tree
+              defaultExpandAll={true}
+              selectable={false}
+              showLine={{ showLeafIcon: false }}
+              showIcon={false}
+              treeData={utils.tree_menu(state.menu_list)}
+              titleRender={(item) => {
+                return (
+                  <div className="px-3 flex items-center border rounded-md">
+                    <Checkbox
+                      checked={item.ischecked}
+                      onChange={(e) => {
+                        API.postRoleMenu({
+                          roleid: state.role_id,
+                          menuid: item.id,
+                          ischeck: _.toInteger(e.target.checked),
+                        })
+                          .then(() => {
+                            dispatch({ type: "REFRESH" });
+                            message({
+                              type: "success",
+                              title: "Амжилттай хадгалагдлаа",
+                            });
+                          })
+                          .catch((error) => {
+                            message({
+                              type: "error",
+                              error,
+                              title: "Хадгалж чадсангүй",
+                            });
+                          });
+                      }}
+                    >
+                      {item.menuname}
+                    </Checkbox>
+                  </div>
+                );
+              }}
+            />
+          </Spin>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default React.memo(RoleMenu);
+export default React.memo(Role);

@@ -4,14 +4,12 @@ import { notification } from "antd";
 import _ from "lodash";
 
 const _state = {
-  list: [],
+  role_loading: false,
+  role_list: [],
+  role_id: null,
+  permission_loading: false,
+  permission_list: [],
   refresh: 0,
-  modal: false,
-  id: null,
-  username: null,
-  shortname: null,
-  password: null,
-  isadmin: false,
 };
 
 const context = React.createContext();

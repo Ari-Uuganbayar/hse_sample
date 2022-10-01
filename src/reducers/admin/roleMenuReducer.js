@@ -1,36 +1,35 @@
 export const reducer = (state, action) => {
   switch (action.type) {
-    case "LIST":
+    case "ROLE_LOADING":
       return {
         ...state,
-        list: action.data,
+        role_loading: action.data,
+      };
+    case "ROLE_LIST":
+      return {
+        ...state,
+        role_list: action.data,
+        role_id: action.data.length > 0 ? action.data[0].roleid : null,
+      };
+    case "ROLE_ID":
+      return {
+        ...state,
+        role_id: action.data,
+      };
+    case "MENU_LOADING":
+      return {
+        ...state,
+        menu_loading: action.data,
+      };
+    case "MENU_LIST":
+      return {
+        ...state,
+        menu_list: action.data,
       };
     case "REFRESH":
       return {
         ...state,
         refresh: state.refresh + 1,
-      };
-    case "MODAL":
-      return {
-        ...state,
-        modal: action.data,
-      };
-    case "NAME":
-      return {
-        ...state,
-        name: action.data,
-      };
-    case "CLEAR":
-      return {
-        ...state,
-        id: null,
-        name: null,
-      };
-    case "SET":
-      return {
-        ...state,
-        id: action.data.roleid,
-        name: action.data.roletitle,
       };
     default:
       return state;
