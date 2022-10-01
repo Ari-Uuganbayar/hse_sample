@@ -68,45 +68,57 @@ const Parameter = () => {
         </tr>
       );
 
-    _.map(Object.entries(_.groupBy(list, "parametertypename")), (group1) => {
-      var list1 = group1[1];
+    _.map(
+      Object.entries(
+        _.groupBy(
+          _.orderBy(
+            list,
+            ["rparametertypeid", "parametername"],
+            ["asc", "asc"]
+          ),
+          "rparametertypeid"
+        )
+      ),
+      (group1) => {
+        var list1 = group1[1];
 
-      _.map(list1, (item, index) => {
-        count++;
-        result.push(
-          <tr key={item.id}>
-            <td className="p-1 text-center border">{count}</td>
-            {index === 0 && (
-              <td className="p-1 text-center border" rowSpan={list1.length}>
-                {item.parametertypename}
+        _.map(list1, (item, index) => {
+          count++;
+          result.push(
+            <tr key={item.id}>
+              <td className="p-1 text-center border">{count}</td>
+              {index === 0 && (
+                <td className="p-1 text-center border" rowSpan={list1.length}>
+                  {item.parametertypename}
+                </td>
+              )}
+              <td className="px-3 py-1 border ">{item.parametername}</td>
+              <td className="px-3 py-1 border">{item.parameterchar}</td>
+              <td className="px-3 py-1 border">{item.standart}</td>
+              <td className="p-1 text-center border">{item.unitname}</td>
+              <td className="p-1 text-center border">{item.maxvalue8}</td>
+              <td className="p-1 text-center border">{item.maxvalue12}</td>
+              <td className="border">
+                <div className="flex items-center justify-center gap-2">
+                  <div
+                    className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
+                    onClick={() => updateItem(item)}
+                  >
+                    <ion-icon name="create-outline" />
+                  </div>
+                  <div
+                    className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
+                    onClick={() => deleteItem(item)}
+                  >
+                    <ion-icon name="trash-outline" />
+                  </div>
+                </div>
               </td>
-            )}
-            <td className="px-3 py-1 border ">{item.parametername}</td>
-            <td className="px-3 py-1 border">{item.parameterchar}</td>
-            <td className="px-3 py-1 border">{item.standart}</td>
-            <td className="p-1 text-center border">{item.unitname}</td>
-            <td className="p-1 text-center border">{item.maxvalue8}</td>
-            <td className="p-1 text-center border">{item.maxvalue12}</td>
-            <td className="border">
-              <div className="flex items-center justify-center gap-2">
-                <div
-                  className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
-                  onClick={() => updateItem(item)}
-                >
-                  <ion-icon name="create-outline" />
-                </div>
-                <div
-                  className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
-                  onClick={() => deleteItem(item)}
-                >
-                  <ion-icon name="trash-outline" />
-                </div>
-              </div>
-            </td>
-          </tr>
-        );
-      });
-    });
+            </tr>
+          );
+        });
+      }
+    );
     return result;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, state.list]);

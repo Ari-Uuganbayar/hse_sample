@@ -390,7 +390,7 @@ const Location = () => {
       >
         <div
           ref={ref_print}
-          className="flex flex-col items-center justify-center"
+          className="mt-5 flex flex-col items-center justify-center"
         >
           <div className="flex items-center justify-center gap-2 font-semibold mb-5">
             <span>{state.qr_parent}</span>

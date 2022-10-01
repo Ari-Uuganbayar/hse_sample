@@ -1,71 +1,39 @@
-export const type = {
-  CHANGE_LIST: "CHANGE_LIST",
-  CHANGE_LIST_PARAMETER: "CHANGE_LIST_PARAMETER",
-  CHANGE_REFRESH: "CHANGE_REFRESH",
-
-  CLEAR_DETAIL: "CLEAR_DETAIL",
-  SET_DETAIL: "SET_DETAIL",
-  CHANGE_DETAIL_MODAL: "CHANGE_DETAIL_MODAL",
-  CHANGE_DETAIL_ID: "CHANGE_DETAIL_ID",
-  CHANGE_DETAIL_NAME: "CHANGE_DETAIL_NAME",
-};
-
 export const reducer = (state, action) => {
   switch (action.type) {
-    case type.CHANGE_LIST:
+    case "LIST":
       return {
         ...state,
         list: action.data,
       };
-
-    case type.CHANGE_LIST_PARAMETER:
+    case "LIST_PARAMETER":
       return {
         ...state,
-        listParameter: action.data,
+        list_parameter: action.data,
       };
-
-    case type.CHANGE_REFRESH:
+    case "REFRESH":
       return {
         ...state,
         refresh: state.refresh + 1,
       };
-
-    case type.CLEAR_DETAIL:
+    case "MODAL":
       return {
         ...state,
-        detail: {
-          ...state.detail,
-          id: null,
-          name: null,
-        },
+        modal: action.data,
       };
-
-    case type.SET_DETAIL:
+    case "ID":
       return {
         ...state,
-        detail: {
-          ...state.detail,
-          id: action.data.id,
-          name: action.data.conditionname,
-        },
+        id: action.data,
       };
-
-    case type.CHANGE_DETAIL_MODAL:
+    case "CLEAR":
       return {
         ...state,
-        detail: { ...state.detail, modal: action.data },
+        id: null,
       };
-
-    case type.CHANGE_DETAIL_ID:
+    case "SET":
       return {
         ...state,
-        detail: { ...state.detail, id: action.data },
-      };
-
-    case type.CHANGE_DETAIL_NAME:
-      return {
-        ...state,
-        detail: { ...state.detail, name: action.data },
+        id: action.data.id,
       };
 
     default:

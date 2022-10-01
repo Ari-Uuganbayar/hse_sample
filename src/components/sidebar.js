@@ -11,7 +11,7 @@ const Sidebar = () => {
   return (
     <aside
       className={
-        "absolute z-10 lg:relative w-80 h-screen bg-white text-primary_blue shadow tracking-tight duration-300 " +
+        "absolute z-10 lg:relative w-80 h-screen bg-white text-primary_blue shadow tracking-tight duration-300 overflow-auto " +
         (user.template.sidebar
           ? "translate-x-0"
           : "-translate-x-full lg:w-0 lg:hidden")
