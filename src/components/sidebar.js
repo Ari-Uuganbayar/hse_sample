@@ -28,7 +28,7 @@ const Sidebar = () => {
             <li key={menu1.menuid}>
               <div
                 className={
-                  "block py-3 pl-5 pr-3 cursor-pointer " +
+                  "block py-3 pl-8 pr-3 cursor-pointer " +
                   (user.template.menu1 === menu1.menuid
                     ? "text-primary border-r-4 border-primary"
                     : "hover:text-primary")
@@ -51,9 +51,7 @@ const Sidebar = () => {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="w-6 flex items-center justify-center text-lg">
-                      <ion-icon name="home-outline" />
-                    </div>
+                    <span className="mb-1">&omicron;</span>
                     <span className="">{menu1.menuname}</span>
                   </div>
                   {hasChild && (
@@ -73,7 +71,7 @@ const Sidebar = () => {
               {hasChild && (
                 <ul
                   className={
-                    "list-disc list-inside duration-300 " +
+                    "duration-300 " +
                     (user.template.menu1 === menu1.menuid
                       ? ""
                       : "hidden scale-0 origin-left")
@@ -84,7 +82,7 @@ const Sidebar = () => {
                       <li
                         key={menu2.menuid}
                         className={
-                          "block py-3 pl-16 pr-3 cursor-pointer " +
+                          "py-3 pl-14 pr-3 flex items-center gap-1.5 cursor-pointer " +
                           (user.template.menu2 === menu2.menuid
                             ? "text-primary font-semibold"
                             : "hover:text-primary")
@@ -97,7 +95,8 @@ const Sidebar = () => {
                           menu2.route !== null && navigate(menu2.route);
                         }}
                       >
-                        {menu2.menuname}
+                        <span>&diams;</span>
+                        <span>{menu2.menuname}</span>
                       </li>
                     );
                   })}
