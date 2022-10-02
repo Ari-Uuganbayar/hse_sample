@@ -21,7 +21,11 @@ const Layout = ({ children }) => {
         }
       >
         <Header />
-        <div className="w-full p-3">{children}</div>
+        <div className="w-full p-3">
+          <div className="min-h-[calc(100vh-64px)] bg-white text-xs border rounded-lg shadow">
+            {children}
+          </div>
+        </div>
       </main>
     </div>
   );

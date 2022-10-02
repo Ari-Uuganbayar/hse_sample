@@ -30,7 +30,7 @@ export function API() {
       } else {
         if (error.response.status === 401) {
           localStorage.removeItem("token");
-          // window.location.replace("/");
+          window.location.replace("/login");
         }
       }
       throw error;
@@ -369,6 +369,27 @@ export async function getSampleList(params) {
   });
   return response.data;
 }
+export async function getSample(id) {
+  const response = await API().get("/samplework/" + id);
+  return response.data;
+}
+export async function postSample(params) {
+  const response = await API().post("/samplework", {
+    ...params,
+  });
+  return response.data;
+}
+export async function putSample(id, params) {
+  const response = await API().post("/samplework/" + id, {
+    ...params,
+  });
+  return response.data;
+}
+export async function deleteSample(id) {
+  const response = await API().delete("/samplework/" + id);
+  return response.data;
+}
+
 export async function postSampleResult(params) {
   const response = await API().post("/sampleworkresult", {
     ...params,

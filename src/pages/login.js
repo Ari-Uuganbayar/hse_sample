@@ -14,7 +14,7 @@ const Login = () => {
 
   const auth = () => {
     var error = [];
-    tn || error.push("Хэрэглэгчийн нэр");
+    tn || error.push("Нэвтрэх нэр");
     password || error.push("Нууц үг");
 
     if (error.length > 0) {
@@ -78,7 +78,7 @@ const Login = () => {
             <input
               type="text"
               className="w-full pl-10 py-1.5"
-              placeholder="Хэрэглэгчийн нэр"
+              placeholder="Нэвтрэх нэр"
               value={tn}
               onChange={(e) => setTn(e.target.value)}
             />

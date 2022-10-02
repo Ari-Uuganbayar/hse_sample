@@ -96,7 +96,7 @@ const Menu = () => {
             message({
               type: "error",
               error,
-              title: "Устгахад алдаа гарлаа",
+              title: "Устгаж чадсангүй",
             });
           });
       }
@@ -168,7 +168,7 @@ const Menu = () => {
   };
 
   return (
-    <div className="">
+    <>
       <Modal
         centered
         width={700}
@@ -253,60 +253,58 @@ const Menu = () => {
       </Modal>
 
       <Spin spinning={loading} tip="Боловсруулж байна...">
-        <div className="text-xs min-h-[calc(100vh-64px)] bg-white border rounded-lg shadow">
-          <div className="border-b p-3">
-            <span className="font-semibold">Цэс</span>
+        <div className="border-b p-3">
+          <span className="font-semibold">Цэс</span>
+        </div>
+        <div className="flex flex-col p-3">
+          <div className="w-full">
+            <button
+              className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+              onClick={() => {
+                dispatch({ type: "CLEAR" });
+                dispatch({ type: "MODAL", data: true });
+              }}
+            >
+              <div className="flex items-center font-semibold text-xl">
+                <ion-icon name="add-circle-outline" />
+              </div>
+              <span className="ml-2">Нэмэх</span>
+            </button>
           </div>
-          <div className="flex flex-col p-3">
-            <div className="w-full">
-              <button
-                className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
-                onClick={() => {
-                  dispatch({ type: "CLEAR" });
-                  dispatch({ type: "MODAL", data: true });
-                }}
-              >
-                <div className="flex items-center font-semibold text-xl">
-                  <ion-icon name="add-circle-outline" />
-                </div>
-                <span className="ml-2">Нэмэх</span>
-              </button>
-            </div>
 
-            <div className="w-full mt-5">
-              <Tree
-                selectable={true}
-                showLine={{ showLeafIcon: false }}
-                showIcon={false}
-                treeData={utils.tree_menu(state.list)}
-                titleRender={(data) => {
-                  return (
-                    <div className="w-full px-3 flex items-center justify-between border rounded-md">
-                      <div>{data.menuname}</div>
-                      <div>{data.route}</div>
-                      <div className="flex items-center justify-center gap-2">
-                        <div
-                          className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
-                          onClick={() => updateItem(data)}
-                        >
-                          <ion-icon name="create-outline" />
-                        </div>
-                        <div
-                          className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
-                          onClick={() => deleteItem(data)}
-                        >
-                          <ion-icon name="trash-outline" />
-                        </div>
+          <div className="w-full mt-5">
+            <Tree
+              selectable={true}
+              showLine={{ showLeafIcon: false }}
+              showIcon={false}
+              treeData={utils.tree_menu(state.list)}
+              titleRender={(data) => {
+                return (
+                  <div className="w-full px-3 py-1 flex items-center justify-between text-xs border rounded-md">
+                    <div className="flex-1">{data.menuname}</div>
+                    <div className="flex-1">{data.route}</div>
+                    <div className="flex-1 flex items-center justify-end gap-2">
+                      <div
+                        className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
+                        onClick={() => updateItem(data)}
+                      >
+                        <ion-icon name="create-outline" />
+                      </div>
+                      <div
+                        className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
+                        onClick={() => deleteItem(data)}
+                      >
+                        <ion-icon name="trash-outline" />
                       </div>
                     </div>
-                  );
-                }}
-              />
-            </div>
+                  </div>
+                );
+              }}
+            />
           </div>
         </div>
       </Spin>
-    </div>
+    </>
   );
 };
 

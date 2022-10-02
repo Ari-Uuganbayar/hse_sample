@@ -1,15 +1,28 @@
 import React, { useContext, useReducer } from "react";
 import { reducer } from "src/reducers/sampleReducer";
 import { notification } from "antd";
+import moment from "moment";
 
 const _state = {
+  begindate: moment().startOf("year"),
+  enddate: moment().endOf("year"),
   list: [],
   list_parameter: [],
   refresh: 0,
 
+  list_organization_type: [
+    { id: 1, text: "Эрдэнэт үйлдвэр" },
+    { id: 2, text: "Гадны байгууллага" },
+  ],
+  list_organization: [],
+  list_location: [],
+  list_condition: [],
   modal: false,
   id: null,
-  name: null,
+  organization_type: 1,
+  organization: null,
+  condition: null,
+  date: moment(),
 };
 
 const context = React.createContext();

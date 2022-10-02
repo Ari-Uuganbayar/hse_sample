@@ -175,7 +175,7 @@ const Condition = () => {
         </button>
       </Modal>
 
-      <div className="min-h-[calc(100vh-64px)] bg-white text-xs border rounded-lg shadow">
+      <Spin tip="Уншиж байна." className="bg-opacity-80" spinning={loading}>
         <div className="border-b p-3">
           <span className="font-semibold">"Ижил өртөлтийн бүлэг" цонх</span>
         </div>
@@ -202,68 +202,64 @@ const Condition = () => {
             />
           </div>
 
-          <Spin tip="Уншиж байна." className="bg-opacity-80" spinning={loading}>
-            <table className="w-full text-xs">
-              <thead className="font-semibold">
+          <table className="w-full text-xs">
+            <thead className="font-semibold">
+              <tr>
+                <th className="w-10 text-center p-1 border">№</th>
+                <th className="text-center p-1 border">Ижил өртөлтийн бүлэг</th>
+                <th className="w-56 text-center p-1 border">Бүртгэсэн</th>
+                <th className="w-20 text-center p-1 border"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {list.length === 0 && (
                 <tr>
-                  <th className="w-10 text-center p-1 border">№</th>
-                  <th className="text-center p-1 border">
-                    Ижил өртөлтийн бүлэг
-                  </th>
-                  <th className="w-56 text-center p-1 border">Бүртгэсэн</th>
-                  <th className="w-20 text-center p-1 border"></th>
+                  <td
+                    colSpan={4}
+                    className="px-3 py-1 text-orange-500 italic border"
+                  >
+                    Мэдээлэл олдсонгүй.
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {list.length === 0 && (
-                  <tr>
-                    <td
-                      colSpan={4}
-                      className="px-3 py-1 text-orange-500 italic border"
-                    >
-                      Мэдээлэл олдсонгүй.
+              )}
+              {_.map(list, (item, index) => {
+                return (
+                  <tr key={item.id}>
+                    <td className="max-w-16 p-1 text-center border">
+                      {index + 1}
+                    </td>
+                    <td className="px-3 py-1 border">{item.conditionname}</td>
+                    <td className="p-1 text-center border">
+                      <span className="mr-2 italic">
+                        {moment(item.insertdate).format("YYYY.MM.DD")}
+                      </span>
+                      <span>{item.insertusername}</span>
+                    </td>
+                    <td className="border">
+                      <div className="flex items-center justify-center gap-2">
+                        <div
+                          className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
+                          onClick={() => {
+                            updateItem(item);
+                          }}
+                        >
+                          <ion-icon name="create-outline" />
+                        </div>
+                        <div
+                          className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
+                          onClick={() => deleteItem(item)}
+                        >
+                          <ion-icon name="trash-outline" />
+                        </div>
+                      </div>
                     </td>
                   </tr>
-                )}
-                {_.map(list, (item, index) => {
-                  return (
-                    <tr key={item.id}>
-                      <td className="max-w-16 p-1 text-center border">
-                        {index + 1}
-                      </td>
-                      <td className="px-3 py-1 border">{item.conditionname}</td>
-                      <td className="p-1 text-center border">
-                        <span className="mr-2 italic">
-                          {moment(item.insertdate).format("YYYY.MM.DD")}
-                        </span>
-                        <span>{item.insertusername}</span>
-                      </td>
-                      <td className="border">
-                        <div className="flex items-center justify-center gap-2">
-                          <div
-                            className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
-                            onClick={() => {
-                              updateItem(item);
-                            }}
-                          >
-                            <ion-icon name="create-outline" />
-                          </div>
-                          <div
-                            className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
-                            onClick={() => deleteItem(item)}
-                          >
-                            <ion-icon name="trash-outline" />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </Spin>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
-      </div>
+      </Spin>
     </>
   );
 };

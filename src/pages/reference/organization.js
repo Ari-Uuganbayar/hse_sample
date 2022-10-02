@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useOrganizationContext } from "src/contexts/reference/organizationContext";
 import * as API from "src/api/request";
+import * as utils from "src/lib/utils";
 
 import { Spin, Modal, Tree, Select, TreeSelect, Input } from "antd";
 import _ from "lodash";
 import Swal from "sweetalert2";
-import * as utils from "src/lib/utils";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -253,55 +253,53 @@ const Index = () => {
       </Modal>
 
       <Spin tip="Уншиж байна." className="bg-opacity-80" spinning={loading}>
-        <div className="min-h-[calc(100vh-64px)] bg-white text-xs border rounded-lg shadow">
-          <div className="border-b p-3">
-            <span className="font-semibold">Байгууллага цонх</span>
+        <div className="border-b p-3">
+          <span className="font-semibold">Байгууллага цонх</span>
+        </div>
+        <div className="p-3 text-xs overflow-auto">
+          <div className="flex items-center justify-between mb-2">
+            <button
+              className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+              onClick={() => {
+                dispatch({ type: "CLEAR" });
+                dispatch({ type: "MODAL", data: true });
+              }}
+            >
+              <div className="flex items-center font-semibold text-xl">
+                <ion-icon name="add-circle-outline" />
+              </div>
+              <span className="ml-2">Нэмэх</span>
+            </button>
           </div>
-          <div className="max-h-[calc(100vh-145px)] p-3 text-xs overflow-auto">
-            <div className="flex items-center justify-between mb-2">
-              <button
-                className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
-                onClick={() => {
-                  dispatch({ type: "CLEAR" });
-                  dispatch({ type: "MODAL", data: true });
-                }}
-              >
-                <div className="flex items-center font-semibold text-xl">
-                  <ion-icon name="add-circle-outline" />
-                </div>
-                <span className="ml-2">Нэмэх</span>
-              </button>
-            </div>
 
-            <div className="w-full mt-5">
-              <Tree
-                selectable={true}
-                showLine={{ showLeafIcon: false }}
-                showIcon={false}
-                treeData={utils.tree_menu(state.list)}
-                titleRender={(data) => {
-                  return (
-                    <div className="w-full px-3 flex items-center justify-between rounded-md border-b">
-                      <div>{data.organizationname}</div>
-                      <div className="flex items-center justify-center gap-2">
-                        <div
-                          className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
-                          onClick={() => updateItem(data)}
-                        >
-                          <ion-icon name="create-outline" />
-                        </div>
-                        <div
-                          className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
-                          onClick={() => deleteItem(data)}
-                        >
-                          <ion-icon name="trash-outline" />
-                        </div>
+          <div className="w-full max-h-[calc(100vh-183px)] overflow-auto mt-5">
+            <Tree
+              selectable={true}
+              showLine={{ showLeafIcon: false }}
+              showIcon={false}
+              treeData={utils.tree_menu(state.list)}
+              titleRender={(data) => {
+                return (
+                  <div className="w-full px-3 flex items-center justify-between rounded-md border-b">
+                    <div>{data.organizationname}</div>
+                    <div className="flex items-center justify-center gap-2">
+                      <div
+                        className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
+                        onClick={() => updateItem(data)}
+                      >
+                        <ion-icon name="create-outline" />
+                      </div>
+                      <div
+                        className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
+                        onClick={() => deleteItem(data)}
+                      >
+                        <ion-icon name="trash-outline" />
                       </div>
                     </div>
-                  );
-                }}
-              />
-            </div>
+                  </div>
+                );
+              }}
+            />
           </div>
         </div>
       </Spin>

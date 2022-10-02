@@ -45,15 +45,14 @@ const Role = () => {
   }, [state.role_id, state.refresh]);
 
   return (
-    <div className="w-full bg-white text-xs border rounded-lg shadow p-4">
+    <>
       <div className="w-full flex flex-col lg:flex-row gap-2">
         <div className="w-full lg:w-1/2">
           <Spin spinning={state.role_loading} tip="Боловсруулж байна...">
             <div className="border-b p-3">
               <span className="font-semibold">Бүлэг</span>
             </div>
-
-            <div className="mt-3 overflow-auto">
+            <div className="mt-3 overflow-auto px-3">
               <table className="w-full text-xs">
                 <thead className="font-semibold">
                   <tr>
@@ -108,9 +107,9 @@ const Role = () => {
             <div className="border-b p-3">
               <span className="font-semibold">Эрх</span>
             </div>
-            <div className="mt-3 overflow-auto">
-              <table className="w-full text-xs">
-                <thead className="font-semibold">
+            <div className="relative mt-3 px-3 max-h-[calc(100vh-151px)] overflow-auto">
+              <table className="w-full text-xs border-separate border-spacing-0">
+                <thead className="sticky top-0 bg-white font-semibold z-10">
                   <tr>
                     <th className="w-10 p-1 text-center border"></th>
                     <th className="w-10 p-1 text-center border">№</th>
@@ -174,7 +173,7 @@ const Role = () => {
           </Spin>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

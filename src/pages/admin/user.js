@@ -67,7 +67,7 @@ const User = () => {
             message({
               type: "error",
               error,
-              title: "Устгахад алдаа гарлаа",
+              title: "Устгаж чадсангүй",
             });
           });
       }
@@ -76,7 +76,7 @@ const User = () => {
 
   const save = () => {
     var error = [];
-    state.username || error.push("Хэрэглэгчийн нэр");
+    state.username || error.push("Нэвтрэх нэр");
     state.shortname || error.push("Овог, нэр");
     if (state.id === null) {
       state.password || error.push("Нууц үг");
@@ -145,7 +145,7 @@ const User = () => {
   };
 
   return (
-    <div className="">
+    <>
       <Modal
         centered
         width={700}
@@ -157,7 +157,7 @@ const User = () => {
         <div className="flex flex-col gap-5 text-xs">
           <div className="">
             <span className="font-semibold">
-              Хэрэглэгчийн нэр:<b className="ml-1 text-red-500">*</b>
+              Нэвтрэх нэр:<b className="ml-1 text-red-500">*</b>
             </span>
             <div className="mt-1">
               <Input
@@ -228,79 +228,77 @@ const User = () => {
       </Modal>
 
       <Spin spinning={loading} tip="Боловсруулж байна...">
-        <div className="text-xs min-h-[calc(100vh-64px)] bg-white border rounded-lg shadow">
-          <div className="border-b p-3">
-            <span className="font-semibold">Хэрэглэгч</span>
+        <div className="border-b p-3">
+          <span className="font-semibold">Хэрэглэгч</span>
+        </div>
+        <div className="flex flex-col p-3">
+          <div className="w-full">
+            <button
+              className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+              onClick={() => {
+                dispatch({ type: "CLEAR", data: true });
+                dispatch({ type: "MODAL", data: true });
+              }}
+            >
+              <div className="flex items-center font-semibold text-xl">
+                <ion-icon name="add-circle-outline" />
+              </div>
+              <span className="ml-2">Нэмэх</span>
+            </button>
           </div>
-          <div className="flex flex-col p-3">
-            <div className="w-full">
-              <button
-                className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
-                onClick={() => {
-                  dispatch({ type: "CLEAR", data: true });
-                  dispatch({ type: "MODAL", data: true });
-                }}
-              >
-                <div className="flex items-center font-semibold text-xl">
-                  <ion-icon name="add-circle-outline" />
-                </div>
-                <span className="ml-2">Нэмэх</span>
-              </button>
-            </div>
 
-            <div className="mt-3 overflow-auto">
-              <table className="w-full text-xs">
-                <thead className="font-semibold">
+          <div className="mt-3 overflow-auto">
+            <table className="w-full text-xs">
+              <thead className="font-semibold">
+                <tr>
+                  <th className="w-10 p-1 text-center border">№</th>
+                  <th className="p-1 text-center border">Нэвтрэх нэр</th>
+                  <th className="p-1 text-center border">Овог, нэр</th>
+                  <th className="w-20 p-1 text-center border"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {state.list.length === 0 && (
                   <tr>
-                    <th className="w-10 p-1 text-center border">№</th>
-                    <th className="p-1 text-center border">Хэрэглэгчийн нэр</th>
-                    <th className="p-1 text-center border">Овог, нэр</th>
-                    <th className="w-20 p-1 text-center border"></th>
+                    <td
+                      colSpan={4}
+                      className="px-3 py-1 text-orange-500 italic font-semibold border"
+                    >
+                      Мэдээлэл олдсонгүй
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {state.list.length === 0 && (
-                    <tr>
-                      <td
-                        colSpan={4}
-                        className="px-3 py-1 text-orange-500 italic font-semibold border"
-                      >
-                        Мэдээлэл олдсонгүй
+                )}
+                {_.map(state.list, (item, index) => {
+                  return (
+                    <tr key={index}>
+                      <td className="w-10 text-center border">{index + 1}</td>
+                      <td className="px-3 py-1 border">{item.username}</td>
+                      <td className="px-3 py-1 border">{item.shortname}</td>
+                      <td className="w-20 p-1 text-center border">
+                        <div className="flex items-center justify-center gap-2">
+                          <div
+                            className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
+                            onClick={() => updateItem(item)}
+                          >
+                            <ion-icon name="create-outline" />
+                          </div>
+                          <div
+                            className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
+                            onClick={() => deleteItem(item)}
+                          >
+                            <ion-icon name="trash-outline" />
+                          </div>
+                        </div>
                       </td>
                     </tr>
-                  )}
-                  {_.map(state.list, (item, index) => {
-                    return (
-                      <tr key={index}>
-                        <td className="w-10 text-center border">{index + 1}</td>
-                        <td className="px-3 py-1 border">{item.username}</td>
-                        <td className="px-3 py-1 border">{item.shortname}</td>
-                        <td className="w-20 p-1 text-center border">
-                          <div className="flex items-center justify-center gap-2">
-                            <div
-                              className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
-                              onClick={() => updateItem(item)}
-                            >
-                              <ion-icon name="create-outline" />
-                            </div>
-                            <div
-                              className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
-                              onClick={() => deleteItem(item)}
-                            >
-                              <ion-icon name="trash-outline" />
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
       </Spin>
-    </div>
+    </>
   );
 };
 

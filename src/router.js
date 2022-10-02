@@ -24,6 +24,7 @@ import "moment/locale/mn";
 // import Login from "src/pages/login";
 import Layout from "src/components/layout";
 import Home from "src/pages/home";
+import PageNotFound from "src/pages/_404";
 
 // Admin
 import Menu from "src/pages/admin/menu";
@@ -58,6 +59,7 @@ const Router = () => {
         <Layout>
           <Routes>
             <Route exact path="/" element={<Home />} />
+
             <Route path="/admin">
               <Route
                 exact
@@ -191,6 +193,7 @@ const Router = () => {
                 </SampleContext>
               }
             />
+            <Route path="/*" exact={true} element={<PageNotFound />} />
           </Routes>
         </Layout>
       )}

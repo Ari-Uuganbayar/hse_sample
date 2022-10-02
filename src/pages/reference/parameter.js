@@ -371,35 +371,38 @@ const Parameter = () => {
       </Modal>
 
       <Spin tip="Уншиж байна." className="bg-opacity-80" spinning={loading}>
-        <div className="min-h-[calc(100vh-64px)] bg-white text-xs border rounded-lg shadow">
-          <div className="border-b p-3">
-            <span className="font-semibold">"Үзүүлэлт" цонх</span>
-          </div>
-          <div className="max-h-[calc(100vh-145px)] p-3 text-xs overflow-auto">
-            <div className="flex items-center justify-between mb-2">
-              <button
-                className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
-                onClick={() => {
-                  dispatch({ type: "CLEAR" });
-                  dispatch({ type: "MODAL", data: true });
-                }}
-              >
-                <div className="flex items-center font-semibold text-xl">
-                  <ion-icon name="add-circle-outline" />
-                </div>
-                <span className="ml-2">Нэмэх</span>
-              </button>
+        <div className="border-b p-3">
+          <span className="font-semibold">"Үзүүлэлт" цонх</span>
+        </div>
+
+        <div className="p-3">
+          <div className="flex items-center justify-between">
+            <button
+              className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+              onClick={() => {
+                dispatch({ type: "CLEAR" });
+                dispatch({ type: "MODAL", data: true });
+              }}
+            >
+              <div className="flex items-center font-semibold text-xl">
+                <ion-icon name="add-circle-outline" />
+              </div>
+              <span className="ml-2">Нэмэх</span>
+            </button>
+            <div className="w-1/2 lg:w-1/3">
               <input
                 type="text"
                 placeholder="Хайх..."
-                className="w-1/2 lg:w-1/3 px-4 py-1 border rounded-md focus:outline-none"
+                className="w-full px-4 py-1 text-right border rounded-md focus:outline-none"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
+          </div>
 
-            <table className="w-full text-xs">
-              <thead className="font-semibold">
+          <div className="relative mt-2 max-h-[calc(100vh-171px)] overflow-auto">
+            <table className="w-full text-xs border-separate border-spacing-0">
+              <thead className="sticky top-0 bg-white font-semibold z-10">
                 <tr>
                   <th className="w-10 text-center p-1 border">№</th>
                   <th className="text-center p-1 border">Үзүүлэлтийн төрөл</th>

@@ -412,7 +412,6 @@ const Location = () => {
       </Modal>
 
       <Spin tip="Уншиж байна." className="bg-opacity-80" spinning={loading}>
-        <div className="min-h-[calc(100vh-64px)] bg-white border rounded-lg shadow">
           <div className="border-b p-3">
             <span className="font-semibold">Байршил цонх</span>
           </div>
@@ -446,8 +445,8 @@ const Location = () => {
               </div>
             </div>
 
-            <div className="w-full max-h-[calc(100vh-145px)] overflow-auto">
-              <div className="flex items-center justify-between mb-2">
+            <div>
+              <div className="w-full flex items-center justify-between mb-2">
                 <button
                   className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
                   onClick={() => {
@@ -468,25 +467,25 @@ const Location = () => {
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
-
-              <table className="w-full text-xs">
-                <thead className="font-semibold">
-                  <tr>
-                    <th className="w-10 text-center p-1 border">№</th>
-                    <th colSpan={2} className="text-center p-1 border">
-                      Байгууллага
-                    </th>
-                    <th className="text-center p-1 border">Байршлын код</th>
-                    <th className="text-center p-1 border">Байршлын нэр</th>
-                    <th className="text-center p-1 border">Тайлбар</th>
-                    <th className="w-20 text-center p-1 border"></th>
-                  </tr>
-                </thead>
-                <tbody>{tbody}</tbody>
-              </table>
+              <div className="relative max-h-[calc(100vh-180px)] overflow-auto">
+                <table className="w-full text-xs border-separate border-spacing-0">
+                  <thead className="sticky top-0 bg-white font-semibold z-10">
+                    <tr>
+                      <th className="w-10 text-center p-1 border">№</th>
+                      <th colSpan={2} className="text-center p-1 border">
+                        Байгууллага
+                      </th>
+                      <th className="text-center p-1 border">Байршлын код</th>
+                      <th className="text-center p-1 border">Байршлын нэр</th>
+                      <th className="text-center p-1 border">Тайлбар</th>
+                      <th className="w-20 text-center p-1 border"></th>
+                    </tr>
+                  </thead>
+                  <tbody>{tbody}</tbody>
+                </table>
+              </div>
             </div>
           </div>
-        </div>
       </Spin>
     </>
   );

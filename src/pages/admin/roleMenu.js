@@ -46,7 +46,7 @@ const Role = () => {
   }, [state.role_id, state.refresh]);
 
   return (
-    <div className="w-full bg-white text-xs border rounded-lg shadow p-4">
+    <>
       <div className="w-full flex flex-col lg:flex-row gap-2">
         <div className="w-full lg:w-1/2">
           <Spin spinning={state.role_loading} tip="Боловсруулж байна...">
@@ -54,7 +54,7 @@ const Role = () => {
               <span className="font-semibold">Бүлэг</span>
             </div>
 
-            <div className="mt-3 overflow-auto">
+            <div className="mt-3 px-3 overflow-auto">
               <table className="w-full text-xs">
                 <thead className="font-semibold">
                   <tr>
@@ -110,49 +110,51 @@ const Role = () => {
               <span className="font-semibold">Цэс</span>
             </div>
 
-            <Tree
-              defaultExpandAll={true}
-              selectable={false}
-              showLine={{ showLeafIcon: false }}
-              showIcon={false}
-              treeData={utils.tree_menu(state.menu_list)}
-              titleRender={(item) => {
-                return (
-                  <div className="px-3 flex items-center border rounded-md">
-                    <Checkbox
-                      checked={item.ischecked}
-                      onChange={(e) => {
-                        API.postRoleMenu({
-                          roleid: state.role_id,
-                          menuid: item.id,
-                          ischeck: _.toInteger(e.target.checked),
-                        })
-                          .then(() => {
-                            dispatch({ type: "REFRESH" });
-                            message({
-                              type: "success",
-                              title: "Амжилттай хадгалагдлаа",
-                            });
+            <div className="p-3">
+              <Tree
+                defaultExpandAll={true}
+                selectable={false}
+                showLine={{ showLeafIcon: false }}
+                showIcon={false}
+                treeData={utils.tree_menu(state.menu_list)}
+                titleRender={(item) => {
+                  return (
+                    <div className="px-3 flex items-center border rounded-md">
+                      <Checkbox
+                        checked={item.ischecked}
+                        onChange={(e) => {
+                          API.postRoleMenu({
+                            roleid: state.role_id,
+                            menuid: item.id,
+                            ischeck: _.toInteger(e.target.checked),
                           })
-                          .catch((error) => {
-                            message({
-                              type: "error",
-                              error,
-                              title: "Хадгалж чадсангүй",
+                            .then(() => {
+                              dispatch({ type: "REFRESH" });
+                              message({
+                                type: "success",
+                                title: "Амжилттай хадгалагдлаа",
+                              });
+                            })
+                            .catch((error) => {
+                              message({
+                                type: "error",
+                                error,
+                                title: "Хадгалж чадсангүй",
+                              });
                             });
-                          });
-                      }}
-                    >
-                      {item.menuname}
-                    </Checkbox>
-                  </div>
-                );
-              }}
-            />
+                        }}
+                      >
+                        {item.menuname}
+                      </Checkbox>
+                    </div>
+                  );
+                }}
+              />
+            </div>
           </Spin>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

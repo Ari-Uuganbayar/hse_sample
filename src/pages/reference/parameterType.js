@@ -175,11 +175,12 @@ const ParameterType = () => {
         </button>
       </Modal>
 
-      <div className="min-h-[calc(100vh-64px)] bg-white text-xs border rounded-lg shadow">
-        <div className="border-b p-3">
+      <Spin tip="Уншиж байна." className="bg-opacity-80" spinning={loading}>
+        <div className="p-3 border-b">
           <span className="font-semibold">"Үзүүлэлтийн төрөл" цонх</span>
         </div>
-        <div className="max-h-[calc(100vh-145px)] p-3 text-xs overflow-auto">
+
+        <div className="p-3">
           <div className="flex items-center justify-between mb-2">
             <button
               className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
@@ -202,66 +203,64 @@ const ParameterType = () => {
             />
           </div>
 
-          <Spin tip="Уншиж байна." className="bg-opacity-80" spinning={loading}>
-            <table className="w-full text-xs">
-              <thead className="font-semibold">
+          <table className="w-full text-xs">
+            <thead className="font-semibold">
+              <tr>
+                <th className="w-10 text-center p-1 border">№</th>
+                <th className="text-center p-1 border">Нэр</th>
+                <th className="w-56 text-center p-1 border">Бүртгэсэн</th>
+                <th className="w-20 text-center p-1 border"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {list.length === 0 && (
                 <tr>
-                  <th className="w-10 text-center p-1 border">№</th>
-                  <th className="text-center p-1 border">Нэр</th>
-                  <th className="w-56 text-center p-1 border">Бүртгэсэн</th>
-                  <th className="w-20 text-center p-1 border"></th>
+                  <td
+                    colSpan={4}
+                    className="px-3 py-1 text-orange-500 italic border"
+                  >
+                    Мэдээлэл олдсонгүй.
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {list.length === 0 && (
-                  <tr>
-                    <td
-                      colSpan={4}
-                      className="px-3 py-1 text-orange-500 italic border"
-                    >
-                      Мэдээлэл олдсонгүй.
+              )}
+              {_.map(list, (item, index) => {
+                return (
+                  <tr key={item.id}>
+                    <td className="max-w-16 p-1 text-center border">
+                      {index + 1}
+                    </td>
+                    <td className="px-3 py-1 border">{item.typename}</td>
+                    <td className="p-1 text-center border">
+                      <span className="mr-2 italic">
+                        {moment(item.insertdate).format("YYYY.MM.DD")}
+                      </span>
+                      <span>{item.insertusername}</span>
+                    </td>
+                    <td className="border">
+                      <div className="flex items-center justify-center gap-2">
+                        <div
+                          className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
+                          onClick={() => {
+                            updateItem(item);
+                          }}
+                        >
+                          <ion-icon name="create-outline" />
+                        </div>
+                        <div
+                          className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
+                          onClick={() => deleteItem(item)}
+                        >
+                          <ion-icon name="trash-outline" />
+                        </div>
+                      </div>
                     </td>
                   </tr>
-                )}
-                {_.map(list, (item, index) => {
-                  return (
-                    <tr key={item.id}>
-                      <td className="max-w-16 p-1 text-center border">
-                        {index + 1}
-                      </td>
-                      <td className="px-3 py-1 border">{item.typename}</td>
-                      <td className="p-1 text-center border">
-                        <span className="mr-2 italic">
-                          {moment(item.insertdate).format("YYYY.MM.DD")}
-                        </span>
-                        <span>{item.insertusername}</span>
-                      </td>
-                      <td className="border">
-                        <div className="flex items-center justify-center gap-2">
-                          <div
-                            className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
-                            onClick={() => {
-                              updateItem(item);
-                            }}
-                          >
-                            <ion-icon name="create-outline" />
-                          </div>
-                          <div
-                            className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
-                            onClick={() => deleteItem(item)}
-                          >
-                            <ion-icon name="trash-outline" />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </Spin>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
-      </div>
+      </Spin>
     </>
   );
 };
