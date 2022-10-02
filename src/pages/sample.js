@@ -409,7 +409,12 @@ const Sample = () => {
                 className="w-full"
                 placeholder="Сонгоно уу"
                 treeDataSimpleMode={true}
-                treeData={utils.tree_menu(state.list_organization)}
+                treeData={utils.tree_menu(
+                  _.filter(
+                    state.list_organization,
+                    (a) => a.rorganizationtypeid === state.organization_type
+                  )
+                )}
                 treeLine={(true, { showLeafIcon: false })}
                 value={state.organization}
                 onChange={(value) =>
@@ -507,7 +512,7 @@ const Sample = () => {
         <div className="my-3 border" />
 
         <button
-          className="w-full py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+          className="w-full py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
           onClick={() => save()}
         >
           <i className="fas fa-save" />
@@ -527,7 +532,7 @@ const Sample = () => {
 
         <div className="p-3 flex items-center justify-between">
           <button
-            className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+            className="px-5 py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
             onClick={() => {
               dispatch({ type: "CLEAR" });
               dispatch({ type: "MODAL", data: true });

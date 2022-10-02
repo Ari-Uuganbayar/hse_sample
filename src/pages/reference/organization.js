@@ -244,7 +244,7 @@ const Index = () => {
         <div className="my-3 border" />
 
         <button
-          className="w-full py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+          className="w-full py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
           onClick={() => save()}
         >
           <i className="fas fa-save" />
@@ -259,7 +259,7 @@ const Index = () => {
         <div className="p-3 text-xs overflow-auto">
           <div className="flex items-center justify-between mb-2">
             <button
-              className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+              className="px-5 py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
               onClick={() => {
                 dispatch({ type: "CLEAR" });
                 dispatch({ type: "MODAL", data: true });
@@ -280,7 +280,7 @@ const Index = () => {
               treeData={utils.tree_menu(state.list)}
               titleRender={(data) => {
                 return (
-                  <div className="w-full px-3 flex items-center justify-between rounded-md border-b">
+                  <div className="w-full px-3 flex items-center justify-between rounded-md border">
                     <div>{data.organizationname}</div>
                     <div className="flex items-center justify-center gap-2">
                       <div

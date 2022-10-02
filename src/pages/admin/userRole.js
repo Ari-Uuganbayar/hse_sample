@@ -80,7 +80,7 @@ const Role = () => {
                         className={
                           "cursor-pointer" +
                           (state.user_id === item.id
-                            ? " bg-primary_blue text-white font-semibold"
+                            ? " bg-primary text-white font-semibold"
                             : "")
                         }
                         onClick={() =>

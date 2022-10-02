@@ -97,7 +97,6 @@ const User = () => {
     if (state.id === null) {
       state.password || error.push("Нууц үг");
     }
-    state.role.length === 0 && error.push("Хэрэглэгчийн бүлэг");
 
     if (error.length > 0) {
       message({
@@ -128,7 +127,7 @@ const User = () => {
           .then((res) => {
             API.postUserRole({
               userid: res.id,
-              roles: state.role.join(","),
+              roles: state.role.length === 0 ? "" : state.role.join(","),
             })
               .then(() => {
                 message({ type: "success", title: "Амжилттай хадгалагдлаа" });
@@ -160,7 +159,7 @@ const User = () => {
           .then(() => {
             API.postUserRole({
               userid: state.id,
-              roles: state.role.join(","),
+              roles: state.role.length === 0 ? "" : state.role.join(","),
             })
               .then(() => {
                 message({ type: "success", title: "Амжилттай хадгалагдлаа" });
@@ -221,9 +220,7 @@ const User = () => {
       })
         .then(() => {
           message({ type: "success", title: "Амжилттай хадгалагдлаа" });
-          dispatch({ type: "REFRESH" });
-          dispatch({ type: "MODAL", data: false });
-          dispatch({ type: "CLEAR" });
+          dispatch({ type: "PASSWORD_MODAL", data: false });
         })
         .catch((error) => {
           message({
@@ -279,23 +276,25 @@ const User = () => {
             </div>
           </div>
 
-          <div className="w-full flex flex-col lg:flex-row lg:items-center border-b mb-2 pb-2">
-            <span className="lg:w-1/4 font-semibold">
-              Нууц үг:<b className="ml-1 text-red-500">*</b>
-            </span>
-            <div className="lg:w-3/4">
-              <Input.Password
-                placeholder="Нууц үг"
-                value={state.password}
-                onChange={(e) =>
-                  dispatch({
-                    type: "PASSWORD",
-                    data: e.target.value,
-                  })
-                }
-              />
+          {state.id === null && (
+            <div className="w-full flex flex-col lg:flex-row lg:items-center border-b mb-2 pb-2">
+              <span className="lg:w-1/4 font-semibold">
+                Нууц үг:<b className="ml-1 text-red-500">*</b>
+              </span>
+              <div className="lg:w-3/4">
+                <Input.Password
+                  placeholder="Нууц үг"
+                  value={state.password}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "PASSWORD",
+                      data: e.target.value,
+                    })
+                  }
+                />
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="w-full flex flex-col lg:flex-row lg:items-center border-b mb-2 pb-2">
             <span className="lg:w-1/4 font-semibold">
@@ -343,7 +342,7 @@ const User = () => {
         <div className="my-3 border" />
 
         <button
-          className="w-full py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+          className="w-full py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
           onClick={() => save()}
         >
           <i className="fas fa-save" />
@@ -382,7 +381,7 @@ const User = () => {
         <div className="my-3 border" />
 
         <button
-          className="w-full py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+          className="w-full py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
           onClick={() => savePassword()}
         >
           <i className="fas fa-save" />
@@ -397,7 +396,7 @@ const User = () => {
         <div className="flex flex-col p-3">
           <div className="w-full">
             <button
-              className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+              className="px-5 py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
               onClick={() => {
                 dispatch({ type: "CLEAR", data: true });
                 dispatch({ type: "MODAL", data: true });

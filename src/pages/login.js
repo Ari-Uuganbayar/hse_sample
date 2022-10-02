@@ -9,8 +9,8 @@ const Login = () => {
   const [api, contextHolder] = notification.useNotification();
 
   const [show, setShow] = useState(false);
-  const [tn, setTn] = useState("ari");
-  const [password, setPassword] = useState("unari6170");
+  const [tn, setTn] = useState("");
+  const [password, setPassword] = useState("");
 
   const auth = () => {
     var error = [];
@@ -72,7 +72,7 @@ const Login = () => {
           </div>
 
           <div className="relative mt-5 border-b">
-            <div className="absolute left-2 top-1 text-xl">
+            <div className="absolute text-primary left-2 top-1 text-xl">
               <ion-icon name="person-circle-sharp" />
             </div>
             <input
@@ -84,7 +84,7 @@ const Login = () => {
             />
           </div>
           <div className="relative mt-5 border-b">
-            <div className="absolute left-2 top-1 text-xl">
+            <div className="absolute text-primary left-2 top-1 text-xl">
               <ion-icon name="lock-closed-sharp" />
             </div>
             <input
@@ -93,6 +93,11 @@ const Login = () => {
               placeholder="Нууц үг"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  auth();
+                }
+              }}
             />
             <div
               className={
@@ -106,7 +111,7 @@ const Login = () => {
           </div>
           <button
             type="button"
-            className="w-full flex items-center justify-center mt-5 py-1 bg-primary_blue text-xs text-white font-semibold border rounded"
+            className="w-full mt-5 px-5 py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
             onClick={(e) => auth()}
           >
             Нэвтрэх

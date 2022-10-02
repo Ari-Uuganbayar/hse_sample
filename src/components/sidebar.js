@@ -11,28 +11,27 @@ const Sidebar = () => {
   return (
     <aside
       className={
-        "absolute z-10 lg:relative w-80 h-screen bg-white text-primary_blue shadow tracking-tight duration-300 overflow-auto " +
+        "absolute z-10 lg:relative w-80 h-screen bg-white shadow duration-300 overflow-auto " +
         (user.template.sidebar
           ? "translate-x-0"
           : "-translate-x-full lg:w-0 lg:hidden")
       }
     >
-      <div className="w-full h-10 flex items-center justify-center border-b border-r">
+      <div className="w-full h-10 flex items-center justify-center text-primary border-b border-r">
         Ажлын байрны хэмжилт
       </div>
 
-      <ul className="relative px-3 mt-6 text-xs font-semibold">
+      <ul className="relative mt-6 text-xs font-medium">
         {_.map(utils.tree_menu_sidebar(user.list_menu), (menu1) => {
           var hasChild = menu1.children.length > 0;
           return (
             <li key={menu1.menuid}>
               <div
                 className={
-                  "block cursor-pointer px-2 rounded-xl " +
-                  (user.template.menu1 === menu1.menuid &&
-                  (user.template.menu2 === 0 || !hasChild)
-                    ? "bg-primary_blue text-white"
-                    : "hover:bg-gray-200")
+                  "block py-3 pl-5 pr-3 cursor-pointer " +
+                  (user.template.menu1 === menu1.menuid
+                    ? "text-primary border-r-4 border-primary"
+                    : "hover:text-primary")
                 }
                 onClick={() => {
                   appDispatch({
@@ -50,7 +49,7 @@ const Sidebar = () => {
                   }
                 }}
               >
-                <div className="w-full flex items-center justify-between py-3">
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-6 flex items-center justify-center text-lg">
                       <ion-icon name="home-outline" />
@@ -74,9 +73,9 @@ const Sidebar = () => {
               {hasChild && (
                 <ul
                   className={
-                    "duration-300 " +
+                    "list-disc list-inside duration-300 " +
                     (user.template.menu1 === menu1.menuid
-                      ? "h-full"
+                      ? ""
                       : "hidden scale-0 origin-left")
                   }
                 >
@@ -85,26 +84,20 @@ const Sidebar = () => {
                       <li
                         key={menu2.menuid}
                         className={
-                          "block py-3 px-7 cursor-pointer rounded-xl " +
+                          "block py-3 pl-16 pr-3 cursor-pointer " +
                           (user.template.menu2 === menu2.menuid
-                            ? "bg-primary_blue text-white"
-                            : "hover:bg-gray-300")
+                            ? "text-primary font-semibold"
+                            : "hover:text-primary")
                         }
                         onClick={() => {
                           appDispatch({
                             type: "MENU2",
                             data: menu2.menuid,
                           });
-
                           menu2.route !== null && navigate(menu2.route);
                         }}
                       >
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 flex items-center justify-center text-lg">
-                            <ion-icon name="home-outline" />
-                          </div>
-                          <span className="">{menu2.menuname}</span>
-                        </div>
+                        {menu2.menuname}
                       </li>
                     );
                   })}

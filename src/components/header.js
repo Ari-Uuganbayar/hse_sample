@@ -8,22 +8,19 @@ const Header = () => {
   const { user, appDispatch } = useAppContext();
 
   return (
-    <header className="w-full h-10 flex items-center justify-between bg-primary_blue text-white">
+    <header className="w-full h-10 flex items-center justify-between bg-white">
       <div
-        className="flex items-center ml-4 text-2xl cursor-pointer"
+        className="flex items-center ml-4 text-2xl cursor-pointer text-primary"
         onClick={() => appDispatch({ type: "SIDEBAR" })}
       >
         <ion-icon name="menu-outline" />
       </div>
       <div className="flex items-center gap-2 mr-2">
-        <div className="flex items-center gap-2 mr-1 px-2 border bg-white rounded-lg text-primary_blue">
+        <div className="flex items-center gap-2 mr-1 px-2 border bg-white rounded-lg text-primary">
           <img className="w-8 h-8 object-fit rounded-full" src={src} alt="" />
           <div className="flex flex-col">
             <span className="text-xs font-semibold tracking-wide">
               {user.username}
-            </span>
-            <span className="text-[10px] text-center">
-              Бүтцийн нэгж - Албан тушаал
             </span>
           </div>
         </div>

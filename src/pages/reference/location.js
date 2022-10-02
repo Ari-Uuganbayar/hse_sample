@@ -253,7 +253,7 @@ const Location = () => {
         dispatch({ type: "QR_LOCATION", data: item.locationname });
         dispatch({
           type: "QR_VALUE",
-          data: "http://16.163.55.103/api/safetyjob/" + res,
+          data: "http://16.163.55.103/safetyjob/" + res,
         });
       })
       .catch((error) => {
@@ -372,7 +372,7 @@ const Location = () => {
         <div className="my-3 border" />
 
         <button
-          className="w-full py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+          className="w-full py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
           onClick={() => save()}
         >
           <i className="fas fa-save" />
@@ -403,7 +403,7 @@ const Location = () => {
         <div className="my-3 border" />
 
         <button
-          className="w-full py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+          className="w-full py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
           onClick={handle_print}
         >
           <i className="fas fa-save" />
@@ -412,80 +412,76 @@ const Location = () => {
       </Modal>
 
       <Spin tip="Уншиж байна." className="bg-opacity-80" spinning={loading}>
-          <div className="border-b p-3">
-            <span className="font-semibold">Байршил цонх</span>
-          </div>
-          <div className="flex flex-col lg:flex-row gap-3 p-3 text-xs">
-            <div className="sm:w-80 p-3 border rounded-md shadow">
-              <h1 className="font-semibold">Шүүлтүүр</h1>
-              <hr className="my-3" />
+        <div className="border-b p-3">
+          <span className="font-semibold">Байршил цонх</span>
+        </div>
+        <div className="flex flex-col lg:flex-row gap-3 p-3 text-xs">
+          <div className="sm:w-80 p-3 border rounded-md shadow">
+            <h1 className="font-semibold">Шүүлтүүр</h1>
+            <hr className="my-3" />
 
-              <i className="-tracking-wider text-primary_blue">
-                Байгууллагын төрөл
-              </i>
-              <div className="flex flex-col justify-center gap-2 mt-1">
-                {_.map(state.list_orgtype, (item) => {
-                  return (
-                    <div
-                      key={item.id}
-                      className={
-                        "px-3 py-1 font-semibold border rounded-lg cursor-pointer duration-300 " +
-                        (state.orgtype === item.id
-                          ? "bg-primary_blue text-white"
-                          : "hover:bg-gray-200")
-                      }
-                      onClick={() =>
-                        dispatch({ type: "ORGTYPE", data: item.id })
-                      }
-                    >
-                      {item.text}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div>
-              <div className="w-full flex items-center justify-between mb-2">
-                <button
-                  className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
-                  onClick={() => {
-                    dispatch({ type: "CLEAR" });
-                    dispatch({ type: "MODAL", data: true });
-                  }}
-                >
-                  <div className="flex items-center font-semibold text-xl">
-                    <ion-icon name="add-circle-outline" />
+            <i className="-tracking-wider text-primary">Байгууллагын төрөл</i>
+            <div className="flex flex-col justify-center gap-2 mt-1">
+              {_.map(state.list_orgtype, (item) => {
+                return (
+                  <div
+                    key={item.id}
+                    className={
+                      "px-3 py-1 font-semibold border rounded-lg cursor-pointer duration-300 " +
+                      (state.orgtype === item.id
+                        ? "bg-primary text-white"
+                        : "hover:bg-gray-200")
+                    }
+                    onClick={() => dispatch({ type: "ORGTYPE", data: item.id })}
+                  >
+                    {item.text}
                   </div>
-                  <span className="ml-2">Нэмэх</span>
-                </button>
-                <input
-                  type="text"
-                  placeholder="Хайх..."
-                  className="w-1/2 lg:w-1/3 px-4 py-1 border rounded-md focus:outline-none"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-              </div>
-              <div className="relative max-h-[calc(100vh-180px)] overflow-auto">
-                <table className="w-full text-xs border-separate border-spacing-0">
-                  <thead className="sticky top-0 bg-white font-semibold z-10">
-                    <tr>
-                      <th className="w-10 text-center p-1 border">№</th>
-                      <th colSpan={2} className="text-center p-1 border">
-                        Байгууллага
-                      </th>
-                      <th className="text-center p-1 border">Байршлын код</th>
-                      <th className="text-center p-1 border">Байршлын нэр</th>
-                      <th className="text-center p-1 border">Тайлбар</th>
-                      <th className="w-20 text-center p-1 border"></th>
-                    </tr>
-                  </thead>
-                  <tbody>{tbody}</tbody>
-                </table>
-              </div>
+                );
+              })}
             </div>
           </div>
+
+          <div>
+            <div className="w-full flex items-center justify-between mb-2">
+              <button
+                className="px-5 py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
+                onClick={() => {
+                  dispatch({ type: "CLEAR" });
+                  dispatch({ type: "MODAL", data: true });
+                }}
+              >
+                <div className="flex items-center font-semibold text-xl">
+                  <ion-icon name="add-circle-outline" />
+                </div>
+                <span className="ml-2">Нэмэх</span>
+              </button>
+              <input
+                type="text"
+                placeholder="Хайх..."
+                className="w-1/2 lg:w-1/3 px-4 py-1 border rounded-md focus:outline-none"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+            <div className="relative max-h-[calc(100vh-180px)] overflow-auto">
+              <table className="w-full text-xs border-separate border-spacing-0">
+                <thead className="sticky top-0 bg-white font-semibold z-10">
+                  <tr>
+                    <th className="w-10 text-center p-1 border">№</th>
+                    <th colSpan={2} className="text-center p-1 border">
+                      Байгууллага
+                    </th>
+                    <th className="text-center p-1 border">Байршлын код</th>
+                    <th className="text-center p-1 border">Байршлын нэр</th>
+                    <th className="text-center p-1 border">Тайлбар</th>
+                    <th className="w-20 text-center p-1 border"></th>
+                  </tr>
+                </thead>
+                <tbody>{tbody}</tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </Spin>
     </>
   );

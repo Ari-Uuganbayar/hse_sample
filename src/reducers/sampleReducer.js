@@ -79,6 +79,7 @@ export const reducer = (state, action) => {
         ...state,
         organization_type: 1,
         organization: null,
+        location: null,
         condition: null,
         date: moment(),
       };
@@ -86,6 +87,11 @@ export const reducer = (state, action) => {
       return {
         ...state,
         id: action.data.id,
+        organization_type: action.data.rorganizationtypeid,
+        organization: action.data.organizationid,
+        location: action.data.locationid,
+        condition: action.data.rconditionid,
+        date: moment(action.data.begindate),
       };
 
     default:

@@ -167,7 +167,7 @@ const Condition = () => {
         <div className="my-3 border" />
 
         <button
-          className="w-full py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+          className="w-full py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
           onClick={() => save()}
         >
           <i className="fas fa-save" />
@@ -182,7 +182,7 @@ const Condition = () => {
         <div className="max-h-[calc(100vh-145px)] p-3 text-xs overflow-auto">
           <div className="flex items-center justify-between mb-2">
             <button
-              className="px-5 py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+              className="px-5 py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
               onClick={() => {
                 dispatch({ type: "CLEAR" });
                 dispatch({ type: "MODAL", data: true });
