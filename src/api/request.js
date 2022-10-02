@@ -169,6 +169,10 @@ export async function deleteUser(id) {
   const response = await API().delete("/admin/user/" + id);
   return response.data;
 }
+export async function putUserPassword(id, params) {
+  const response = await API().put("/admin/user/" + id, { ...params });
+  return response.data;
+}
 
 // UserRole
 export async function getUserRoleList(params) {

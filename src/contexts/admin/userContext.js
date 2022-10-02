@@ -6,12 +6,18 @@ import _ from "lodash";
 const _state = {
   list: [],
   refresh: 0,
+
+  list_role: [],
   modal: false,
   id: null,
   username: null,
   shortname: null,
   password: null,
-  isadmin: false,
+  role: [],
+  isactive: true,
+
+  password_modal: false,
+  password_new: false,
 };
 
 const context = React.createContext();

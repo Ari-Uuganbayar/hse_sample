@@ -10,10 +10,20 @@ export const reducer = (state, action) => {
         ...state,
         refresh: state.refresh + 1,
       };
+    case "LIST_ROLE":
+      return {
+        ...state,
+        list_role: action.data,
+      };
     case "MODAL":
       return {
         ...state,
         modal: action.data,
+      };
+    case "ID":
+      return {
+        ...state,
+        id: action.data,
       };
     case "USERNAME":
       return {
@@ -30,10 +40,20 @@ export const reducer = (state, action) => {
         ...state,
         password: action.data,
       };
+    case "ROLE":
+      return {
+        ...state,
+        role: action.data,
+      };
     case "ISADMIN":
       return {
         ...state,
         isadmin: action.data,
+      };
+    case "ISACTIVE":
+      return {
+        ...state,
+        isactive: action.data,
       };
     case "CLEAR":
       return {
@@ -42,7 +62,8 @@ export const reducer = (state, action) => {
         username: null,
         shortname: null,
         password: null,
-        isadmin: false,
+        role: [],
+        isactive: true,
       };
     case "SET":
       return {
@@ -51,7 +72,19 @@ export const reducer = (state, action) => {
         username: action.data.username,
         shortname: action.data.shortname,
         password: null,
-        isadmin: false,
+        role: action.data.roles,
+        isactive: action.data.isactive,
+      };
+
+    case "PASSWORD_MODAL":
+      return {
+        ...state,
+        password_modal: action.data,
+      };
+    case "PASSWORD_NEW":
+      return {
+        ...state,
+        password_new: action.data,
       };
     default:
       return state;

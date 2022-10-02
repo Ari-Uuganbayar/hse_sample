@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useUserContext } from "src/contexts/admin/userContext";
 import * as API from "src/api/request";
 
-import { Spin, Modal, Input, Checkbox } from "antd";
+import { Spin, Modal, Input, Select, Checkbox } from "antd";
 import _ from "lodash";
 import Swal from "sweetalert2";
+const { Option } = Select;
 
 const User = () => {
   const { state, dispatch, message } = useUserContext();
@@ -27,6 +28,21 @@ const User = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.refresh]);
 
+  useEffect(() => {
+    API.getRoleList()
+      .then((res) => {
+        dispatch({ type: "LIST_ROLE", data: res });
+      })
+      .catch((error) => {
+        message({
+          type: "error",
+          error,
+          title: "Бүлгийн жагсаалт татаж чадсангүй",
+        });
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const updateItem = (item) => {
     API.getUser(item.id)
       .then((res) => {
@@ -37,7 +53,7 @@ const User = () => {
         message({
           type: "error",
           error,
-          title: "Цэсний жасгаалтын мэдээлэл татаж чадсангүй",
+          title: "Хэрэглэгчийн мэдээлэл татаж чадсангүй",
         });
       });
   };
@@ -81,6 +97,7 @@ const User = () => {
     if (state.id === null) {
       state.password || error.push("Нууц үг");
     }
+    state.role.length === 0 && error.push("Хэрэглэгчийн бүлэг");
 
     if (error.length > 0) {
       message({
@@ -106,41 +123,115 @@ const User = () => {
           username: state.username,
           shortname: state.shortname,
           password: state.password,
-          isadmin: state.isadmin ? 1 : 0,
+          isactive: state.isactive ? 1 : 0,
         })
-          .then(() => {
-            message({ type: "success", title: "Амжилттай хадгалагдлаа" });
-            dispatch({ type: "REFRESH" });
-            dispatch({ type: "MODAL", data: false });
-            dispatch({ type: "CLEAR" });
+          .then((res) => {
+            API.postUserRole({
+              userid: res.id,
+              roles: state.role.join(","),
+            })
+              .then(() => {
+                message({ type: "success", title: "Амжилттай хадгалагдлаа" });
+                dispatch({ type: "REFRESH" });
+                dispatch({ type: "MODAL", data: false });
+                dispatch({ type: "CLEAR" });
+              })
+              .catch((error) => {
+                message({
+                  type: "error",
+                  error,
+                  title: "Хэрэглэгч бүлэг бүртгэж чадсангүй",
+                });
+              });
           })
           .catch((error) => {
             message({
               type: "error",
               error,
-              title: "Эрх бүртгэж чадсангүй",
+              title: "Хэрэглэгч бүртгэж чадсангүй",
             });
           });
       } else {
         API.putUser(state.id, {
           username: state.username,
           shortname: state.shortname,
-          isadmin: state.isadmin ? 1 : 0,
+          isactive: state.isactive ? 1 : 0,
         })
           .then(() => {
-            message({ type: "success", title: "Амжилттай хадгалагдлаа" });
-            dispatch({ type: "REFRESH" });
-            dispatch({ type: "MODAL", data: false });
-            dispatch({ type: "CLEAR" });
+            API.postUserRole({
+              userid: state.id,
+              roles: state.role.join(","),
+            })
+              .then(() => {
+                message({ type: "success", title: "Амжилттай хадгалагдлаа" });
+                dispatch({ type: "REFRESH" });
+                dispatch({ type: "MODAL", data: false });
+                dispatch({ type: "CLEAR" });
+              })
+              .catch((error) => {
+                message({
+                  type: "error",
+                  error,
+                  title: "Хэрэглэгч бүлэг засварлаж чадсангүй",
+                });
+              });
           })
           .catch((error) => {
             message({
               type: "error",
               error,
-              title: "Эрх засварлаж чадсангүй",
+              title: "Хэрэглэгч засварлаж чадсангүй",
             });
           });
       }
+    }
+  };
+
+  const updatePassword = (item) => {
+    dispatch({ type: "ID", data: item.id });
+    dispatch({ type: "PASSWORD_NEW", data: null });
+    dispatch({ type: "PASSWORD_MODAL", data: true });
+  };
+
+  const savePassword = () => {
+    var error = [];
+    state.password_new || error.push("Нууц үг");
+
+    if (error.length > 0) {
+      message({
+        type: "warning",
+        title: (
+          <div className="text-orange-500 font-semibold">
+            Дараах мэдээлэл дутуу байна
+          </div>
+        ),
+        description: (
+          <div className="flex flex-col gap-1">
+            {_.map(error, (item, index) => (
+              <div key={index}>
+                - <span className="ml-1">{item}</span>
+              </div>
+            ))}
+          </div>
+        ),
+      });
+    } else {
+      API.putUserPassword(state.id, {
+        password: state.password_new,
+      })
+        .then(() => {
+          message({ type: "success", title: "Амжилттай хадгалагдлаа" });
+          dispatch({ type: "REFRESH" });
+          dispatch({ type: "MODAL", data: false });
+          dispatch({ type: "CLEAR" });
+        })
+        .catch((error) => {
+          message({
+            type: "error",
+            error,
+            title: "Хэрэглэгчийн нууц үг засварлаж чадсангүй",
+          });
+        });
     }
   };
 
@@ -154,12 +245,12 @@ const User = () => {
         onCancel={() => dispatch({ type: "MODAL", data: false })}
         footer={null}
       >
-        <div className="flex flex-col gap-5 text-xs">
-          <div className="">
-            <span className="font-semibold">
+        <div className="flex flex-col text-xs">
+          <div className="w-full flex flex-col lg:flex-row lg:items-center border-b mb-2 pb-2">
+            <span className="lg:w-1/4 font-semibold">
               Нэвтрэх нэр:<b className="ml-1 text-red-500">*</b>
             </span>
-            <div className="mt-1">
+            <div className="lg:w-3/4">
               <Input
                 value={state.username}
                 onChange={(e) =>
@@ -171,11 +262,11 @@ const User = () => {
               />
             </div>
           </div>
-          <div className="">
-            <span className="font-semibold">
+          <div className="w-full flex flex-col lg:flex-row lg:items-center border-b mb-2 pb-2">
+            <span className="lg:w-1/4 font-semibold">
               Овог, нэр:<b className="ml-1 text-red-500">*</b>
             </span>
-            <div className="mt-1">
+            <div className="lg:w-3/4">
               <Input
                 value={state.shortname}
                 onChange={(e) =>
@@ -188,11 +279,11 @@ const User = () => {
             </div>
           </div>
 
-          <div className="">
-            <span className="font-semibold">
+          <div className="w-full flex flex-col lg:flex-row lg:items-center border-b mb-2 pb-2">
+            <span className="lg:w-1/4 font-semibold">
               Нууц үг:<b className="ml-1 text-red-500">*</b>
             </span>
-            <div className="mt-1">
+            <div className="lg:w-3/4">
               <Input.Password
                 placeholder="Нууц үг"
                 value={state.password}
@@ -206,14 +297,47 @@ const User = () => {
             </div>
           </div>
 
-          <Checkbox
-            value={state.isadmin}
-            onChange={(e) => {
-              dispatch({ type: "ISADMIN", data: e.target.checked });
-            }}
-          >
-            Админ эсэх
-          </Checkbox>
+          <div className="w-full flex flex-col lg:flex-row lg:items-center border-b mb-2 pb-2">
+            <span className="lg:w-1/4 font-semibold">
+              Хэрэглэгчийн бүлэг:<b className="ml-1 text-red-500">*</b>
+            </span>
+            <div className="lg:w-3/4">
+              <Select
+                mode="multiple"
+                className="w-full"
+                placeholder="Сонгоно уу."
+                value={state.role}
+                onChange={(value) => {
+                  dispatch({
+                    type: "ROLE",
+                    data: value,
+                  });
+                }}
+              >
+                {_.map(state.list_role, (item, index) => {
+                  return (
+                    <Option key={"role_" + index} value={item.roleid}>
+                      {item.roletitle}
+                    </Option>
+                  );
+                })}
+              </Select>
+            </div>
+          </div>
+
+          <div className="w-full flex flex-col lg:flex-row lg:items-center border-b mb-2 pb-2">
+            <span className="lg:w-1/4 font-semibold">
+              Идэвхтэй эсэх:<b className="ml-1 text-red-500">*</b>
+            </span>
+            <div className="lg:w-3/4">
+              <Checkbox
+                checked={state.isactive}
+                onChange={(e) => {
+                  dispatch({ type: "ISACTIVE", data: e.target.checked });
+                }}
+              />
+            </div>
+          </div>
         </div>
 
         <div className="my-3 border" />
@@ -221,6 +345,45 @@ const User = () => {
         <button
           className="w-full py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
           onClick={() => save()}
+        >
+          <i className="fas fa-save" />
+          <span className="ml-2">Хадгалах</span>
+        </button>
+      </Modal>
+
+      <Modal
+        centered
+        width={700}
+        title={<div className="text-center">Нууц үг солих цонх</div>}
+        visible={state.password_modal}
+        onCancel={() => dispatch({ type: "PASSWORD_MODAL", data: false })}
+        footer={null}
+      >
+        <div className="flex flex-col text-xs">
+          <div className="w-full flex flex-col lg:flex-row lg:items-center border-b mb-2 pb-2">
+            <span className="lg:w-1/4 font-semibold">
+              Нууц үг:<b className="ml-1 text-red-500">*</b>
+            </span>
+            <div className="lg:w-3/4">
+              <Input.Password
+                placeholder="Нууц үг"
+                value={state.password_new}
+                onChange={(e) =>
+                  dispatch({
+                    type: "PASSWORD_NEW",
+                    data: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="my-3 border" />
+
+        <button
+          className="w-full py-1 flex items-center justify-center font-semibold text-primary_blue border-2 border-primary_blue rounded-md hover:bg-primary_blue hover:text-white focus:outline-none duration-300 text-xs"
+          onClick={() => savePassword()}
         >
           <i className="fas fa-save" />
           <span className="ml-2">Хадгалах</span>
@@ -254,7 +417,9 @@ const User = () => {
                   <th className="w-10 p-1 text-center border">№</th>
                   <th className="p-1 text-center border">Нэвтрэх нэр</th>
                   <th className="p-1 text-center border">Овог, нэр</th>
-                  <th className="w-20 p-1 text-center border"></th>
+                  <th className="p-1 text-center border">Хэрэглэгчийн бүлэг</th>
+                  <th className="w-16 p-1 text-center border">Идэвхтэй эсэх</th>
+                  <th className="w-16 p-1 text-center border"></th>
                 </tr>
               </thead>
               <tbody>
@@ -274,8 +439,26 @@ const User = () => {
                       <td className="w-10 text-center border">{index + 1}</td>
                       <td className="px-3 py-1 border">{item.username}</td>
                       <td className="px-3 py-1 border">{item.shortname}</td>
+                      <td className="px-3 py-1 border">{item.roles}</td>
+                      <td className="p-1 text-center border">
+                        {item.isactive ? (
+                          <div className="flex items-center justify-center text-lg text-green-500">
+                            <ion-icon name="checkmark-circle" />
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-center text-lg text-red-500">
+                            <ion-icon name="close-circle" />
+                          </div>
+                        )}
+                      </td>
                       <td className="w-20 p-1 text-center border">
                         <div className="flex items-center justify-center gap-2">
+                          <div
+                            className="flex items-center justify-center text-lg text-blue-500 cursor-pointer font-semibold"
+                            onClick={() => updatePassword(item)}
+                          >
+                            <ion-icon name="lock-open" />
+                          </div>
                           <div
                             className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
                             onClick={() => updateItem(item)}
@@ -283,7 +466,7 @@ const User = () => {
                             <ion-icon name="create-outline" />
                           </div>
                           <div
-                            className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
+                            className="ml-4 flex items-center justify-center text-lg text-red-500 cursor-pointer"
                             onClick={() => deleteItem(item)}
                           >
                             <ion-icon name="trash-outline" />
