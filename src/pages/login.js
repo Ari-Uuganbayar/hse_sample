@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import * as API from "src/api/request";
 import "src/pages/login.css";
+import Logo from "src/assets/image/logo.png";
 
 import { notification } from "antd";
 import _ from "lodash";
@@ -60,37 +61,40 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex text-xs">
+    <div className="w-full min-h-screen flex items-center justify-center text-md m-auto bg-primary">
       {contextHolder}
-      <div className="w-2/3 min-h-screen bg-violet-500 flex items-center justify-center">
-        <div className="text-white text-3xl font-bold">Энд зураг оруулна</div>
-      </div>
-      <div className="w-1/3 h-screen flex flex-col items-center justify-center bg-gray-200">
-        <div className="w-96 px-10 py-48 bg-white border rounded shadow-2xl">
-          <div className="w-full text-center">
-            <span className="text-lg">Нэвтрэх хуудас</span>
-          </div>
+      <div className="w-[480px] h-full py-[50px] px-16 bg-white border rounded-xl shadow-2xl">
+        <img src={Logo} className="w-10 h-10" alt="" />
+        <div className="mt-5 text-primary text-xl font-bold uppercase">
+          Ажлын байрны хэмжилт
+        </div>
 
-          <div className="relative mt-5 border-b">
+        <div className="relative mt-10 flex flex-col gap-2">
+          <div className="font-semibold text-md">Нэвтрэх нэр</div>
+          <div className="relative border rounded-md">
             <div className="absolute text-primary left-2 top-1 text-xl">
               <ion-icon name="person-circle-sharp" />
             </div>
             <input
               type="text"
-              className="w-full pl-10 py-1.5"
-              placeholder="Нэвтрэх нэр"
+              className="w-full pl-10 py-1.5 focus:outline-none"
+              placeholder="Нэвтрэх нэрээ оруулна уу"
               value={tn}
               onChange={(e) => setTn(e.target.value)}
             />
           </div>
-          <div className="relative mt-5 border-b">
+        </div>
+
+        <div className="relative mt-5 flex flex-col gap-2">
+          <div className="font-semibold text-md">Нууц үг</div>
+          <div className="relative border rounded-md">
             <div className="absolute text-primary left-2 top-1 text-xl">
               <ion-icon name="lock-closed-sharp" />
             </div>
             <input
               type={show ? "text" : "password"}
-              className="w-full pl-10 py-1.5"
-              placeholder="Нууц үг"
+              className="w-full pl-10 py-1.5 focus:outline-none"
+              placeholder="Нууц үгээ оруулна уу"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onKeyDown={(e) => {
@@ -101,7 +105,7 @@ const Login = () => {
             />
             <div
               className={
-                "absolute right-2 top-1 text-xl cursor-pointer " +
+                "absolute right-2 top-1 text-primary text-xl cursor-pointer " +
                 (password ? "visible" : "invisible")
               }
               onClick={() => setShow(!show)}
@@ -109,14 +113,15 @@ const Login = () => {
               <ion-icon name={show ? "eye-off-sharp" : "eye-sharp"} />
             </div>
           </div>
-          <button
-            type="button"
-            className="w-full mt-5 px-5 py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
-            onClick={(e) => auth()}
-          >
-            Нэвтрэх
-          </button>
         </div>
+
+        <button
+          type="button"
+          className="w-full mt-5 px-5 py-1 mb-10 flex items-center justify-center font-semibold bg-primary text-white border-2 border-primary rounded-md hover:bg-white hover:text-primary focus:outline-none duration-300"
+          onClick={(e) => auth()}
+        >
+          Нэвтрэх
+        </button>
       </div>
     </div>
   );

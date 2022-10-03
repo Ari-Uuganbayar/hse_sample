@@ -13,7 +13,7 @@ export function API() {
     });
   }
   const api = axios.create({
-    baseURL: "http://16.163.55.103/api/safetyjob",
+    baseURL: "https://safetyjob.tk/api/safetyjob",
     timeout: 200000,
     headers,
   });

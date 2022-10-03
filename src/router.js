@@ -50,7 +50,7 @@ const Router = () => {
   const { user } = useAppContext();
   var url = window.location.pathname.split("/");
   if (url.length >= 3) {
-    if (url[1] === "location" && url[2] !== undefined) return <Result />;
+    if (url[1] === "result" && url[2] !== undefined) return <Result />;
   }
 
   return (
