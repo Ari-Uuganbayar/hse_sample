@@ -400,3 +400,7 @@ export async function postSampleResult(params) {
   });
   return response.data;
 }
+export async function getLocationResultByQR(id) {
+  const response = await API().get("/location/result/" + id);
+  return response.data;
+}
