@@ -378,7 +378,7 @@ const Parameter = () => {
         <div className="p-3">
           <div className="flex items-center justify-between">
             <button
-              className="px-5 py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
+              className="px-5 py-1 flex items-center justify-center font-semibold bg-primary text-white border-2 border-primary rounded-md hover:bg-white hover:text-primary focus:outline-none duration-300 text-xs"
               onClick={() => {
                 dispatch({ type: "CLEAR" });
                 dispatch({ type: "MODAL", data: true });

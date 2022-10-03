@@ -42,11 +42,13 @@ const Login = () => {
         .then((res) => {
           window.localStorage.clear();
           localStorage.setItem("token", res.data.access_token);
-          window.location.replace("/");
+          localStorage.setItem("menu1", 17);
+          localStorage.setItem("menu2", 0);
+          window.location.replace("/sample");
         })
         .catch((error) => {
           api.error({
-            message: "Хэрэгчийн нэр эсвэл нууц үг буруу байна",
+            message: "Хэрэглэгчийн нэр эсвэл нууц үг буруу байна",
             description:
               _.toString(error.toJSON().status) +
               " - " +

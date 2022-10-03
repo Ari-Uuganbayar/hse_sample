@@ -12,7 +12,7 @@ const _state = {
   template: {
     mode: "light",
     sidebar: true,
-    menu1: 1869,
+    menu1: 17,
     menu2: 0,
   },
 };

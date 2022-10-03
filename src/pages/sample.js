@@ -335,7 +335,7 @@ const Sample = () => {
     list_paremter.splice(index_p, 1, { ...parameter, result: value });
     result.splice(index, 1, { ...item, parameter: list_paremter });
     setList(result);
-    setChange((prev) => setChange(prev + 1));
+    setChange((prev) => prev + 1);
   };
 
   const result_save = (id, paremter_id, value) => {
@@ -532,7 +532,7 @@ const Sample = () => {
 
         <div className="p-3 flex items-center justify-between">
           <button
-            className="px-5 py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
+            className="px-5 py-1 flex items-center justify-center font-semibold bg-primary text-white border-2 border-primary rounded-md hover:bg-white hover:text-primary focus:outline-none duration-300 text-xs"
             onClick={() => {
               dispatch({ type: "CLEAR" });
               dispatch({ type: "MODAL", data: true });
@@ -554,7 +554,7 @@ const Sample = () => {
           </div>
         </div>
 
-        <div className="overflow-auto px-3">
+        <div className="overflow-auto mx-3">
           <table className="w-full whitespace-nowrap border text-[11px]">
             <thead className="font-thin">
               <tr>

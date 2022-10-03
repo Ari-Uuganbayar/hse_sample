@@ -444,7 +444,7 @@ const Location = () => {
           <div>
             <div className="w-full flex items-center justify-between mb-2">
               <button
-                className="px-5 py-1 flex items-center justify-center font-semibold text-primary border-2 border-primary rounded-md hover:bg-primary hover:text-white focus:outline-none duration-300 text-xs"
+                className="px-5 py-1 flex items-center justify-center font-semibold bg-primary text-white border-2 border-primary rounded-md hover:bg-white hover:text-primary focus:outline-none duration-300 text-xs"
                 onClick={() => {
                   dispatch({ type: "CLEAR" });
                   dispatch({ type: "MODAL", data: true });
