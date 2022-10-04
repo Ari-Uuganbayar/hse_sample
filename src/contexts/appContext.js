@@ -1,12 +1,13 @@
 import React, { useEffect, useContext, useReducer } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { reducer } from "src/reducers/appReducer";
 import * as API from "src/api/request";
 import { notification } from "antd";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 
 const _state = {
   loggedIn: false,
+  username: null,
   list_menu: [],
 
   template: {
@@ -28,7 +29,7 @@ export const useAppContext = () => {
 };
 
 const AppContext = ({ children }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, _state);
   const [api, contextHolder] = notification.useNotification();
 
@@ -73,50 +74,39 @@ const AppContext = ({ children }) => {
   };
 
   useEffect(() => {
-    if (navigator.onLine) {
-      var token =
-        typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    var token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    if (token !== null) dispatch({ type: "LOG_IN" });
 
-      if (!token) {
-        navigate("/login");
-      } else {
-        if (!state.loggedIn) {
-          API.getUserInfo()
-            .then((res) => {
-              dispatch({
-                type: "LOG_IN",
-                data: res,
-              });
-            })
-            .catch((error) => {
-              message({
-                type: "error",
-                error,
-                title: "Хэрэглэгчийн мэдээлэл татаж чадсангүй",
-              });
-            });
-          API.getUserMenu()
-            .then((menu) => {
-              dispatch({ type: "LIST_MENU", data: menu });
-            })
-            .catch((error) => {
-              message({
-                type: "error",
-                error,
-                title: "Хэрэглэгчийн цэс татаж чадсангүй",
-              });
-            });
-        }
-      }
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Интернэт холболтоо шалгана уу.",
-        html: "",
-      });
+    if (token !== null) {
+      API.getUserInfo()
+        .then((res) => {
+          dispatch({
+            type: "LOG_IN",
+            data: res,
+          });
+        })
+        .catch((error) => {
+          message({
+            type: "error",
+            error,
+            title: "Хэрэглэгчийн мэдээлэл татаж чадсангүй",
+          });
+        });
+      API.getUserMenu()
+        .then((menu) => {
+          dispatch({ type: "LIST_MENU", data: menu });
+        })
+        .catch((error) => {
+          message({
+            type: "error",
+            error,
+            title: "Хэрэглэгчийн цэс татаж чадсангүй",
+          });
+        });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.tn]);
+  }, []);
 
   useEffect(() => {
     var menu1 = localStorage.getItem("menu1");
@@ -136,8 +126,9 @@ const AppContext = ({ children }) => {
   return (
     <context.Provider
       value={{
-        user: state,
-        appDispatch: dispatch,
+        state,
+        dispatch,
+        message,
       }}
     >
       {contextHolder}

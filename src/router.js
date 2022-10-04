@@ -23,7 +23,6 @@ import "moment/locale/mn";
 
 // import Login from "src/pages/login";
 import Layout from "src/components/layout";
-import Home from "src/pages/home";
 import PageNotFound from "src/pages/_404";
 
 // Admin
@@ -47,20 +46,17 @@ import Sample from "src/pages/sample";
 import Result from "src/pages/result";
 
 const Router = () => {
-  const { user } = useAppContext();
-
-  var url = window.location.pathname.split("/");
-  if (url.length >= 3) {
-    if (url[1] === "result" && url[2] !== undefined) return <Result />;
-  }
+  const { state } = useAppContext();
 
   return (
     <>
-      {user.loggedIn && (
+      <Routes>
+        <Route exact path="/samplework/qr/:qr" element={<Result />} />
+      </Routes>
+
+      {state.loggedIn && (
         <Layout>
           <Routes>
-            <Route exact path="/" element={<Home />} />
-
             <Route path="/admin">
               <Route
                 exact
@@ -194,7 +190,7 @@ const Router = () => {
                 </SampleContext>
               }
             />
-            <Route path="/*" exact={true} element={<PageNotFound />} />
+            <Route path="*" exact={true} element={<PageNotFound />} />
           </Routes>
         </Layout>
       )}

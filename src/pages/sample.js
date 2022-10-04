@@ -159,6 +159,7 @@ const Sample = () => {
           <td className="px-3 py-1 border">{item.parentname}</td>
           <td className="px-3 py-1 border">{item.organizationname}</td>
           <td className="px-3 py-1 border">{item.locationname}</td>
+          <td className="p-1 text-center border">{item.locationcode}</td>
           <td className="p-1 text-center border">
             {moment(item.begindate).format("YYYY.MM.DD")}
           </td>
@@ -522,9 +523,11 @@ const Sample = () => {
 
       <Spin tip="Уншиж байна." className="bg-opacity-80" spinning={loading}>
         <div className="border-b p-3">
-          <span className="mr-3 text-md font-semibold">"Хэмжилт"</span>
+          <span className="mr-3 text-md font-semibold">Огноо:</span>
           <RangePicker
+            size="small"
             format="YYYY.MM.DD"
+            allowClear={false}
             value={[state.begindate, state.enddate]}
             onChange={(dates) => dispatch({ type: "DATES", data: dates })}
           />
@@ -566,7 +569,10 @@ const Sample = () => {
                   Байгууллага
                 </th>
                 <th rowSpan={2} className="p-1 text-center border">
-                  Ажлын байр
+                  Ажлын байрны нэр
+                </th>
+                <th rowSpan={2} className="w-10 p-1 text-center border">
+                  Ажлын байрны код
                 </th>
                 <th rowSpan={2} className="px-5 py-1 text-center border">
                   Огноо

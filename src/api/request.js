@@ -30,7 +30,7 @@ export function API() {
       } else {
         if (error.response.status === 401) {
           localStorage.removeItem("token");
-          window.location.replace("/login");
+          // window.location.replace("/login");
         }
       }
       throw error;
@@ -400,7 +400,7 @@ export async function postSampleResult(params) {
   });
   return response.data;
 }
-export async function getLocationResultByQR(id) {
-  const response = await API().get("/location/result/" + id);
+export async function getLocationResultByQR(qr) {
+  const response = await API().get("/samplework/qr/" + qr);
   return response.data;
 }

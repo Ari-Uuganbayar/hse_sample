@@ -247,13 +247,15 @@ const Location = () => {
   const qrItem = (item) => {
     API.getLocationQR(item.id)
       .then((res) => {
+        var url = "https://safetyjob.tk/api/safetyjob/samplework/qr/" + res;
+        console.log("url: ", url);
         dispatch({ type: "QR_MODAL", data: true });
         dispatch({ type: "QR_PARENT", data: item.parentname });
         dispatch({ type: "QR_ORGANIZATION", data: item.organizationname });
         dispatch({ type: "QR_LOCATION", data: item.locationname });
         dispatch({
           type: "QR_VALUE",
-          data: "http://16.163.55.103/safetyjob/" + res,
+          data: url,
         });
       })
       .catch((error) => {
@@ -309,9 +311,7 @@ const Location = () => {
                 }
                 filterTreeNode={(search, item) => {
                   return (
-                    item.title.props.children
-                      .toLowerCase()
-                      .indexOf(search.toLowerCase()) >= 0
+                    item.title.toLowerCase().indexOf(search.toLowerCase()) >= 0
                   );
                 }}
               />

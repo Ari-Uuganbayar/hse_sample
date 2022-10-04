@@ -4,20 +4,20 @@ import Sidebar from "src/components/sidebar";
 import Header from "src/components/header";
 
 const Layout = ({ children }) => {
-  const { user, appDispatch } = useAppContext();
+  const { state, dispatch } = useAppContext();
 
   return (
     <div className="relative w-screen h-screen flex bg-gray-200">
-      {user.template.sidebar && (
+      {state.template.sidebar && (
         <div
           className="absolute z-10 lg:hidden w-screen h-screen bg-gray-800 opacity-60"
-          onClick={() => appDispatch({ type: "SIDEBAR" })}
+          onClick={() => dispatch({ type: "SIDEBAR" })}
         ></div>
       )}
       <Sidebar />
       <main
         className={
-          "w-full" + (user.template.sidebar ? " lg:w-[calc(100%-320px)]" : "")
+          "w-full" + (state.template.sidebar ? " lg:w-[calc(100%-320px)]" : "")
         }
       >
         <Header />
