@@ -5,8 +5,13 @@
   "dependencies": {
     "antd": "^4.21.7",
     "axios": "^0.27.2",
+    "i": "^0.3.7",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
+    "npm": "^8.19.2",
+    "primeflex": "^3.2.1",
+    "primeicons": "^6.0.1",
+    "primereact": "^8.6.1",
     "query-string": "^7.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
