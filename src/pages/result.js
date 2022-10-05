@@ -4,10 +4,10 @@ import * as API from "src/api/request";
 
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import "primeicons/primeicons.css";
+// import "primeicons/primeicons.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.css";
-import "primeflex/primeflex.css";
+// import "primeflex/primeflex.css";
 
 import { notification } from "antd";
 import moment from "moment";
@@ -19,7 +19,6 @@ const Result = () => {
   const [api, contextHolder] = notification.useNotification();
   const [data, setData] = useState(null);
   const [list, setList] = useState([]);
-  console.log("list: ", list);
 
   useEffect(() => {
     if (params?.qr) {
@@ -48,7 +47,6 @@ const Result = () => {
   }, [params?.qr]);
 
   const headerTemplate = (data) => {
-    console.log("data: ", data);
     return (
       <React.Fragment>
         <span className="text-[15px]">{data.typename}</span>
@@ -109,7 +107,7 @@ const Result = () => {
             sortField="typename"
             sortOrder={1}
             scrollable
-            scrollHeight="400px"
+            scrollHeight="600px"
             rowGroupHeaderTemplate={headerTemplate}
             responsiveLayout="scroll"
             showGridlines

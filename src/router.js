@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import { useAppContext } from "src/contexts/appContext";
 import MenuContext from "src/contexts/admin/menuContext";
@@ -47,6 +48,7 @@ import Result from "src/pages/result";
 
 const Router = () => {
   const { state } = useAppContext();
+  const location = useLocation();
 
   return (
     <>
@@ -54,7 +56,7 @@ const Router = () => {
         <Route exact path="/samplework/qr/:qr" element={<Result />} />
       </Routes>
 
-      {state.loggedIn && (
+      {state.loggedIn && location.pathname.split("/")[1] !== "samplework" && (
         <Layout>
           <Routes>
             <Route path="/admin">
