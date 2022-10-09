@@ -27,7 +27,7 @@ const Header = () => {
 
         {/* LOG OUT */}
         <div
-          className="h-8 w-8 flex items-center justify-center border-2 rounded-full text-xl cursor-pointer hover:scale-110 duration-200"
+          className="h-8 w-8 flex items-center justify-center text-primary border-2 rounded-full text-xl cursor-pointer hover:scale-110 duration-200"
           onClick={() => {
             API.logOut().then(() => {
               dispatch({ type: "LOG_OUT" });
