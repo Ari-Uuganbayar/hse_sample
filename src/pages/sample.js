@@ -27,7 +27,7 @@ const Sample = () => {
         <span className="text-[12px]">
           {data.rparametertypeid === null
             ? "Тодорхогүй үзүүлэлтийн бүлэг"
-            : data.rparametertypeid}
+            : data.typename}
         </span>
       </div>
     );
@@ -499,7 +499,8 @@ const Sample = () => {
                 return (
                   <Input
                     size="small"
-                    className="text-center"
+                    className="text-center text-xs"
+                    placeholder="Enter дарна уу"
                     value={item?.result === null ? "" : item.result}
                     onChange={(e) => result_change(item.id, e.target.value)}
                     onKeyDown={(e) => {
