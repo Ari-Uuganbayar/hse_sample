@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import ProtectedRoute from "src/lib/protectedRoute";
 
 import AppContext from "src/contexts/appContext";
@@ -58,6 +63,7 @@ function App() {
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/samplework/qr/:qr" element={<Result />} />
             <Route path="/" element={<ProtectedRoute />}>
+              <Route exact path="/" element={<Navigate to="/sample" />} />
               <Route path="/admin">
                 <Route
                   exact

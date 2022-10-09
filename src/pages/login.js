@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "src/contexts/appContext";
 import * as API from "src/api/request";
 import "src/pages/login.css";
 import Logo from "src/assets/image/logo.png";
@@ -9,6 +10,7 @@ import _ from "lodash";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { dispatch, message } = useAppContext();
   const [api, contextHolder] = notification.useNotification();
 
   const [show, setShow] = useState(false);
@@ -46,6 +48,33 @@ const Login = () => {
           localStorage.setItem("token", res.data.access_token);
           localStorage.setItem("menu1", 17);
           localStorage.setItem("menu2", 0);
+
+          API.getUserInfo()
+            .then((info) => {
+              dispatch({
+                type: "LOG_IN",
+                data: info,
+              });
+            })
+            .catch((error) => {
+              message({
+                type: "error",
+                error,
+                title: "Хэрэглэгчийн мэдээлэл татаж чадсангүй",
+              });
+            });
+          API.getUserMenu()
+            .then((menu) => {
+              dispatch({ type: "LIST_MENU", data: menu });
+            })
+            .catch((error) => {
+              message({
+                type: "error",
+                error,
+                title: "Хэрэглэгчийн цэс татаж чадсангүй",
+              });
+            });
+
           navigate("/sample");
         })
         .catch((error) => {
