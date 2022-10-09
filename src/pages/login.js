@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as API from "src/api/request";
 import "src/pages/login.css";
 import Logo from "src/assets/image/logo.png";
@@ -7,6 +8,7 @@ import { notification } from "antd";
 import _ from "lodash";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [api, contextHolder] = notification.useNotification();
 
   const [show, setShow] = useState(false);
@@ -44,7 +46,7 @@ const Login = () => {
           localStorage.setItem("token", res.data.access_token);
           localStorage.setItem("menu1", 17);
           localStorage.setItem("menu2", 0);
-          window.location.replace("/sample");
+          navigate("/sample");
         })
         .catch((error) => {
           api.error({

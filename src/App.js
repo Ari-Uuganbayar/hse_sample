@@ -52,204 +52,178 @@ import "moment/locale/mn";
 function App() {
   return (
     <ConfigProvider locale={mn}>
-      <Router>
-        <Routes>
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/samplework/qr/:qr" element={<Result />} />
-          <Route path="/" element={<ProtectedRoute />}>
-            <Route path="/admin">
-              <Route
-                exact
-                path="menu"
-                element={
-                  <AppContext>
+      <AppContext>
+        <Router>
+          <Routes>
+            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/samplework/qr/:qr" element={<Result />} />
+            <Route path="/" element={<ProtectedRoute />}>
+              <Route path="/admin">
+                <Route
+                  exact
+                  path="menu"
+                  element={
                     <Layout>
                       <MenuContext>
                         <Menu />
                       </MenuContext>
                     </Layout>
-                  </AppContext>
-                }
-              />
-              <Route
-                exact
-                path="permission"
-                element={
-                  <AppContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="permission"
+                  element={
                     <Layout>
                       <PermissionContext>
                         <Permission />
                       </PermissionContext>
                     </Layout>
-                  </AppContext>
-                }
-              />
-              <Route
-                exact
-                path="role"
-                element={
-                  <AppContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="role"
+                  element={
                     <Layout>
                       <RoleContext>
                         <Role />
                       </RoleContext>
                     </Layout>
-                  </AppContext>
-                }
-              />
-              <Route
-                exact
-                path="rolepermission"
-                element={
-                  <AppContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="rolepermission"
+                  element={
                     <Layout>
                       <RolePermissionContext>
                         <RolePermission />
                       </RolePermissionContext>
                     </Layout>
-                  </AppContext>
-                }
-              />
-              <Route
-                exact
-                path="rolemenu"
-                element={
-                  <AppContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="rolemenu"
+                  element={
                     <Layout>
                       <RoleMenuContext>
                         <RoleMenu />
                       </RoleMenuContext>
                     </Layout>
-                  </AppContext>
-                }
-              />
-              <Route
-                exact
-                path="user"
-                element={
-                  <AppContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="user"
+                  element={
                     <Layout>
                       <UserContext>
                         <User />
                       </UserContext>
                     </Layout>
-                  </AppContext>
-                }
-              />
-              <Route
-                exact
-                path="userrole"
-                element={
-                  <AppContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="userrole"
+                  element={
                     <Layout>
                       <UserRoleContext>
                         <UserRole />
                       </UserRoleContext>
                     </Layout>
-                  </AppContext>
-                }
-              />
-            </Route>
+                  }
+                />
+              </Route>
 
-            <Route path="reference">
-              <Route
-                exact
-                path="location"
-                element={
-                  <AppContext>
+              <Route path="reference">
+                <Route
+                  exact
+                  path="location"
+                  element={
                     <Layout>
                       <LocationContext>
                         <Location />
                       </LocationContext>
                     </Layout>
-                  </AppContext>
-                }
-              />
+                  }
+                />
 
-              <Route
-                exact
-                path="organization"
-                element={
-                  <AppContext>
+                <Route
+                  exact
+                  path="organization"
+                  element={
                     <Layout>
                       <OrganizationContext>
                         <Organization />
                       </OrganizationContext>
                     </Layout>
-                  </AppContext>
-                }
-              />
-              <Route
-                exact
-                path="condition"
-                element={
-                  <AppContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="condition"
+                  element={
                     <Layout>
                       <ConditionContext>
                         <Condition />
                       </ConditionContext>
                     </Layout>
-                  </AppContext>
-                }
-              />
-              <Route
-                exact
-                path="signature"
-                element={
-                  <AppContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="signature"
+                  element={
                     <Layout>
                       <SignatureContext>
                         <Signature />
                       </SignatureContext>
                     </Layout>
-                  </AppContext>
-                }
-              />
-              <Route
-                exact
-                path="parametertype"
-                element={
-                  <AppContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="parametertype"
+                  element={
                     <Layout>
                       <ParameterTypeContext>
                         <ParameterType />
                       </ParameterTypeContext>
                     </Layout>
-                  </AppContext>
-                }
-              />
-              <Route
-                exact
-                path="parameter"
-                element={
-                  <AppContext>
+                  }
+                />
+                <Route
+                  exact
+                  path="parameter"
+                  element={
                     <Layout>
                       <ParameterContext>
                         <Parameter />
                       </ParameterContext>
                     </Layout>
-                  </AppContext>
-                }
-              />
-            </Route>
+                  }
+                />
+              </Route>
 
-            <Route
-              exact
-              path="/sample"
-              element={
-                <AppContext>
+              <Route
+                exact
+                path="/sample"
+                element={
                   <Layout>
                     <SampleContext>
                       <Sample />
                     </SampleContext>
                   </Layout>
-                </AppContext>
-              }
-            />
-          </Route>
-          <Route path="*" exact={true} element={<PageNotFound />} />
-        </Routes>
-      </Router>
+                }
+              />
+            </Route>
+            <Route path="*" exact={true} element={<PageNotFound />} />
+          </Routes>
+        </Router>
+      </AppContext>
     </ConfigProvider>
   );
 }

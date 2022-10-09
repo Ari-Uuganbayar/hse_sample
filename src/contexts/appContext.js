@@ -22,7 +22,7 @@ const context = React.createContext();
 export const useAppContext = () => {
   const ctx = useContext(context);
   if (ctx === undefined) {
-    throw new Error("UserContext wrong");
+    throw new Error("AppContext wrong");
   }
   return ctx;
 };
@@ -74,7 +74,6 @@ const AppContext = ({ children }) => {
   useEffect(() => {
     var token =
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
-    if (token !== null) dispatch({ type: "LOG_IN" });
 
     if (token !== null) {
       API.getUserInfo()

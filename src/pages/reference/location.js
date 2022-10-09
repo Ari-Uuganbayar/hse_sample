@@ -248,7 +248,6 @@ const Location = () => {
     API.getLocationQR(item.id)
       .then((res) => {
         var url = "https://safetyjob.tk/api/safetyjob/samplework/qr/" + res;
-        console.log("url: ", url);
         dispatch({ type: "QR_MODAL", data: true });
         dispatch({ type: "QR_PARENT", data: item.parentname });
         dispatch({ type: "QR_ORGANIZATION", data: item.organizationname });

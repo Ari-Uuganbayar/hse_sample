@@ -5,7 +5,6 @@ import Header from "src/components/header";
 
 const Layout = ({ children }) => {
   const { state, dispatch } = useAppContext();
-  console.log("state: ", state);
 
   return (
     <div className="relative w-screen h-screen flex bg-gray-200">
