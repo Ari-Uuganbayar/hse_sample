@@ -7,7 +7,6 @@ const _state = {
   begindate: moment().startOf("year"),
   enddate: moment().endOf("year"),
   list: [],
-  list_parameter: [],
   refresh: 0,
 
   list_organization_type: [

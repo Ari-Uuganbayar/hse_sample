@@ -1,56 +1,37 @@
-import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useSampleContext } from "src/contexts/sampleContext";
 import * as API from "src/api/request";
 import * as utils from "src/lib/utils";
 
 import { Spin, Input, Modal, Select, TreeSelect, DatePicker } from "antd";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.css";
+
 import _ from "lodash";
 import moment from "moment";
 import Swal from "sweetalert2";
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 
-var bg_value = [
-  "bg-cyan-200",
-  "bg-green-200",
-  "bg-amber-200",
-  "bg-lime-200",
-  "bg-indigo-200",
-  "bg-fuchsia-200",
-  "bg-teal-200",
-  "bg-violet-200",
-  "bg-cyan-200",
-  "bg-green-200",
-  "bg-amber-200",
-  "bg-lime-200",
-  "bg-indigo-200",
-  "bg-fuchsia-200",
-  "bg-teal-200",
-  "bg-violet-200",
-];
-
 const Sample = () => {
   const { state, dispatch, message } = useSampleContext();
-  console.log("state: ", state);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [list, setList] = useState([]);
-  const [change, setChange] = useState(0);
 
-  useLayoutEffect(() => {
-    API.getParameterList()
-      .then((res) => {
-        dispatch({ type: "LIST_PARAMETER", data: res });
-      })
-      .catch((error) => {
-        message({
-          type: "error",
-          error,
-          title: "Үзүүлэлтийн лавлах жасгаалт татаж чадсангүй",
-        });
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const headerTemplate = (data) => {
+    return (
+      <div key={data.rparametertypeid} className="text-primary font-semibold">
+        <span className="text-[12px]">
+          {data.rparametertypeid === null
+            ? "Тодорхогүй үзүүлэлтийн бүлэг"
+            : data.rparametertypeid}
+        </span>
+      </div>
+    );
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -124,118 +105,24 @@ const Sample = () => {
     setList(state.list);
   }, [state.list]);
 
-  const tbody = useMemo(() => {
-    var aa = _.orderBy(list, ["begindate"], ["desc"]);
-    var result = [];
+  useEffect(() => {
+    var result = _.orderBy(state.list, ["begindate"], ["desc"]);
     if (search) {
-      aa = _.filter(
+      result = _.filter(
         list,
         (a) =>
           _.toLower(a.parentname).includes(_.toLower(search)) ||
           _.toLower(a.organizationname).includes(_.toLower(search)) ||
-          _.toLower(a.locationname).includes(_.toLower(search))
+          _.toLower(a.locationname).includes(_.toLower(search)) ||
+          _.toLower(a.locationcodes).includes(_.toLower(search)) ||
+          _.toLower(moment(a.begindate).format("YYYY.MM.DD")).includes(
+            _.toLower(search)
+          )
       );
     }
-
-    _.map(aa, (item, index) => {
-      result.push(
-        <tr key={item.id} className="hover:bg-gray-200">
-          <td className="p-1 text-center border">{index + 1}</td>
-          <td className="w-20 p-1 text-center border">
-            <div className="flex items-center justify-center gap-2">
-              <div
-                className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
-                onClick={() => updateItem(item)}
-              >
-                <ion-icon name="create-outline" />
-              </div>
-              <div
-                className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
-                onClick={() => deleteItem(item)}
-              >
-                <ion-icon name="trash-outline" />
-              </div>
-            </div>
-          </td>
-          <td className="px-3 py-1 border">{item.parentname}</td>
-          <td className="px-3 py-1 border">{item.organizationname}</td>
-          <td className="px-3 py-1 border">{item.locationname}</td>
-          <td className="p-1 text-center border">{item.locationcode}</td>
-          <td className="p-1 text-center border">
-            {moment(item.begindate).format("YYYY.MM.DD")}
-          </td>
-          <td className="w-20 p-1 text-center border">
-            <div className="flex items-center justify-center gap-2">
-              <div
-                className="flex items-center justify-center text-lg text-blue-500 cursor-pointer"
-                onClick={() => resultItem(item)}
-              >
-                <ion-icon name="search-outline"></ion-icon>
-              </div>
-
-              <div
-                className="mr-2 flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
-                onClick={() => updateItem(item)}
-              >
-                <ion-icon name="create-outline" />
-              </div>
-              <div
-                className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
-                onClick={() => deleteItem(item)}
-              >
-                <ion-icon name="trash-outline" />
-              </div>
-            </div>
-          </td>
-          {_.map(
-            Object.entries(
-              _.groupBy(
-                _.orderBy(
-                  item.parameter,
-                  ["rparametertypeid", "parametername"],
-                  ["asc", "asc"]
-                ),
-                "rparametertypeid"
-              )
-            ),
-            (group) => {
-              var result = [];
-              var group_list = group[1];
-              _.map(group_list, (a) => {
-                result.push(
-                  <td key={a.id} className="w-10 p-1 text-center border">
-                    {/* <Input
-                        size="small"
-                        value={a.result}
-                        onChange={(e) =>
-                          change_value(item.id, a.id, e.target.value)
-                        }
-                      /> */}
-                    <input
-                      type="text"
-                      className="text-center border"
-                      value={a?.result === null ? "" : a.result}
-                      onChange={(e) =>
-                        result_change(item.id, a.id, e.target.value)
-                      }
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          result_save(item.id, a.id, e.target.value);
-                        }
-                      }}
-                    />
-                  </td>
-                );
-              });
-              return result;
-            }
-          )}
-        </tr>
-      );
-    });
-    return result;
+    setList(result);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [list, search, change]);
+  }, [state.list, search]);
 
   const updateItem = (item) => {
     API.getSample(item.id)
@@ -356,22 +243,17 @@ const Sample = () => {
     dispatch({ type: "RESULT_MODAL", data: true });
   };
 
-  const result_change = (id, paremter_id, value) => {
-    var result = list;
-    var item = _.find(result, { id: id });
-    var index = _.findIndex(result, { id: id });
-    var list_paremter = result[index].parameter;
-    var parameter = _.find(list_paremter, { id: paremter_id });
-    var index_p = _.findIndex(list_paremter, { id: paremter_id });
-    list_paremter.splice(index_p, 1, { ...parameter, result: value });
-    result.splice(index, 1, { ...item, parameter: list_paremter });
-    setList(result);
-    setChange((prev) => prev + 1);
+  const result_change = (paramter_id, value) => {
+    var result = state.result_list;
+    var item = _.find(result, { id: paramter_id });
+    var index = _.findIndex(result, { id: paramter_id });
+    result.splice(index, 1, { ...item, result: value });
+    dispatch({ type: "RESULT_LIST", data: result });
   };
 
-  const result_save = (id, paremter_id, value) => {
+  const result_save = (paremter_id, value) => {
     API.postSampleResult({
-      sampleworkid: id,
+      sampleworkid: state.result_id,
       parameterid: paremter_id,
       resulttype: 12,
       result: value,
@@ -553,34 +435,143 @@ const Sample = () => {
 
       <Modal
         centered
-        width={700}
+        width={800}
         title={<div className="text-center">Үр дүн</div>}
         visible={state.result_modal}
         onCancel={() => dispatch({ type: "RESULT_MODAL", data: false })}
         footer={null}
       >
-        {_.map(
-          _.groupBy(
-            _.orderBy(
-              state.result_list,
-              ["rparametertypeid", "parametername"],
-              ["asc", "asc"]
-            ),
-            "rparametertypeid"
-          ),
-          (group, g_index) => {
-            console.log("group: ", group);
-            return (
-              <div key={g_index} className="overflow-auto">
-                <table className="w-full text-xs">
-                  <tr>
-                    <th className="p-1 text-center border"></th>
-                  </tr>
-                </table>
-              </div>
-            );
-          }
-        )}
+        <div className=" datatable-rowgroup-demo">
+          <DataTable
+            size="small"
+            className="text-xs"
+            value={state.result_list}
+            rowGroupMode="subheader"
+            groupRowsBy="rparametertypeid"
+            sortMode="single"
+            sortField="rparametertypeid"
+            sortOrder={1}
+            scrollable
+            scrollHeight="600px"
+            rowGroupHeaderTemplate={headerTemplate}
+            responsiveLayout="scroll"
+            showGridlines
+          >
+            <Column
+              header="Үзүүлэлтийн нэр"
+              field="parametername"
+              headerStyle={{
+                minWidth: "200px",
+                textAlign: "center",
+                justifyContent: "center",
+                fontSize: "10px",
+              }}
+              bodyStyle={{ minWidth: "200px", fontSize: "10px" }}
+            />
+            <Column
+              field="parameterchar"
+              header="Химийн нэршил"
+              headerStyle={{
+                minWidth: "100px",
+                textAlign: "center",
+                justifyContent: "center",
+                fontSize: "10px",
+              }}
+              bodyStyle={{ minWidth: "100px", fontSize: "10px" }}
+            />
+            <Column
+              header="Хариу"
+              field="result"
+              headerStyle={{
+                minWidth: "150px",
+                textAlign: "center",
+                justifyContent: "center",
+                fontSize: "10px",
+              }}
+              bodyClassName="uppercase"
+              bodyStyle={{
+                minWidth: "150px",
+                textAlign: "center",
+                justifyContent: "center",
+                fontSize: "10px",
+              }}
+              body={(item) => {
+                return (
+                  <Input
+                    size="small"
+                    className="text-center"
+                    value={item?.result === null ? "" : item.result}
+                    onChange={(e) => result_change(item.id, e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        result_save(item.id, e.target.value);
+                      }
+                    }}
+                  />
+                );
+              }}
+            />
+            <Column
+              header="Хэмжих нэгж"
+              field="unitname"
+              headerStyle={{
+                minWidth: "50px",
+                textAlign: "center",
+                justifyContent: "center",
+                fontSize: "10px",
+              }}
+              bodyStyle={{
+                minWidth: "50px",
+                textAlign: "center",
+                justifyContent: "center",
+                fontSize: "10px",
+              }}
+            />
+            <Column
+              header="ЗДХ 8"
+              field="maxvalue8"
+              headerStyle={{
+                minWidth: "50px",
+                textAlign: "center",
+                justifyContent: "center",
+                fontSize: "10px",
+              }}
+              bodyStyle={{
+                minWidth: "50px",
+                textAlign: "center",
+                justifyContent: "center",
+                fontSize: "10px",
+              }}
+            />
+            <Column
+              header="ЗДХ 12"
+              field="maxvalue12"
+              headerStyle={{
+                minWidth: "50px",
+                textAlign: "center",
+                justifyContent: "center",
+                fontSize: "10px",
+              }}
+              bodyStyle={{
+                minWidth: "50px",
+                textAlign: "center",
+                justifyContent: "center",
+                fontSize: "10px",
+              }}
+            />
+            <Column
+              header="Стандарт"
+              field="standart"
+              headerStyle={{
+                minWidth: "100px",
+                textAlign: "center",
+                justifyContent: "center",
+                fontSize: "10px",
+              }}
+              bodyStyle={{ minWidth: "100px", fontSize: "10px" }}
+            />
+          </DataTable>
+        </div>
       </Modal>
 
       <Spin tip="Уншиж байна." className="bg-opacity-80" spinning={loading}>
@@ -610,7 +601,6 @@ const Sample = () => {
           </button>
           <div className="w-1/2 lg:w-1/3 p-2">
             <Input
-              size="small"
               placeholder="Хайх..."
               className="w-full text-xs text-right"
               value={search}
@@ -623,87 +613,61 @@ const Sample = () => {
           <table className="w-full whitespace-nowrap border text-[11px]">
             <thead className="font-thin">
               <tr>
-                <th rowSpan={2} className="w-10 p-1 text-center border">
-                  №
-                </th>
-                <th rowSpan={2} className="w-20 p-1 text-center border"></th>
-                <th colSpan={2} rowSpan={2} className="p-1 text-center border">
+                <th className="w-10 p-1 text-center border">№</th>
+                <th colSpan={2} className="p-1 text-center border">
                   Байгууллага
                 </th>
-                <th rowSpan={2} className="p-1 text-center border">
-                  Ажлын байрны нэр
-                </th>
-                <th rowSpan={2} className="w-10 p-1 text-center border">
+                <th className="p-1 text-center border">Ажлын байрны нэр</th>
+                <th className="w-10 p-1 text-center border">
                   Ажлын байрны код
                 </th>
-                <th rowSpan={2} className="px-5 py-1 text-center border">
-                  Огноо
-                </th>
-                <th rowSpan={2} className="px-5 py-1 text-center border"></th>
-                {_.map(
-                  Object.entries(
-                    _.groupBy(
-                      _.orderBy(
-                        state.list_parameter,
-                        ["rparametertypeid", "parametername"],
-                        ["asc", "asc"]
-                      ),
-                      "rparametertypeid"
-                    )
-                  ),
-                  (item, index) => {
-                    var rparametertypeid = _.parseInt(item[0]);
-                    var parameterType = _.find(state.list_parameter, {
-                      rparametertypeid: rparametertypeid,
-                    });
-                    return (
-                      <th
-                        key={index}
-                        colSpan={item[1].length}
-                        className={"p-1 text-center border " + bg_value[index]}
-                      >
-                        {parameterType?.parametertypename}
-                      </th>
-                    );
-                  }
-                )}
-              </tr>
-              <tr>
-                {_.map(
-                  Object.entries(
-                    _.groupBy(
-                      _.orderBy(
-                        state.list_parameter,
-                        ["rparametertypeid", "parametername"],
-                        ["asc", "asc"]
-                      ),
-                      "rparametertypeid"
-                    )
-                  ),
-                  (group, index) => {
-                    var result = [];
-                    var listGroupedParameter = group[1];
-                    _.map(listGroupedParameter, (item) => {
-                      result.push(
-                        <th
-                          key={item.id}
-                          className={
-                            "min-w-[50px] p-1 text-center border " +
-                            bg_value[index]
-                          }
-                        >
-                          {item.parameterchar !== null
-                            ? item.parameterchar
-                            : item.parametername}
-                        </th>
-                      );
-                    });
-                    return result;
-                  }
-                )}
+                <th className="px-5 py-1 text-center border">Огноо</th>
+                <th className="px-5 py-1 text-center border"></th>
               </tr>
             </thead>
-            <tbody>{tbody}</tbody>
+            <tbody>
+              {_.map(list, (item, index) => {
+                return (
+                  <tr key={item.id} className="hover:bg-gray-200">
+                    <td className="p-1 text-center border">{index + 1}</td>
+                    <td className="px-3 py-1 border">{item.parentname}</td>
+                    <td className="px-3 py-1 border">
+                      {item.organizationname}
+                    </td>
+                    <td className="px-3 py-1 border">{item.locationname}</td>
+                    <td className="p-1 text-center border">
+                      {item.locationcode}
+                    </td>
+                    <td className="p-1 text-center border">
+                      {moment(item.begindate).format("YYYY.MM.DD")}
+                    </td>
+                    <td className="w-20 p-1 text-center border">
+                      <div className="flex items-center justify-center gap-2">
+                        <div
+                          className="flex items-center justify-center text-lg text-blue-500 cursor-pointer"
+                          onClick={() => resultItem(item)}
+                        >
+                          <ion-icon name="search-outline"></ion-icon>
+                        </div>
+
+                        <div
+                          className="mr-2 flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
+                          onClick={() => updateItem(item)}
+                        >
+                          <ion-icon name="create-outline" />
+                        </div>
+                        <div
+                          className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
+                          onClick={() => deleteItem(item)}
+                        >
+                          <ion-icon name="trash-outline" />
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
           </table>
         </div>
       </Spin>

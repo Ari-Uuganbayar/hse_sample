@@ -144,7 +144,7 @@ function App() {
                 />
               </Route>
 
-              <Route path="reference">
+              <Route path="/reference">
                 <Route
                   exact
                   path="location"
