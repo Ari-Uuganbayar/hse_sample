@@ -23,6 +23,10 @@ const _state = {
   organization: null,
   condition: null,
   date: moment(),
+
+  result_modal: false,
+  result_id: null,
+  result_list: [],
 };
 
 const context = React.createContext();

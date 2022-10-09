@@ -45,7 +45,7 @@ const Sidebar = () => {
                       data: 0,
                     });
                   } else {
-                    navigate(menu1.route);
+                    navigate("/" + menu1.route);
                   }
                 }}
               >
@@ -92,7 +92,7 @@ const Sidebar = () => {
                             type: "MENU2",
                             data: menu2.menuid,
                           });
-                          menu2.route !== null && navigate(menu2.route);
+                          menu2.route !== null && navigate("/" + menu2.route);
                         }}
                       >
                         <span>&diams;</span>

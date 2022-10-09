@@ -93,6 +93,21 @@ export const reducer = (state, action) => {
         condition: action.data.rconditionid,
         date: moment(action.data.begindate),
       };
+    case "RESULT_ID":
+      return {
+        ...state,
+        result_id: action.data,
+      };
+    case "RESULT_LIST":
+      return {
+        ...state,
+        result_list: action.data,
+      };
+    case "RESULT_MODAL":
+      return {
+        ...state,
+        result_modal: action.data,
+      };
 
     default:
       return state;

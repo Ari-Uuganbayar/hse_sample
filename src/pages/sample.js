@@ -31,6 +31,7 @@ var bg_value = [
 
 const Sample = () => {
   const { state, dispatch, message } = useSampleContext();
+  console.log("state: ", state);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [list, setList] = useState([]);
@@ -162,6 +163,29 @@ const Sample = () => {
           <td className="p-1 text-center border">{item.locationcode}</td>
           <td className="p-1 text-center border">
             {moment(item.begindate).format("YYYY.MM.DD")}
+          </td>
+          <td className="w-20 p-1 text-center border">
+            <div className="flex items-center justify-center gap-2">
+              <div
+                className="flex items-center justify-center text-lg text-blue-500 cursor-pointer"
+                onClick={() => resultItem(item)}
+              >
+                <ion-icon name="search-outline"></ion-icon>
+              </div>
+
+              <div
+                className="mr-2 flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
+                onClick={() => updateItem(item)}
+              >
+                <ion-icon name="create-outline" />
+              </div>
+              <div
+                className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
+                onClick={() => deleteItem(item)}
+              >
+                <ion-icon name="trash-outline" />
+              </div>
+            </div>
           </td>
           {_.map(
             Object.entries(
@@ -324,6 +348,12 @@ const Sample = () => {
           });
       }
     }
+  };
+
+  const resultItem = (item) => {
+    dispatch({ type: "RESULT_ID", data: item.id });
+    dispatch({ type: "RESULT_LIST", data: item.parameter });
+    dispatch({ type: "RESULT_MODAL", data: true });
   };
 
   const result_change = (id, paremter_id, value) => {
@@ -521,6 +551,38 @@ const Sample = () => {
         </button>
       </Modal>
 
+      <Modal
+        centered
+        width={700}
+        title={<div className="text-center">Үр дүн</div>}
+        visible={state.result_modal}
+        onCancel={() => dispatch({ type: "RESULT_MODAL", data: false })}
+        footer={null}
+      >
+        {_.map(
+          _.groupBy(
+            _.orderBy(
+              state.result_list,
+              ["rparametertypeid", "parametername"],
+              ["asc", "asc"]
+            ),
+            "rparametertypeid"
+          ),
+          (group, g_index) => {
+            console.log("group: ", group);
+            return (
+              <div key={g_index} className="overflow-auto">
+                <table className="w-full text-xs">
+                  <tr>
+                    <th className="p-1 text-center border"></th>
+                  </tr>
+                </table>
+              </div>
+            );
+          }
+        )}
+      </Modal>
+
       <Spin tip="Уншиж байна." className="bg-opacity-80" spinning={loading}>
         <div className="border-b p-3">
           <span className="mr-3 text-md font-semibold">Огноо:</span>
@@ -577,6 +639,7 @@ const Sample = () => {
                 <th rowSpan={2} className="px-5 py-1 text-center border">
                   Огноо
                 </th>
+                <th rowSpan={2} className="px-5 py-1 text-center border"></th>
                 {_.map(
                   Object.entries(
                     _.groupBy(
