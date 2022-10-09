@@ -1,5 +1,4 @@
 import React, { useEffect, useContext, useReducer } from "react";
-// import { useNavigate } from "react-router-dom";
 import { reducer } from "src/reducers/appReducer";
 import * as API from "src/api/request";
 import { notification } from "antd";
@@ -29,7 +28,6 @@ export const useAppContext = () => {
 };
 
 const AppContext = ({ children }) => {
-  // const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, _state);
   const [api, contextHolder] = notification.useNotification();
 

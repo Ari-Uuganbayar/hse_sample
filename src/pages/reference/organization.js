@@ -274,7 +274,7 @@ const Index = () => {
 
           <div className="w-full max-h-[calc(100vh-183px)] overflow-auto mt-5">
             <Tree
-              selectable={true}
+              selectable={false}
               showLine={{ showLeafIcon: false }}
               showIcon={false}
               treeData={utils.tree_menu(state.list)}
