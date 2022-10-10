@@ -8,6 +8,9 @@ import Logo from "src/assets/image/logo.png";
 import { notification } from "antd";
 import _ from "lodash";
 
+import { FaUserCircle, FaEye, FaEyeSlash } from "react-icons/fa";
+import { RiLockPasswordFill } from "react-icons/ri";
+
 const Login = () => {
   const navigate = useNavigate();
   const { dispatch, message } = useAppContext();
@@ -105,8 +108,8 @@ const Login = () => {
         <div className="relative mt-10 flex flex-col gap-2">
           <div className="font-semibold text-md">Нэвтрэх нэр</div>
           <div className="relative border rounded-md">
-            <div className="absolute text-primary left-2 top-1 text-xl">
-              <ion-icon name="person-circle-sharp" />
+            <div className="absolute text-primary left-2 top-2 text-xl">
+              <FaUserCircle />
             </div>
             <input
               type="text"
@@ -121,8 +124,8 @@ const Login = () => {
         <div className="relative mt-5 flex flex-col gap-2">
           <div className="font-semibold text-md">Нууц үг</div>
           <div className="relative border rounded-md">
-            <div className="absolute text-primary left-2 top-1 text-xl">
-              <ion-icon name="lock-closed-sharp" />
+            <div className="absolute text-primary left-2 top-2 text-xl">
+              <RiLockPasswordFill />
             </div>
             <input
               type={show ? "text" : "password"}
@@ -138,12 +141,12 @@ const Login = () => {
             />
             <div
               className={
-                "absolute right-2 top-1 text-primary text-xl cursor-pointer " +
+                "absolute right-2 top-2 text-primary text-xl cursor-pointer " +
                 (password ? "visible" : "invisible")
               }
               onClick={() => setShow(!show)}
             >
-              <ion-icon name={show ? "eye-off-sharp" : "eye-sharp"} />
+              {show ? <FaEyeSlash /> : <FaEye />}
             </div>
           </div>
         </div>

@@ -21,7 +21,7 @@ const Sidebar = () => {
     >
       <div className="w-full h-10 flex items-center justify-center text-primary border-b border-r">
         <img src={Logo} className="w-6 h-6 mr-2" alt="" />
-        <span>Ажлын байрны хэмжилт</span>
+        <span className="font-semibold">Ажлын байрны хэмжилт</span>
       </div>
 
       <ul className="relative mt-6 text-xs font-medium">
