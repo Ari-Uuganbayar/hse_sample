@@ -101,7 +101,7 @@ const Login = () => {
       {contextHolder}
       <div className="w-[480px] h-full py-[50px] px-16 bg-white border rounded-xl shadow-2xl">
         <div className="mt-10 flex items-center justify-center">
-          <img src={Logo} className="w-24 h-24" alt="" />
+          <img src={Logo} className="w-24 h-16" alt="" />
         </div>
         <div className="mt-5 text-center text-primary text-xl font-bold uppercase">
           Ажлын байрны хэмжилт
