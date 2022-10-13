@@ -187,7 +187,7 @@ const Menu = () => {
                 className="w-full"
                 placeholder="Сонгоно уу"
                 treeDataSimpleMode={true}
-                treeData={state.list_parent}
+                treeData={utils.tree_menu(state.list_parent)}
                 treeLine={(true, { showLeafIcon: false })}
                 value={state.parentid}
                 onChange={(value) =>

@@ -6,7 +6,7 @@ import * as utils from "src/lib/utils";
 import { Spin, Tree, Checkbox } from "antd";
 import _ from "lodash";
 
-const Role = () => {
+const RoleMenu = () => {
   const { state, dispatch, message } = useRoleMenuContext();
 
   useEffect(() => {
@@ -158,4 +158,4 @@ const Role = () => {
   );
 };
 
-export default React.memo(Role);
+export default React.memo(RoleMenu);
