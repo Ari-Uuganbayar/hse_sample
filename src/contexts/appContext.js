@@ -5,6 +5,7 @@ import { notification } from "antd";
 // import Swal from "sweetalert2";
 
 const _state = {
+  tn: null,
   loggedIn: false,
   username: null,
   list_menu: [],

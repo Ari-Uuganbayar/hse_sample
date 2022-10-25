@@ -9,7 +9,7 @@ export function API() {
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
   if (token != null) {
     Object.assign(headers, {
-      Authorization: "Bearer " + token,
+      Authorization: "SSO " + token,
     });
   }
   const api = axios.create({

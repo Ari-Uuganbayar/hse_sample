@@ -92,6 +92,7 @@ const User = () => {
 
   const save = () => {
     var error = [];
+    state.tn || error.push("Бүртгэлийн дугаар");
     state.username || error.push("Нэвтрэх нэр");
     state.shortname || error.push("Овог, нэр");
     if (state.id === null) {
@@ -119,6 +120,7 @@ const User = () => {
     } else {
       if (state.id === null) {
         API.postUser({
+          tn: state.tn,
           username: state.username,
           shortname: state.shortname,
           password: state.password,
@@ -152,6 +154,7 @@ const User = () => {
           });
       } else {
         API.putUser(state.id, {
+          tn: state.tn,
           username: state.username,
           shortname: state.shortname,
           isactive: state.isactive ? 1 : 0,
@@ -186,11 +189,11 @@ const User = () => {
     }
   };
 
-  const updatePassword = (item) => {
-    dispatch({ type: "ID", data: item.id });
-    dispatch({ type: "PASSWORD_NEW", data: null });
-    dispatch({ type: "PASSWORD_MODAL", data: true });
-  };
+  // const updatePassword = (item) => {
+  //   dispatch({ type: "ID", data: item.id });
+  //   dispatch({ type: "PASSWORD_NEW", data: null });
+  //   dispatch({ type: "PASSWORD_MODAL", data: true });
+  // };
 
   const savePassword = () => {
     var error = [];
@@ -243,6 +246,22 @@ const User = () => {
         footer={null}
       >
         <div className="flex flex-col text-xs">
+          <div className="w-full flex flex-col lg:flex-row lg:items-center border-b mb-2 pb-2">
+            <span className="lg:w-1/4 font-semibold">
+              Бүртгэлийн дугаар:<b className="ml-1 text-red-500">*</b>
+            </span>
+            <div className="lg:w-3/4">
+              <Input
+                value={state.tn}
+                onChange={(e) =>
+                  dispatch({
+                    type: "TN",
+                    data: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
           <div className="w-full flex flex-col lg:flex-row lg:items-center border-b mb-2 pb-2">
             <span className="lg:w-1/4 font-semibold">
               Нэвтрэх нэр:<b className="ml-1 text-red-500">*</b>
@@ -414,6 +433,7 @@ const User = () => {
               <thead className="font-semibold">
                 <tr>
                   <th className="w-10 p-1 text-center border">№</th>
+                  <th className="p-1 text-center border">Бүртгэлийн дугаар</th>
                   <th className="p-1 text-center border">Нэвтрэх нэр</th>
                   <th className="p-1 text-center border">Овог, нэр</th>
                   <th className="p-1 text-center border">Хэрэглэгчийн бүлэг</th>
@@ -425,7 +445,7 @@ const User = () => {
                 {state.list.length === 0 && (
                   <tr>
                     <td
-                      colSpan={4}
+                      colSpan={6}
                       className="px-3 py-1 text-orange-500 italic font-semibold border"
                     >
                       Мэдээлэл олдсонгүй
@@ -436,6 +456,7 @@ const User = () => {
                   return (
                     <tr key={index}>
                       <td className="w-10 text-center border">{index + 1}</td>
+                      <td className="p-1 text-center border">{item.tn}</td>
                       <td className="px-3 py-1 border">{item.username}</td>
                       <td className="px-3 py-1 border">{item.shortname}</td>
                       <td className="px-3 py-1 border">{item.roles}</td>
@@ -452,12 +473,12 @@ const User = () => {
                       </td>
                       <td className="w-20 p-1 text-center border">
                         <div className="flex items-center justify-center gap-2">
-                          <div
+                          {/* <div
                             className="flex items-center justify-center text-lg text-blue-500 cursor-pointer font-semibold"
                             onClick={() => updatePassword(item)}
                           >
                             <ion-icon name="lock-open" />
-                          </div>
+                          </div> */}
                           <div
                             className="flex items-center justify-center text-xl text-yellow-500 cursor-pointer"
                             onClick={() => updateItem(item)}
@@ -465,7 +486,7 @@ const User = () => {
                             <ion-icon name="create-outline" />
                           </div>
                           <div
-                            className="ml-4 flex items-center justify-center text-lg text-red-500 cursor-pointer"
+                            className="flex items-center justify-center text-lg text-red-500 cursor-pointer"
                             onClick={() => deleteItem(item)}
                           >
                             <ion-icon name="trash-outline" />

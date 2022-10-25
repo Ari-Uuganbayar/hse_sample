@@ -25,6 +25,11 @@ export const reducer = (state, action) => {
         ...state,
         id: action.data,
       };
+    case "TN":
+      return {
+        ...state,
+        tn: action.data,
+      };
     case "USERNAME":
       return {
         ...state,
@@ -59,6 +64,7 @@ export const reducer = (state, action) => {
       return {
         ...state,
         id: null,
+        tn: null,
         username: null,
         shortname: null,
         password: null,
@@ -69,6 +75,7 @@ export const reducer = (state, action) => {
       return {
         ...state,
         id: action.data.id,
+        tn: action.data.tn,
         username: action.data.username,
         shortname: action.data.shortname,
         password: null,

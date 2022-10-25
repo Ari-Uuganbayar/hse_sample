@@ -10,6 +10,7 @@ const _state = {
   list_role: [],
   modal: false,
   id: null,
+  tn: null,
   username: null,
   shortname: null,
   password: null,

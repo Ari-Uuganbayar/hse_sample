@@ -24,7 +24,8 @@ import ParameterTypeContext from "src/contexts/reference/parameterTypeContext";
 import ParameterContext from "src/contexts/reference/parameterContext";
 import SampleContext from "src/contexts/sampleContext";
 
-import Login from "src/pages/login";
+import SSO from "src/pages/sso";
+// import Login from "src/pages/login";
 import PageNotFound from "src/pages/_404";
 import Layout from "src/components/layout";
 
@@ -59,175 +60,179 @@ function App() {
     <ConfigProvider locale={mn}>
       <AppContext>
         <Router>
-          <Routes>
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/samplework/qr/:qr" element={<Result />} />
-            <Route path="/" element={<ProtectedRoute />}>
-              <Route exact path="/" element={<Navigate to="/sample" />} />
-              <Route path="/admin">
+          {window.location.pathname === "/callback" ? (
+            <SSO />
+          ) : (
+            <Routes>
+              {/* <Route exact path="/login" element={<Login />} /> */}
+              <Route exact path="/samplework/qr/:qr" element={<Result />} />
+              <Route path="/" element={<ProtectedRoute />}>
+                <Route exact path="/" element={<Navigate to="/sample" />} />
+                <Route path="/admin">
+                  <Route
+                    exact
+                    path="menu"
+                    element={
+                      <Layout>
+                        <MenuContext>
+                          <Menu />
+                        </MenuContext>
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="permission"
+                    element={
+                      <Layout>
+                        <PermissionContext>
+                          <Permission />
+                        </PermissionContext>
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="role"
+                    element={
+                      <Layout>
+                        <RoleContext>
+                          <Role />
+                        </RoleContext>
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="rolepermission"
+                    element={
+                      <Layout>
+                        <RolePermissionContext>
+                          <RolePermission />
+                        </RolePermissionContext>
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="rolemenu"
+                    element={
+                      <Layout>
+                        <RoleMenuContext>
+                          <RoleMenu />
+                        </RoleMenuContext>
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="user"
+                    element={
+                      <Layout>
+                        <UserContext>
+                          <User />
+                        </UserContext>
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="userrole"
+                    element={
+                      <Layout>
+                        <UserRoleContext>
+                          <UserRole />
+                        </UserRoleContext>
+                      </Layout>
+                    }
+                  />
+                </Route>
+
+                <Route path="/reference">
+                  <Route
+                    exact
+                    path="location"
+                    element={
+                      <Layout>
+                        <LocationContext>
+                          <Location />
+                        </LocationContext>
+                      </Layout>
+                    }
+                  />
+
+                  <Route
+                    exact
+                    path="organization"
+                    element={
+                      <Layout>
+                        <OrganizationContext>
+                          <Organization />
+                        </OrganizationContext>
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="condition"
+                    element={
+                      <Layout>
+                        <ConditionContext>
+                          <Condition />
+                        </ConditionContext>
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="signature"
+                    element={
+                      <Layout>
+                        <SignatureContext>
+                          <Signature />
+                        </SignatureContext>
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="parametertype"
+                    element={
+                      <Layout>
+                        <ParameterTypeContext>
+                          <ParameterType />
+                        </ParameterTypeContext>
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="parameter"
+                    element={
+                      <Layout>
+                        <ParameterContext>
+                          <Parameter />
+                        </ParameterContext>
+                      </Layout>
+                    }
+                  />
+                </Route>
+
                 <Route
                   exact
-                  path="menu"
+                  path="/sample"
                   element={
                     <Layout>
-                      <MenuContext>
-                        <Menu />
-                      </MenuContext>
-                    </Layout>
-                  }
-                />
-                <Route
-                  exact
-                  path="permission"
-                  element={
-                    <Layout>
-                      <PermissionContext>
-                        <Permission />
-                      </PermissionContext>
-                    </Layout>
-                  }
-                />
-                <Route
-                  exact
-                  path="role"
-                  element={
-                    <Layout>
-                      <RoleContext>
-                        <Role />
-                      </RoleContext>
-                    </Layout>
-                  }
-                />
-                <Route
-                  exact
-                  path="rolepermission"
-                  element={
-                    <Layout>
-                      <RolePermissionContext>
-                        <RolePermission />
-                      </RolePermissionContext>
-                    </Layout>
-                  }
-                />
-                <Route
-                  exact
-                  path="rolemenu"
-                  element={
-                    <Layout>
-                      <RoleMenuContext>
-                        <RoleMenu />
-                      </RoleMenuContext>
-                    </Layout>
-                  }
-                />
-                <Route
-                  exact
-                  path="user"
-                  element={
-                    <Layout>
-                      <UserContext>
-                        <User />
-                      </UserContext>
-                    </Layout>
-                  }
-                />
-                <Route
-                  exact
-                  path="userrole"
-                  element={
-                    <Layout>
-                      <UserRoleContext>
-                        <UserRole />
-                      </UserRoleContext>
+                      <SampleContext>
+                        <Sample />
+                      </SampleContext>
                     </Layout>
                   }
                 />
               </Route>
-
-              <Route path="/reference">
-                <Route
-                  exact
-                  path="location"
-                  element={
-                    <Layout>
-                      <LocationContext>
-                        <Location />
-                      </LocationContext>
-                    </Layout>
-                  }
-                />
-
-                <Route
-                  exact
-                  path="organization"
-                  element={
-                    <Layout>
-                      <OrganizationContext>
-                        <Organization />
-                      </OrganizationContext>
-                    </Layout>
-                  }
-                />
-                <Route
-                  exact
-                  path="condition"
-                  element={
-                    <Layout>
-                      <ConditionContext>
-                        <Condition />
-                      </ConditionContext>
-                    </Layout>
-                  }
-                />
-                <Route
-                  exact
-                  path="signature"
-                  element={
-                    <Layout>
-                      <SignatureContext>
-                        <Signature />
-                      </SignatureContext>
-                    </Layout>
-                  }
-                />
-                <Route
-                  exact
-                  path="parametertype"
-                  element={
-                    <Layout>
-                      <ParameterTypeContext>
-                        <ParameterType />
-                      </ParameterTypeContext>
-                    </Layout>
-                  }
-                />
-                <Route
-                  exact
-                  path="parameter"
-                  element={
-                    <Layout>
-                      <ParameterContext>
-                        <Parameter />
-                      </ParameterContext>
-                    </Layout>
-                  }
-                />
-              </Route>
-
-              <Route
-                exact
-                path="/sample"
-                element={
-                  <Layout>
-                    <SampleContext>
-                      <Sample />
-                    </SampleContext>
-                  </Layout>
-                }
-              />
-            </Route>
-            <Route path="*" exact={true} element={<PageNotFound />} />
-          </Routes>
+              <Route path="*" exact={true} element={<PageNotFound />} />
+            </Routes>
+          )}
         </Router>
       </AppContext>
     </ConfigProvider>

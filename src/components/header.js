@@ -31,7 +31,7 @@ const Header = () => {
           onClick={() => {
             API.logOut().then(() => {
               dispatch({ type: "LOG_OUT" });
-              window.location.replace("/login");
+              window.location.replace("/");
             });
           }}
         >
